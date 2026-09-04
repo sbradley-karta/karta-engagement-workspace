@@ -1,0 +1,223 @@
+<title>Gate 1 Connector Spike</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
+<style>
+:root{--ground:#FAFAF9;--surface:#FFFFFF;--raise:#F5F4F2;--ink:#113A2A;--text:#22302A;--muted:#6E6961;--faint:#979187;--line:#E4E2DE;--line-strong:#C9C5BE;--accent:#2A654E;--accent-2:#2A654E;--accent-soft:#EAF1ED;--on-accent:#FFFFFF;--warn:#9A6B1F;--warn-soft:#F7F1E4;--risk:#A63D30;--risk-soft:#F8ECEA;--sans:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ground:#111213;--surface:#191B1C;--raise:#1F2122;--ink:#F2F3F2;--text:#E4E7E5;--muted:#A2A7A3;--faint:#7E837F;--line:#2C2F2E;--line-strong:#3C403E;--accent:#2F6B4E;--accent-2:#6FB08D;--accent-soft:#18261F;--on-accent:#F2F3F2;--warn:#D6A85B;--warn-soft:#33280F;--risk:#E0705F;--risk-soft:#3A1D18}}
+:root[data-theme="dark"]{--ground:#111213;--surface:#191B1C;--raise:#1F2122;--ink:#F2F3F2;--text:#E4E7E5;--muted:#A2A7A3;--faint:#7E837F;--line:#2C2F2E;--line-strong:#3C403E;--accent:#2F6B4E;--accent-2:#6FB08D;--accent-soft:#18261F;--on-accent:#F2F3F2;--warn:#D6A85B;--warn-soft:#33280F;--risk:#E0705F;--risk-soft:#3A1D18}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.55}
+.top{height:52px;border-bottom:1px solid var(--line);background:var(--surface);display:flex;align-items:center;gap:14px;padding:0 24px}
+.brand{font-weight:700;font-size:13px;letter-spacing:.055em;text-transform:uppercase;color:var(--ink)}
+.vr{width:1px;height:20px;background:var(--line-strong)}
+.dept{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-2);font-weight:500}
+.wrap{max-width:960px;margin:0 auto;padding:28px 24px 64px;display:flex;flex-direction:column;gap:16px}
+h1{font-weight:800;font-size:28px;letter-spacing:-.03em;color:var(--ink);margin:0}
+.lede{color:var(--muted);margin:4px 0 0;max-width:720px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.card h2{margin:0 0 4px;font-size:15px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:10px}
+.card p{margin:0 0 10px;color:var(--muted);font-size:13px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn{font-family:var(--sans);font-size:13px;font-weight:600;padding:8px 16px;border-radius:8px;cursor:pointer;border:1px solid var(--accent);background:var(--accent);color:var(--on-accent)}
+.btn:hover{background:var(--ink);border-color:var(--ink)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.out{background:transparent;color:var(--text);border-color:var(--line-strong)}
+.btn.out:hover{background:transparent;border-color:var(--muted);color:var(--ink)}
+input[type=text]{font-family:var(--sans);font-size:13px;padding:8px 11px;border:1px solid var(--line);border-radius:8px;background:var(--raise);color:var(--text);min-width:260px}
+.pill{font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:2px 8px;border-radius:4px;background:var(--raise);color:var(--muted);border:1px solid var(--line)}
+.pill.ok{background:var(--accent-soft);color:var(--accent-2);border-color:transparent}
+.pill.warn{background:var(--warn-soft);color:var(--warn);border-color:transparent}
+.pill.risk{background:var(--risk-soft);color:var(--risk);border-color:transparent}
+pre{margin:10px 0 0;background:var(--raise);border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-family:var(--mono);font-size:11.5px;line-height:1.5;white-space:pre-wrap;word-break:break-word;max-height:260px;overflow:auto;color:var(--text)}
+table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px}
+th{text-align:left;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:600;padding:4px 10px 6px 0;border-bottom:1px solid var(--line-strong)}
+td{padding:6px 10px 6px 0;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:11.5px;vertical-align:top}
+label.f{display:flex;gap:8px;align-items:flex-start;padding:6px 0;border-bottom:1px solid var(--line);font-size:12.5px;cursor:pointer}
+label.f .u{color:var(--muted);font-size:11.5px;word-break:break-all}
+.note{font-size:12px;color:var(--muted)}
+button:focus-visible,input:focus-visible{outline:2px solid var(--accent-2);outline-offset:2px}
+</style>
+<div class="top"><span class="brand">Karta Consulting Group</span><span class="vr"></span><span class="dept">Gate 1 spike</span></div>
+<div class="wrap">
+  <div><h1>Can a page reach the Karta connector?</h1>
+  <p class="lede">Throwaway page. Run the tests top to bottom. Each result is saved to this page's database when available, and everything is also collected in the copy box at the bottom. Nothing here touches client data. The two upload tests write a synthetic file into a SharePoint folder you choose.</p></div>
+
+  <div class="card"><h2>0. Runtime <span id="s0" class="pill">checking</span></h2>
+    <p>Whether this view can use connectors and the database, and which connectors the viewer has that match the page's manifest.</p>
+    <pre id="o0">Waiting for the runtime...</pre></div>
+
+  <div class="card"><h2>1. Hello <span id="s1" class="pill">not run</span></h2>
+    <p>Calls the stub's hello tool. Proves the custom connector is callable from a page and shows the payload shape.</p>
+    <div class="row"><button class="btn" id="b1">Run hello</button></div><pre id="o1" hidden></pre></div>
+
+  <div class="card"><h2>2. Connector to page payload ladder <span id="s2" class="pill">not run</span></h2>
+    <p>Asks the stub for 256 KB, 512 KB, 1 MiB, 2 MiB, and 4 MiB payloads in turn. Verifies each arrives intact by SHA-256. Stops at the first failure.</p>
+    <div class="row"><button class="btn" id="b2">Run ladder</button></div><table id="t2" hidden><thead><tr><th>Requested</th><th>Result</th><th>Bytes</th><th>Hash</th><th>Elapsed</th></tr></thead><tbody></tbody></table><pre id="o2" hidden></pre></div>
+
+  <div class="card"><h2>3. Page to connector payload <span id="s3" class="pill">not run</span></h2>
+    <p>Sends a 1 MiB base64 argument to the stub's echo tool. Same direction the real service receives approved values.</p>
+    <div class="row"><button class="btn" id="b3">Send 1 MiB</button></div><pre id="o3" hidden></pre></div>
+
+  <div class="card"><h2>4. Find a SharePoint test folder <span id="s4" class="pill">not run</span></h2>
+    <p>Searches folders by name through your Microsoft 365 connector and shows how the response lands in a page. Pick a folder you are happy to receive two small test files.</p>
+    <div class="row"><input type="text" id="q4" value="Status &amp; Steer Co" aria-label="Folder name"><button class="btn" id="b4">Search folders</button></div>
+    <div id="l4"></div><pre id="o4" hidden></pre></div>
+
+  <div class="card"><h2>5. Upload a synthetic deck <span id="s5" class="pill">not run</span></h2>
+    <p>Uploads a generated two-slide .pptx of __PPTX_BYTES__ bytes into the folder chosen above. The file contains no client content and can be deleted.</p>
+    <div class="row"><button class="btn" id="b5" disabled>Upload synthetic deck</button><span class="note" id="n5">Choose a folder in step 4 first.</span></div><pre id="o5" hidden></pre></div>
+
+  <div class="card"><h2>6. Round trip at 1 MiB <span id="s6" class="pill">not run</span></h2>
+    <p>Takes the 1 MiB payload from the stub and uploads it as a .bin file into the chosen folder. This is the exact production path: bytes from the Karta connector, through the page, into SharePoint as you.</p>
+    <div class="row"><button class="btn" id="b6" disabled>Run round trip</button><span class="note" id="n6">Needs step 2 to have passed 1 MiB and a folder from step 4.</span></div><pre id="o6" hidden></pre></div>
+
+  <div class="card"><h2>Results <span id="sr" class="pill">db pending</span></h2>
+    <p>Everything above, without payloads. Saved to the database document gate1/observations when available. Copy and paste back to the session otherwise.</p>
+    <div class="row"><button class="btn out" id="bc">Copy results</button><button class="btn out" id="bs">Save to database</button></div><pre id="or">{}</pre></div>
+</div>
+<script>
+(function(){
+  var STUB="Karta Assembly Test", M365="Microsoft 365";
+  var PPTX_B64="__PPTX_B64__", PPTX_BYTES=__PPTX_BYTES__, PPTX_SHA="__PPTX_SHA__";
+  var R={startedAt:new Date().toISOString(),runtime:{},tests:{}};
+  var mcp=null, db=null, folder=null, blob1m=null;
+  function $(id){return document.getElementById(id)}
+  function pill(id,cls,txt){var e=$(id);e.className="pill "+(cls||"");e.textContent=txt}
+  function show(id,obj){var e=$(id);e.hidden=false;e.textContent=typeof obj==="string"?obj:JSON.stringify(obj,null,2)}
+  function errInfo(e){return {code:e&&e.code||"unknown",message:e&&e.message||String(e),server:e&&e.server,retryable:!!(e&&e.retryable)}}
+  function fixCopy(code){
+    switch(code){
+      case "server_not_connected": return "No connector with this name for you. Add it under Customize, Connectors, then reload.";
+      case "needs_reauth": return "Reconnect this connector in claude.ai Settings, Connectors.";
+      case "not_in_manifest": return "The page did not declare this tool. Republish with it in the manifest.";
+      case "not_granted": return "This view did not grant connector access to the page.";
+      case "selection_required": return "You have more than one connector with this name. Choose one when prompted.";
+      case "tool_error": return "The connector ran the tool and reported a failure. See the message.";
+      case "server_unavailable": return "The connector's server did not answer. Try once more.";
+      default: return "";
+    }
+  }
+  function describe(result){
+    var p=result&&result.payload, c=result&&result.content||[];
+    return {payloadType:Array.isArray(p)?"array":(p===null?"null":typeof p),
+            contentBlocks:c.map(function(b){return b.type+(b.type==="text"?"("+(b.text||"").length+" chars)":"")}),
+            hasStructuredContent:result&&result.structuredContent!==undefined,
+            cache:result&&result.cache||null};
+  }
+  async function sha256b64(b64){
+    var bin=atob(b64), u=new Uint8Array(bin.length); for(var i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);
+    var h=await crypto.subtle.digest("SHA-256",u); return {bytes:u.length,hex:Array.from(new Uint8Array(h)).map(function(b){return b.toString(16).padStart(2,"0")}).join("")};
+  }
+  function record(){$("or").textContent=JSON.stringify(R,null,2)}
+  async function save(){
+    record(); if(!db){pill("sr","warn","db unavailable, copy instead");return}
+    try{await db.doc("gate1/observations").set(R);pill("sr","ok","saved "+new Date().toLocaleTimeString())}
+    catch(e){pill("sr","risk","save failed");R.dbError=errInfo(e);record()}
+  }
+  // parse tolerant: payload may be object, array, string of one JSON, or concatenated JSON objects; content may hold several text blocks
+  function parseObjects(result){
+    var out=[]; function push(v){if(Array.isArray(v))v.forEach(push);else if(v&&typeof v==="object")out.push(v)}
+    function scan(s){var depth=0,start=-1,inStr=false,esc=false;for(var i=0;i<s.length;i++){var ch=s[i];if(inStr){if(esc)esc=false;else if(ch==="\\")esc=true;else if(ch==='"')inStr=false;continue}if(ch==='"')inStr=true;else if(ch==="{"){if(depth===0)start=i;depth++}else if(ch==="}"){depth--;if(depth===0&&start>=0){try{out.push(JSON.parse(s.slice(start,i+1)))}catch(e){}start=-1}}}}
+    var p=result.payload;
+    if(typeof p==="string")scan(p);else push(p);
+    if(out.length===0&&result.content)result.content.forEach(function(b){if(b.type==="text")scan(b.text||"")});
+    return out;
+  }
+
+  // 0 runtime
+  (async function(){
+    try{ mcp=await claude.use("mcp"); }catch(e){ mcp=null; }
+    try{ db=await claude.use("db"); }catch(e){ db=null; }
+    R.runtime.mcp=!!mcp; R.runtime.db=!!db;
+    var out={mcpAvailable:!!mcp,dbAvailable:!!db};
+    if(mcp){
+      try{var lt=await mcp.listTools(); out.servers=lt.servers.map(function(s){return {server:s.server,authStatus:s.authStatus,tools:s.tools.map(function(t){return t.name})}});
+          R.runtime.servers=out.servers;
+          var hasStub=lt.servers.some(function(s){return s.server===STUB}), hasM=lt.servers.some(function(s){return s.server===M365});
+          pill("s0",hasStub&&hasM?"ok":"warn",hasStub?(hasM?"both connectors visible":"stub visible, Microsoft 365 missing"):"stub connector not visible");
+          if(!hasStub)out.hint="No connector named '"+STUB+"' for this viewer. Register it in Organization settings, then Connect it under Customize, Connectors, then reload.";
+      }catch(e){out.listToolsError=errInfo(e);pill("s0","risk","listTools failed")}
+    } else pill("s0","risk","mcp unavailable in this view");
+    pill("sr",db?"ok":"warn",db?"db ready":"db unavailable");
+    show("o0",out); record();
+  })();
+
+  // 1 hello
+  $("b1").onclick=async function(){
+    this.disabled=true; pill("s1","","running"); var t0=performance.now();
+    try{var r=await mcp.callTool(STUB,"hello",{name:"Gate 1"}); var d=describe(r); d.payload=r.payload; d.elapsedMs=Math.round(performance.now()-t0);
+        R.tests.hello={ok:true,shape:d}; pill("s1","ok","passed"); show("o1",d);}
+    catch(e){var ei=errInfo(e); ei.fix=fixCopy(ei.code); R.tests.hello={ok:false,error:ei}; pill("s1","risk",ei.code); show("o1",ei);}
+    this.disabled=false; save();
+  };
+
+  // 2 ladder
+  $("b2").onclick=async function(){
+    this.disabled=true; pill("s2","","running"); var sizes=[256,512,1024,2048,4096], rows=[], tb=$("t2").querySelector("tbody"); tb.innerHTML=""; $("t2").hidden=false; var largest=0, stop=null;
+    for(var i=0;i<sizes.length;i++){
+      var kb=sizes[i], t0=performance.now(), row={requestedKb:kb};
+      try{var r=await mcp.callTool(STUB,"blob",{size_kb:kb},{cache:false}); var p=r.payload;
+          if(!p||typeof p!=="object")throw {code:"unexpected_payload",message:"payload was "+(typeof p)};
+          var v=await sha256b64(p.content_base64); row.bytes=v.bytes; row.hashMatch=v.hex===p.sha256; row.elapsedMs=Math.round(performance.now()-t0); row.ok=row.hashMatch&&v.bytes===p.size_bytes;
+          if(row.ok){largest=kb; if(kb===1024)blob1m={b64:p.content_base64,sha:p.sha256,bytes:p.size_bytes};}
+      }catch(e){row.ok=false;row.error=errInfo(e);row.elapsedMs=Math.round(performance.now()-t0);stop=row.error}
+      rows.push(row);
+      var tr=document.createElement("tr"); tr.innerHTML="<td>"+kb+" KB</td><td>"+(row.ok?"intact":"failed"+(row.error?": "+row.error.code:""))+"</td><td>"+(row.bytes||"")+"</td><td>"+(row.hashMatch===undefined?"":row.hashMatch?"match":"mismatch")+"</td><td>"+row.elapsedMs+" ms</td>"; tb.appendChild(tr);
+      if(!row.ok)break;
+    }
+    R.tests.ladder={largestIntactKb:largest,rows:rows,stoppedBy:stop}; pill("s2",largest>=1024?"ok":(largest?"warn":"risk"),largest?("intact up to "+largest+" KB"):"nothing arrived");
+    if(stop){stop.fix=fixCopy(stop.code); show("o2",stop);} 
+    $("n6").textContent=blob1m?(folder?"Ready.":"Choose a folder in step 4."):"Step 2 did not pass 1 MiB."; $("b6").disabled=!(blob1m&&folder);
+    this.disabled=false; save();
+  };
+
+  // 3 echo
+  $("b3").onclick=async function(){
+    this.disabled=true; pill("s3","","running"); var t0=performance.now();
+    try{var u=new Uint8Array(1048576); for(var o=0;o<u.length;o+=65536)crypto.getRandomValues(u.subarray(o,Math.min(o+65536,u.length)));
+        var s=""; for(var i=0;i<u.length;i+=32768)s+=String.fromCharCode.apply(null,u.subarray(i,i+32768)); var b64=btoa(s);
+        var h=await crypto.subtle.digest("SHA-256",u), hex=Array.from(new Uint8Array(h)).map(function(b){return b.toString(16).padStart(2,"0")}).join("");
+        var r=await mcp.callTool(STUB,"echo_size",{content_base64:b64},{cache:false}); var p=r.payload;
+        var out={sentBytes:u.length,sentB64Chars:b64.length,received:p,sizeMatch:p&&p.size_bytes===u.length,hashMatch:p&&p.sha256===hex,elapsedMs:Math.round(performance.now()-t0)};
+        R.tests.echo={ok:!!(out.sizeMatch&&out.hashMatch),detail:out}; pill("s3",R.tests.echo.ok?"ok":"warn",R.tests.echo.ok?"1 MiB accepted intact":"mismatch"); show("o3",out);}
+    catch(e){var ei=errInfo(e); ei.fix=fixCopy(ei.code); R.tests.echo={ok:false,error:ei}; pill("s3","risk",ei.code); show("o3",ei);}
+    this.disabled=false; save();
+  };
+
+  // 4 folder search
+  $("b4").onclick=async function(){
+    this.disabled=true; pill("s4","","running"); var name=$("q4").value.trim()||"Status & Steer Co"; var t0=performance.now();
+    try{var r=await mcp.callTool(M365,"sharepoint_folder_search",{name:name,limit:10}); var d=describe(r); var objs=parseObjects(r).filter(function(o){return o.driveId&&o.id&&o.name});
+        d.parsedFolders=objs.length; d.elapsedMs=Math.round(performance.now()-t0); d.rawPreview=(typeof r.payload==="string"?r.payload:JSON.stringify(r.payload)).slice(0,600);
+        R.tests.folderSearch={ok:objs.length>0,shape:{payloadType:d.payloadType,contentBlocks:d.contentBlocks,hasStructuredContent:d.hasStructuredContent,parsedFolders:d.parsedFolders,elapsedMs:d.elapsedMs}};
+        var l=$("l4"); l.innerHTML=""; objs.forEach(function(o,i){var lab=document.createElement("label"); lab.className="f"; lab.innerHTML='<input type="radio" name="folder" value="'+i+'"><span><strong>'+o.name+'</strong><br><span class="u">'+(o.webUrl||"")+'</span></span>'; lab.querySelector("input").onchange=function(){folder={driveId:o.driveId,id:o.id,name:o.name,webUrl:o.webUrl}; R.folder={name:o.name,webUrl:o.webUrl}; $("b5").disabled=false; $("n5").textContent="Will upload into "+o.name+"."; $("b6").disabled=!blob1m; $("n6").textContent=blob1m?"Ready.":"Step 2 did not pass 1 MiB."; record();}; l.appendChild(lab);});
+        pill("s4",objs.length?"ok":"warn",objs.length?objs.length+" folders parsed":"nothing parsed"); show("o4",d);}
+    catch(e){var ei=errInfo(e); ei.fix=fixCopy(ei.code); R.tests.folderSearch={ok:false,error:ei}; pill("s4","risk",ei.code); show("o4",ei);}
+    this.disabled=false; save();
+  };
+
+  // 5 upload synthetic pptx
+  $("b5").onclick=async function(){
+    if(!folder)return; this.disabled=true; pill("s5","","uploading"); var t0=performance.now();
+    var fn="Karta Gate1 Test "+new Date().toISOString().replace(/[:.]/g,"-")+".pptx";
+    try{var r=await mcp.callTool(M365,"sharepoint_upload_file",{driveId:folder.driveId,parentItemId:folder.id,filename:fn,contentBase64:PPTX_B64,expectedBytes:PPTX_BYTES,conflictBehavior:"rename"},{cache:false});
+        var d=describe(r); d.payload=r.payload; d.filename=fn; d.bytes=PPTX_BYTES; d.sha256=PPTX_SHA; d.elapsedMs=Math.round(performance.now()-t0);
+        R.tests.uploadPptx={ok:true,detail:{filename:fn,bytes:PPTX_BYTES,payloadType:d.payloadType,payload:r.payload,elapsedMs:d.elapsedMs}}; pill("s5","ok","uploaded"); show("o5",d);}
+    catch(e){var ei=errInfo(e); ei.fix=fixCopy(ei.code); R.tests.uploadPptx={ok:false,error:ei,filename:fn}; pill("s5","risk",ei.code); show("o5",ei);}
+    this.disabled=false; save();
+  };
+
+  // 6 round trip
+  $("b6").onclick=async function(){
+    if(!folder||!blob1m)return; this.disabled=true; pill("s6","","uploading"); var t0=performance.now();
+    var fn="Karta Gate1 Roundtrip "+new Date().toISOString().replace(/[:.]/g,"-")+".bin";
+    try{var r=await mcp.callTool(M365,"sharepoint_upload_file",{driveId:folder.driveId,parentItemId:folder.id,filename:fn,contentBase64:blob1m.b64,expectedBytes:blob1m.bytes,conflictBehavior:"rename"},{cache:false});
+        var out={filename:fn,bytes:blob1m.bytes,sha256:blob1m.sha,payload:r.payload,elapsedMs:Math.round(performance.now()-t0)};
+        R.tests.roundTrip={ok:true,detail:out}; pill("s6","ok","1 MiB round trip passed"); show("o6",out);}
+    catch(e){var ei=errInfo(e); ei.fix=fixCopy(ei.code); R.tests.roundTrip={ok:false,error:ei,filename:fn}; pill("s6","risk",ei.code); show("o6",ei);}
+    this.disabled=false; save();
+  };
+
+  $("bc").onclick=function(){record(); var t=$("or").textContent; if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){pill("sr","ok","copied")},function(){})} else {var r=document.createRange(); r.selectNodeContents($("or")); var s=getSelection(); s.removeAllRanges(); s.addRange(r);} };
+  $("bs").onclick=save;
+})();
+</script>
