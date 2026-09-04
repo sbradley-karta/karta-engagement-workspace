@@ -53,9 +53,9 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent-2);outli
     <p>Asks the stub for 256 KB, 512 KB, 1 MiB, 2 MiB, and 4 MiB payloads in turn. Verifies each arrives intact by SHA-256. Stops at the first failure.</p>
     <div class="row"><button class="btn" id="b2">Run ladder</button></div><table id="t2" hidden><thead><tr><th>Requested</th><th>Result</th><th>Bytes</th><th>Hash</th><th>Elapsed</th></tr></thead><tbody></tbody></table><pre id="o2" hidden></pre></div>
 
-  <div class="card"><h2>3. Page to connector payload <span id="s3" class="pill">not run</span></h2>
-    <p>Sends a 1 MiB base64 argument to the stub's echo tool. Same direction the real service receives approved values.</p>
-    <div class="row"><button class="btn" id="b3">Send 1 MiB</button></div><pre id="o3" hidden></pre></div>
+  <div class="card"><h2>3. Page to connector argument ladder <span id="s3" class="pill">not run</span></h2>
+    <p>Sends base64 arguments of 64 KB, 128 KB, 256 KB, 384 KB, 512 KB, 768 KB, then 1 MiB to the stub's echo tool, stopping at the first failure. Finds the ceiling on what a page can send to a connector. Same direction the real service receives approved values and the upload tool receives a deck.</p>
+    <div class="row"><button class="btn" id="b3">Run argument ladder</button></div><table id="t3" hidden><thead><tr><th>Sent</th><th>Result</th><th>Echoed bytes</th><th>Hash</th><th>Elapsed</th></tr></thead><tbody></tbody></table><pre id="o3" hidden></pre></div>
 
   <div class="card"><h2>4. Find a SharePoint test folder <span id="s4" class="pill">not run</span></h2>
     <p>Searches folders by name through your Microsoft 365 connector and shows how the response lands in a page. Pick a folder you are happy to receive two small test files.</p>
@@ -63,8 +63,8 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent-2);outli
     <div id="l4"></div><pre id="o4" hidden></pre></div>
 
   <div class="card"><h2>5. Upload a synthetic deck <span id="s5" class="pill">not run</span></h2>
-    <p>Uploads a generated two-slide .pptx of __PPTX_BYTES__ bytes into the folder chosen above. The file contains no client content and can be deleted.</p>
-    <div class="row"><button class="btn" id="b5" disabled>Upload synthetic deck</button><span class="note" id="n5">Choose a folder in step 4 first.</span></div><pre id="o5" hidden></pre></div>
+    <p>Two uploads into the folder chosen above. First a one-slide .pptx of __TINY_BYTES__ bytes, which proves the upload tool works from a page at all. Then a two-slide .pptx of __PPTX_BYTES__ bytes, which tests a realistic deck size against the argument ceiling. Neither contains client content. Both can be deleted.</p>
+    <div class="row"><button class="btn" id="b5a" disabled>Upload tiny deck</button><button class="btn" id="b5" disabled>Upload 750 KB deck</button><span class="note" id="n5">Choose a folder in step 4 first.</span></div><pre id="o5a" hidden></pre><pre id="o5" hidden></pre></div>
 
   <div class="card"><h2>6. Round trip at 1 MiB <span id="s6" class="pill">not run</span></h2>
     <p>Takes the 1 MiB payload from the stub and uploads it as a .bin file into the chosen folder. This is the exact production path: bytes from the Karta connector, through the page, into SharePoint as you.</p>
@@ -78,6 +78,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent-2);outli
 (function(){
   var STUB="Karta Assembly Test", M365="Microsoft 365";
   var PPTX_B64="__PPTX_B64__", PPTX_BYTES=__PPTX_BYTES__, PPTX_SHA="__PPTX_SHA__";
+  var TINY_B64="__TINY_B64__", TINY_BYTES=__TINY_BYTES__, TINY_SHA="__TINY_SHA__";
   var R={startedAt:new Date().toISOString(),runtime:{},tests:{}};
   var mcp=null, db=null, folder=null, blob1m=null;
   function $(id){return document.getElementById(id)}
@@ -133,6 +134,9 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent-2);outli
       try{var lt=await mcp.listTools(); out.servers=lt.servers.map(function(s){return {server:s.server,authStatus:s.authStatus,tools:s.tools.map(function(t){return t.name})}});
           R.runtime.servers=out.servers;
           var hasStub=lt.servers.some(function(s){return s.server===STUB}), hasM=lt.servers.some(function(s){return s.server===M365});
+          var declared=["sharepoint_folder_search","sharepoint_search","sharepoint_upload_file","sharepoint_update_file","sharepoint_create_folder","outlook_create_draft"];
+          var mSrv=lt.servers.filter(function(s){return s.server===M365})[0]; var vis=mSrv?mSrv.tools.map(function(t){return t.name}):[];
+          out.microsoft365={declaredInManifest:declared,visibleToPage:vis,hiddenFromPage:declared.filter(function(t){return vis.indexOf(t)<0})}; R.runtime.microsoft365=out.microsoft365;
           pill("s0",hasStub&&hasM?"ok":"warn",hasStub?(hasM?"both connectors visible":"stub visible, Microsoft 365 missing"):"stub connector not visible");
           if(!hasStub)out.hint="No connector named '"+STUB+"' for this viewer. Register it in Organization settings, then Connect it under Customize, Connectors, then reload.";
       }catch(e){out.listToolsError=errInfo(e);pill("s0","risk","listTools failed")}
@@ -170,16 +174,24 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent-2);outli
     this.disabled=false; save();
   };
 
-  // 3 echo
+  // 3 argument ladder
+  function randomB64(bytes){var u=new Uint8Array(bytes); for(var o=0;o<u.length;o+=65536)crypto.getRandomValues(u.subarray(o,Math.min(o+65536,u.length))); var s=""; for(var i=0;i<u.length;i+=32768)s+=String.fromCharCode.apply(null,u.subarray(i,i+32768)); return {u:u,b64:btoa(s)};}
+  async function hexOf(u){var h=await crypto.subtle.digest("SHA-256",u); return Array.from(new Uint8Array(h)).map(function(b){return b.toString(16).padStart(2,"0")}).join("");}
   $("b3").onclick=async function(){
-    this.disabled=true; pill("s3","","running"); var t0=performance.now();
-    try{var u=new Uint8Array(1048576); for(var o=0;o<u.length;o+=65536)crypto.getRandomValues(u.subarray(o,Math.min(o+65536,u.length)));
-        var s=""; for(var i=0;i<u.length;i+=32768)s+=String.fromCharCode.apply(null,u.subarray(i,i+32768)); var b64=btoa(s);
-        var h=await crypto.subtle.digest("SHA-256",u), hex=Array.from(new Uint8Array(h)).map(function(b){return b.toString(16).padStart(2,"0")}).join("");
-        var r=await mcp.callTool(STUB,"echo_size",{content_base64:b64},{cache:false}); var p=r.payload;
-        var out={sentBytes:u.length,sentB64Chars:b64.length,received:p,sizeMatch:p&&p.size_bytes===u.length,hashMatch:p&&p.sha256===hex,elapsedMs:Math.round(performance.now()-t0)};
-        R.tests.echo={ok:!!(out.sizeMatch&&out.hashMatch),detail:out}; pill("s3",R.tests.echo.ok?"ok":"warn",R.tests.echo.ok?"1 MiB accepted intact":"mismatch"); show("o3",out);}
-    catch(e){var ei=errInfo(e); ei.fix=fixCopy(ei.code); R.tests.echo={ok:false,error:ei}; pill("s3","risk",ei.code); show("o3",ei);}
+    this.disabled=true; pill("s3","","running"); var sizes=[64,128,256,384,512,768,1024], rows=[], tb=$("t3").querySelector("tbody"); tb.innerHTML=""; $("t3").hidden=false; var largest=0, stop=null;
+    for(var i=0;i<sizes.length;i++){
+      var kb=sizes[i], t0=performance.now(), row={sentKb:kb};
+      try{var g=randomB64(kb*1024); row.b64Chars=g.b64.length; var hex=await hexOf(g.u);
+          var r=await mcp.callTool(STUB,"echo_size",{content_base64:g.b64},{cache:false}); var p=r.payload;
+          row.echoedBytes=p&&p.size_bytes; row.hashMatch=!!(p&&p.sha256===hex); row.ok=row.hashMatch&&p.size_bytes===g.u.length; row.elapsedMs=Math.round(performance.now()-t0);
+          if(row.ok)largest=kb;
+      }catch(e){row.ok=false;row.error=errInfo(e);row.elapsedMs=Math.round(performance.now()-t0);stop=row.error}
+      rows.push(row);
+      var tr=document.createElement("tr"); tr.innerHTML="<td>"+kb+" KB ("+(row.b64Chars||"")+" chars)</td><td>"+(row.ok?"accepted":"failed"+(row.error?": "+row.error.code:""))+"</td><td>"+(row.echoedBytes||"")+"</td><td>"+(row.hashMatch===undefined?"":row.hashMatch?"match":"mismatch")+"</td><td>"+row.elapsedMs+" ms</td>"; tb.appendChild(tr);
+      if(!row.ok)break;
+    }
+    R.tests.argLadder={largestAcceptedKb:largest,rows:rows,stoppedBy:stop}; pill("s3",largest>=1024?"ok":(largest?"warn":"risk"),largest?("accepted up to "+largest+" KB"):"nothing accepted");
+    if(stop){stop.fix=fixCopy(stop.code); show("o3",stop);}
     this.disabled=false; save();
   };
 
@@ -189,12 +201,22 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent-2);outli
     try{var r=await mcp.callTool(M365,"sharepoint_folder_search",{name:name,limit:10}); var d=describe(r); var objs=parseObjects(r).filter(function(o){return o.driveId&&o.id&&o.name});
         d.parsedFolders=objs.length; d.elapsedMs=Math.round(performance.now()-t0); d.rawPreview=(typeof r.payload==="string"?r.payload:JSON.stringify(r.payload)).slice(0,600);
         R.tests.folderSearch={ok:objs.length>0,shape:{payloadType:d.payloadType,contentBlocks:d.contentBlocks,hasStructuredContent:d.hasStructuredContent,parsedFolders:d.parsedFolders,elapsedMs:d.elapsedMs}};
-        var l=$("l4"); l.innerHTML=""; objs.forEach(function(o,i){var lab=document.createElement("label"); lab.className="f"; lab.innerHTML='<input type="radio" name="folder" value="'+i+'"><span><strong>'+o.name+'</strong><br><span class="u">'+(o.webUrl||"")+'</span></span>'; lab.querySelector("input").onchange=function(){folder={driveId:o.driveId,id:o.id,name:o.name,webUrl:o.webUrl}; R.folder={name:o.name,webUrl:o.webUrl}; $("b5").disabled=false; $("n5").textContent="Will upload into "+o.name+"."; $("b6").disabled=!blob1m; $("n6").textContent=blob1m?"Ready.":"Step 2 did not pass 1 MiB."; record();}; l.appendChild(lab);});
+        var l=$("l4"); l.innerHTML=""; objs.forEach(function(o,i){var lab=document.createElement("label"); lab.className="f"; lab.innerHTML='<input type="radio" name="folder" value="'+i+'"><span><strong>'+o.name+'</strong><br><span class="u">'+(o.webUrl||"")+'</span></span>'; lab.querySelector("input").onchange=function(){folder={driveId:o.driveId,id:o.id,name:o.name,webUrl:o.webUrl}; R.folder={name:o.name,webUrl:o.webUrl}; $("b5").disabled=false; $("b5a").disabled=false; $("n5").textContent="Will upload into "+o.name+"."; $("b6").disabled=!blob1m; $("n6").textContent=blob1m?"Ready.":"Step 2 did not pass 1 MiB."; record();}; l.appendChild(lab);});
         pill("s4",objs.length?"ok":"warn",objs.length?objs.length+" folders parsed":"nothing parsed"); show("o4",d);}
     catch(e){var ei=errInfo(e); ei.fix=fixCopy(ei.code); R.tests.folderSearch={ok:false,error:ei}; pill("s4","risk",ei.code); show("o4",ei);}
     this.disabled=false; save();
   };
 
+  // 5a tiny upload
+  $("b5a").onclick=async function(){
+    if(!folder)return; this.disabled=true; pill("s5","","uploading tiny"); var t0=performance.now();
+    var fn="Karta Gate1 Tiny "+new Date().toISOString().replace(/[:.]/g,"-")+".pptx";
+    try{var r=await mcp.callTool(M365,"sharepoint_upload_file",{driveId:folder.driveId,parentItemId:folder.id,filename:fn,contentBase64:TINY_B64,expectedBytes:TINY_BYTES,conflictBehavior:"rename"},{cache:false});
+        var d=describe(r); d.payload=r.payload; d.filename=fn; d.bytes=TINY_BYTES; d.elapsedMs=Math.round(performance.now()-t0);
+        R.tests.uploadTiny={ok:true,detail:{filename:fn,bytes:TINY_BYTES,payloadType:d.payloadType,payload:r.payload,elapsedMs:d.elapsedMs}}; pill("s5","ok","tiny uploaded"); show("o5a",d);}
+    catch(e){var ei=errInfo(e); ei.fix=fixCopy(ei.code); R.tests.uploadTiny={ok:false,error:ei,filename:fn}; pill("s5","risk","tiny: "+ei.code); show("o5a",ei);}
+    this.disabled=false; save();
+  };
   // 5 upload synthetic pptx
   $("b5").onclick=async function(){
     if(!folder)return; this.disabled=true; pill("s5","","uploading"); var t0=performance.now();
