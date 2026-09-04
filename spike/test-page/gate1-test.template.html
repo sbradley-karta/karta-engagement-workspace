@@ -142,7 +142,8 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent-2);outli
       }catch(e){out.listToolsError=errInfo(e);pill("s0","risk","listTools failed")}
     } else pill("s0","risk","mcp unavailable in this view");
     pill("sr",db?"ok":"warn",db?"db ready":"db unavailable");
-    show("o0",out); record();
+    R.runtime.status=$("s0").textContent; R.runtime.checkedAt=new Date().toISOString(); R.runtime.detail=out;
+    show("o0",out); save();
   })();
 
   // 1 hello
