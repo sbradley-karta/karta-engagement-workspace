@@ -48,7 +48,30 @@ The SharePoint write tools that a Claude session can use are not exposed to arti
 3. The 1 MiB connector cap on deck size no longer applies if Graph does the write. Deck optimization remains worthwhile for the connector-to-page return path and for email, but is no longer a hard gate.
 4. Approved values sent from the page to the service are a few kilobytes and are unaffected by the argument ceiling. Measure the ceiling anyway (step 3 ladder) so the contract has a documented bound.
 
-### Still to run
+### Run 3, September 5, 2026 00:53 to 00:56 UTC (Sean)
 
-- Step 3 argument ladder, to record the exact page-to-connector ceiling.
-- Delete the stub service and the `Karta Assembly Test` connector once Gate 1 is closed.
+| Test | Result |
+|---|---|
+| hello | Passed again, 1,264 ms. |
+| Connector to page ladder | Passed again to 4 MiB. |
+| Page to connector argument ladder | Accepted 64, 128, 256, 384, and 512 KB of binary (699,052 base64 chars). Refused at 768 KB (1,048,576 base64 chars) with `upstream_error`, message `request failed (400)`, not retryable. **Ceiling is a request body of about 1 MiB**; the 768 KB payload's base64 alone reaches that figure before the JSON envelope. Approved values are a few kilobytes and unaffected. |
+| Folder search | Passed. `payload` was the first result object only. The connector returned eleven text blocks, one per folder plus a paging trailer, with no `structuredContent`. **Page code must iterate `result.content` text blocks, not just `payload`, for Microsoft 365 list results.** The test page's parser stopped at `payload` and saw one folder; corrected in the note here, not in the throwaway page. 2,342 ms. |
+| Upload tiny deck | Failed with `approval_required`, message `this tool requires per-call approval, which is not yet supported in artifacts`. Nothing was written. This is the precise reason SharePoint write tools are hidden from pages: org policy marks them as requiring per-call approval, and artifacts cannot present that approval today. The wording `not yet` suggests a platform capability that may arrive later. |
+
+### Gate 1 verdict
+
+**Passed for the assembly-service path.** A published page calls a Team custom connector by display name, sends arguments up to about 1 MiB, and receives results intact to at least 4 MiB.
+
+**Failed for page-side SharePoint writes.** The Microsoft 365 connector's write tools require per-call approval, which artifact pages cannot provide. The deck cannot be uploaded from the page.
+
+### Decisions affected
+
+- Decision 17 confirmed by evidence.
+- Decision 18 mechanism must change. Recommendation: the assembly service writes the deck to SharePoint through Microsoft Graph with delegated permission granted at the member's Microsoft sign-in. Fallback: `downloads` hand-off to the member.
+- Contract bound for the page-to-service request: keep the approved-values document under 512 KB of JSON, with a hard check in the page.
+
+### Cleanup once Sean closes the gate
+
+- Delete Cloud Run service `karta-assembly-stub` (Sean, from his terminal): `gcloud run services delete karta-assembly-stub --region us-central1 --project project-2c1b0888-6c19-4832-a90`
+- Remove the `Karta Assembly Test` connector from Organization settings, Connectors.
+- Republish the test page with `capabilities: {}` or delete the artifact.
