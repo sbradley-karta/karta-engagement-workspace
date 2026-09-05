@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://karta.example/contracts/engagement-config.v1.schema.json",
+  "title": "Karta engagement configuration, version 1",
+  "description": "Resolves the engagement boundary for one site: identifiers, source locations, methodology phases with dates, templates, capabilities with readiness, and roles. Client facts never appear here beyond names and identifiers.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "engagement_id", "client", "project_name", "phases", "sources", "templates", "capabilities", "roles"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "engagement_id": {"type": "string", "minLength": 1},
+    "client": {"type": "string", "minLength": 1},
+    "project_name": {"type": "string", "minLength": 1},
+    "phases": {
+      "type": "array", "minItems": 5, "maxItems": 5,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["name", "start", "end", "source", "source_updated_at"],
+        "properties": {
+          "name": {"enum": ["Project Planning", "Foundations", "Build", "Test", "Train and Deploy"]},
+          "start": {"type": "string", "format": "date"},
+          "end": {"type": "string", "format": "date"},
+          "source": {"type": "string", "description": "Where the dates came from, e.g. the approved project plan."},
+          "source_updated_at": {"type": "string", "format": "date-time"}
+        }
+      }
+    },
+    "sources": {
+      "type": "object", "additionalProperties": false,
+      "required": ["asana", "sharepoint"],
+      "properties": {
+        "asana": {
+          "type": "object", "additionalProperties": false,
+          "required": ["workspace_gid", "project_gid", "milestone_section_names"],
+          "properties": {
+            "workspace_gid": {"type": "string"},
+            "project_gid": {"type": "string"},
+            "milestone_section_names": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+            "milestone_resource_subtype": {"type": "string", "description": "Optional. Filter on Asana resource_subtype, e.g. milestone."}
+          }
+        },
+        "sharepoint": {
+          "type": "object", "additionalProperties": false,
+          "required": ["drive_id", "status_folder_item_id", "status_folder_web_url", "deck_filename_pattern"],
+          "properties": {
+            "drive_id": {"type": "string"},
+            "status_folder_item_id": {"type": "string"},
+            "status_folder_web_url": {"type": "string"},
+            "deck_filename_pattern": {"type": "string", "description": "Python format string, e.g. KCG_Status {client} {m}-{d}-{yyyy}.pptx"},
+            "raid_log_item_id": {"type": "string"},
+            "design_document_item_id": {"type": "string"}
+          }
+        },
+        "granola": {"type": "object", "additionalProperties": false, "properties": {"folder": {"type": "string"}}},
+        "harvest": {"type": "object", "additionalProperties": false, "properties": {"project_id": {"type": "string"}}}
+      }
+    },
+    "templates": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status_deck_template_version"],
+      "properties": {
+        "status_deck_template_version": {"type": "string"},
+        "client_logo_item_id": {"type": "string"}
+      }
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["name", "readiness", "owner"],
+        "properties": {
+          "name": {"type": "string"},
+          "readiness": {"enum": ["Experimental", "Piloted", "Standard", "Restricted"]},
+          "owner": {"type": "string"},
+          "phases": {"type": "array", "items": {"enum": ["Project Planning", "Foundations", "Build", "Test", "Train and Deploy"]}}
+        }
+      }
+    },
+    "roles": {
+      "type": "object", "additionalProperties": false,
+      "required": ["reviewers", "members"],
+      "properties": {
+        "reviewers": {"type": "array", "minItems": 1, "items": {"type": "string", "format": "email"}},
+        "members": {"type": "array", "items": {"type": "string", "format": "email"}},
+        "engagement_lead": {"type": "string", "format": "email"}
+      }
+    },
+    "retention": {
+      "type": "object", "additionalProperties": false,
+      "properties": {"drafts_days": {"type": "integer"}, "conversations_days": {"type": "integer"}, "generated_files_days": {"type": "integer"}}
+    },
+    "support": {
+      "type": "object", "additionalProperties": false,
+      "properties": {"route": {"type": "string"}, "owner": {"type": "string", "format": "email"}}
+    }
+  }
+}

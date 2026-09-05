@@ -1,0 +1,29 @@
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  assembler-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e "./assembler[test]"
+      - run: pytest assembler -q
+  contracts-valid:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install jsonschema
+      - run: |
+          python - <<'PY'
+          import json, glob, jsonschema
+          for f in glob.glob("docs/contracts/*.schema.json"):
+              s = json.load(open(f)); jsonschema.Draft202012Validator.check_schema(s); print("ok", f)
+          PY

@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://karta.example/contracts/deck-job.v1.schema.json",
+  "title": "Karta deck job, version 1",
+  "description": "One Generate deck request and its outcome. Written by the engagement site at Generate, updated by the assembler. The user-facing states are the same whichever assembler runs.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "job_id", "engagement_id", "approved_values", "state", "requested_by", "requested_at", "updated_at", "delivery"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "job_id": {"type": "string", "minLength": 1},
+    "engagement_id": {"type": "string", "minLength": 1},
+    "approved_values": {
+      "type": "object", "additionalProperties": false,
+      "required": ["version", "sha256"],
+      "properties": {
+        "version": {"type": "integer", "minimum": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "state": {"enum": ["Requested", "Building", "Built", "Failed"]},
+    "requested_by": {"type": "string", "format": "email"},
+    "requested_at": {"type": "string", "format": "date-time"},
+    "updated_at": {"type": "string", "format": "date-time"},
+    "delivery": {"enum": ["sharepoint", "download"]},
+    "deck": {
+      "type": "object", "additionalProperties": false,
+      "required": ["filename", "size_bytes", "sha256"],
+      "properties": {
+        "filename": {"type": "string", "minLength": 1},
+        "size_bytes": {"type": "integer", "minimum": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "sharepoint_web_url": {"type": "string"},
+        "sharepoint_item_id": {"type": "string"},
+        "written_as": {"type": "string", "format": "email"}
+      }
+    },
+    "error": {
+      "type": "object", "additionalProperties": false,
+      "required": ["code", "message", "owner"],
+      "properties": {
+        "code": {"type": "string"},
+        "message": {"type": "string", "description": "Plain language, for the user."},
+        "owner": {"type": "string"},
+        "support_route": {"type": "string"}
+      }
+    },
+    "service_version": {"type": "string"},
+    "template_version": {"type": "string"}
+  }
+}

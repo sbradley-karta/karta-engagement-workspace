@@ -1,0 +1,7 @@
+
+[assembly]
+python-pptx>=1.0
+Pillow>=10
+
+[test]
+pytest>=8

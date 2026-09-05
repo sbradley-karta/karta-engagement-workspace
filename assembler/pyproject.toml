@@ -1,0 +1,21 @@
+[project]
+name = "karta-assembler"
+version = "0.1.0"
+description = "Deterministic status logic and deck assembly for the Karta Engagement Delivery Workspace"
+requires-python = ">=3.12"
+dependencies = []
+
+[project.optional-dependencies]
+test = ["pytest>=8"]
+assembly = ["python-pptx>=1.0", "Pillow>=10"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["karta_assembler*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
