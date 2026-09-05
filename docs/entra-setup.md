@@ -21,16 +21,18 @@ App registration, Manage, API permissions, Add a permission, Microsoft Graph, De
 
 App registration, Manage, Authentication, Add a platform, Web. Redirect URI: `https://karta-assembly-aa57tv4ota-uc.a.run.app/auth/callback`. Leave implicit grant unchecked. Save.
 
+Cloud Run also serves every service on a second, newer URL of the form `https://<service>-926268554033.us-central1.run.app`. Add `https://karta-assembly-926268554033.us-central1.run.app/auth/callback` as a second redirect URI so either form works. The service's `BASE_URL` decides which one the connector uses; the deploy script sets the first.
+
 ## 4. Access token version
 
 App registration, Manage, Manifest. Find `"requestedAccessTokenVersion"` and set it to `2`. Save. (If the manifest editor shows the newer format, the field sits under `api`.)
 
 ## 5. Client secret, straight into Secret Manager
 
-App registration, Manage, Certificates & secrets, New client secret, description `Cloud Run`, expiry 12 months. Copy the **Value** once. Then in your terminal, paste it when prompted:
+App registration, Manage, Certificates & secrets, New client secret, description `Cloud Run`, expiry 12 months. Copy the **Value** once. Then in your terminal (zsh), run this, paste the value at the prompt (it will not echo), and press Return:
 
 ```bash
-read -s -p "Entra client secret: " S && printf '%s' "$S" | /opt/homebrew/bin/gcloud secrets create entra-client-secret --data-file=- --project project-2c1b0888-6c19-4832-a90 --replication-policy automatic && unset S && echo && echo stored
+read -s "S?Entra client secret: " && printf '%s' "$S" | /opt/homebrew/bin/gcloud secrets create entra-client-secret --data-file=- --project project-2c1b0888-6c19-4832-a90 --replication-policy automatic && unset S && echo && echo stored
 ```
 
 Also create the signing key for the service's own session tokens:
