@@ -69,6 +69,15 @@ Organization settings, Connectors, Add, Custom, Web. URL `https://karta-assembly
 - `/mcp` without a token returns 401 with `resource_metadata` pointing at `/.well-known/oauth-protected-resource/mcp`, which advertises the `assemble` scope and the service as its own authorization server. `/.well-known/oauth-authorization-server` exposes authorize, token, and registration endpoints. Log line confirms the Azure provider initialized for the client and tenant.
 - Secrets `entra-client-secret` and `jwt-signing-key` exist and are readable by the service account.
 
+## Tenant admin consent, required once
+
+The Karta tenant does not allow users to consent to applications. The first sign-in shows Microsoft's Approval required screen. Two ways to clear it:
+
+1. **Through the request.** Sean enters a justification and clicks Request approval. The tenant admin approves it in the Entra admin center under Enterprise applications, Admin consent requests.
+2. **Directly.** The tenant admin opens Entra admin center, Enterprise applications, Karta Assembly Service, Permissions, and clicks Grant admin consent for Karta Consulting Group. This consents to the six delegated Graph permissions for all users.
+
+After either, every member can connect without seeing a consent screen. The permissions are delegated only: the service can never act outside the signed-in member's own access.
+
 ## Operating notes
 
 - The pilot runs one always-on instance with in-memory sign-in state. A redeploy or restart signs everyone out of the connector; they sign in again on next use. A durable store is a later improvement.
