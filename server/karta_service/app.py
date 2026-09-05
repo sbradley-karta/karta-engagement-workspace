@@ -77,8 +77,8 @@ def failed(code: str, message: str, **extra: Any) -> dict:
 def create_app() -> FastMCP:
     mcp = FastMCP("Karta Assembly", auth=build_auth())
 
-    @mcp.custom_route("/healthz", methods=["GET"])
-    async def healthz(_: Request) -> JSONResponse:
+    @mcp.custom_route("/status", methods=["GET"])
+    async def status(_: Request) -> JSONResponse:
         return JSONResponse({"ok": True, "service": "karta-assembly", "version": SERVICE_VERSION})
 
     @mcp.tool

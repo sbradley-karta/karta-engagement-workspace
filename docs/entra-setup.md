@@ -57,11 +57,17 @@ From the repository root:
 cd "/Users/seanbradley/Documents/Claude/Claude Various/karta-engagement-workspace" && ./server/deploy.sh
 ```
 
-Then confirm the printed URL matches the redirect URI in step 3, and confirm `https://<url>/healthz` returns ok.
+Then confirm the printed URL matches the redirect URI in step 3, and confirm `https://<url>/status` returns ok (from the second deploy onward; the first deploy used `/healthz`, which the Google front end answered with a 404).
 
 ## 7. Register the connector
 
 Organization settings, Connectors, Add, Custom, Web. URL `https://karta-assembly-aa57tv4ota-uc.a.run.app/mcp`. Name exactly `Karta Assembly`. Leave the OAuth fields empty: the service handles registration itself. Then Connect it under Customize, Connectors. Sign in with your Karta Microsoft account and accept the permissions. Run the `whoami` tool from a Claude chat to confirm.
+
+## Deployed, September 5, 2026
+
+- Service `karta-assembly` revision 1 is serving at `https://karta-assembly-aa57tv4ota-uc.a.run.app` and `https://karta-assembly-926268554033.us-central1.run.app`.
+- `/mcp` without a token returns 401 with `resource_metadata` pointing at `/.well-known/oauth-protected-resource/mcp`, which advertises the `assemble` scope and the service as its own authorization server. `/.well-known/oauth-authorization-server` exposes authorize, token, and registration endpoints. Log line confirms the Azure provider initialized for the client and tenant.
+- Secrets `entra-client-secret` and `jwt-signing-key` exist and are readable by the service account.
 
 ## Operating notes
 
