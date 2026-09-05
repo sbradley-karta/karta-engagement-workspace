@@ -29,6 +29,8 @@ App registration, Manage, Manifest. Find `"requestedAccessTokenVersion"` and set
 
 ## 5. Client secret, straight into Secret Manager
 
+Prerequisite, done once: the Secret Manager API must be enabled on the project (`gcloud services enable secretmanager.googleapis.com`). Enabled September 5, 2026.
+
 App registration, Manage, Certificates & secrets, New client secret, description `Cloud Run`, expiry 12 months. Copy the **Value** once. Then in your terminal (zsh), run this, paste the value at the prompt (it will not echo), and press Return:
 
 ```bash
