@@ -1,5 +1,3 @@
-
-[assembly]
 python-pptx>=1.0
 Pillow>=10
 

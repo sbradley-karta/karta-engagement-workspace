@@ -1,9 +1,12 @@
 pyproject.toml
 karta_assembler/__init__.py
+karta_assembler/deck.py
+karta_assembler/optimize.py
 karta_assembler/status.py
 karta_assembler.egg-info/PKG-INFO
 karta_assembler.egg-info/SOURCES.txt
 karta_assembler.egg-info/dependency_links.txt
 karta_assembler.egg-info/requires.txt
 karta_assembler.egg-info/top_level.txt
+tests/test_deck.py
 tests/test_status.py

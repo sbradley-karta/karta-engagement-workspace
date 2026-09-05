@@ -3,8 +3,7 @@ Name: karta-assembler
 Version: 0.1.0
 Summary: Deterministic status logic and deck assembly for the Karta Engagement Delivery Workspace
 Requires-Python: >=3.12
+Requires-Dist: python-pptx>=1.0
+Requires-Dist: Pillow>=10
 Provides-Extra: test
 Requires-Dist: pytest>=8; extra == "test"
-Provides-Extra: assembly
-Requires-Dist: python-pptx>=1.0; extra == "assembly"
-Requires-Dist: Pillow>=10; extra == "assembly"

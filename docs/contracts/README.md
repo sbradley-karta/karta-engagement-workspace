@@ -18,7 +18,23 @@ Three documents define how the engagement site, the assembly service, and the en
 6. **Provenance travels with the record.** Every milestone and RAID item names its source system and identifier. Sources list retrieval time so freshness can be shown.
 7. **Correction capture.** Approved values record which fields the model drafted and which the reviewer changed, so the correction rate can be measured without storing prompts.
 
-## Milestone status rule (proposed for Sean's review)
+## Amendments
+
+- **1.0, September 5, 2026.** RAID items gained optional `priority` (High, Medium, Low) and `mitigation`, because the status slide's risks table shows a priority tag and a Mitigation Plan column. Backward compatible.
+
+## Slide 4 shape map (from the sample deck, matches the existing skill)
+
+| Shape | Content |
+|---|---|
+| `Table 8` | Row 1 Project Name, row 2 Project Manager(s), row 3 Status Period |
+| `Table 9` | Row 1 Overall Status text, rows 2 to 4 Scope & Schedule, Resources, Data |
+| `Oval 22`, `Oval 1`, `Oval 11`, `Oval 12` | Status colors for Overall, Scope & Schedule, Resources, Data. Theme colors: Green is accent1, Yellow is accent5, Red is accent6, Unknown is the neutral background 2 |
+| `Table 14` | Milestones: Milestone, Orig. Date, New Date, Status. One header row plus ten data rows |
+| `Table 16` | Row 2: Accomplishments (column 1), Planned Activities (column 2), bulleted |
+| `Table 19` | Risks or Issue, Description, Mitigation Plan, Status. One header row plus three data rows |
+| Slide 1 `Text Placeholder 2` | Deck date |
+
+## Milestone status rule (confirmed by Sean, September 5, 2026)
 
 | Condition, evaluated in order | Status |
 |---|---|
