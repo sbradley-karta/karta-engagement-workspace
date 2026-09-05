@@ -522,6 +522,8 @@ input.in:disabled,select.in:disabled{opacity:.6}
          drafted:false,draftedAt:null,draftedFields:[],changed:{},
          approved:null,version:0,editing:true,jobs:[],assembly:null,busy:false};
   var db=null,sample=null,mcp=null,downloads=null;
+  var CLIENT_ID=(crypto.randomUUID?crypto.randomUUID():String(Math.random()));
+  var dirty=false;
   var $=function(i){return document.getElementById(i)};
   var esc=function(s){var d=document.createElement("div");d.textContent=s==null?"":String(s);return d.innerHTML};
 
@@ -702,7 +704,8 @@ input.in:disabled,select.in:disabled{opacity:.6}
   }
   function renderList(id,arr,key){
     var ul=$(id),lk=locked();ul.innerHTML="";
-    if(!arr.length){var li=document.createElement("li");li.className="empty";li.style.listStyle="none";li.style.marginLeft="-17px";li.textContent=S.drafted?"Nothing this period.":"Draft to populate.";ul.appendChild(li);return;}
+    var box=$(id==="accList"?"addAcc":"addPln").parentNode;box.hidden=lk;
+    if(!arr.length){var li=document.createElement("li");li.className="empty";li.style.listStyle="none";li.style.marginLeft="-17px";li.textContent=lk?"Nothing this period. Approved values are locked; reopen to edit.":(S.drafted?"Nothing this period. Add one below.":"Draft to populate.");ul.appendChild(li);return;}
     arr.forEach(function(t,i){var li=document.createElement("li"),sp=document.createElement("span");sp.textContent=t;li.appendChild(sp);
       if(!lk){var x=document.createElement("button");x.type="button";x.setAttribute("aria-label","Remove");x.textContent="×";x.dataset.rm=key;x.dataset.i=i;li.appendChild(x);}
       ul.appendChild(li);});
@@ -740,7 +743,7 @@ input.in:disabled,select.in:disabled{opacity:.6}
     $("btnDraft").disabled=!sample||lk||S.busy;
     $("btnAddRaid").disabled=lk;document.querySelectorAll("[data-add]").forEach(function(b){b.disabled=lk;});
     $("addAcc").disabled=lk;$("addPln").disabled=lk;
-    $("narrSrc").textContent=S.approved&&!S.editing?"approved":(S.drafted?"draft, under review":"not drafted");
+    $("narrSrc").textContent=S.approved&&!S.editing?"approved · locked, reopen to edit":(S.drafted?"draft, under review":"not drafted");
   }
   function renderGenerate(){
     var ready=!!S.approved&&!S.editing&&S.assembly===true&&!S.busy;
@@ -848,10 +851,10 @@ input.in:disabled,select.in:disabled{opacity:.6}
     }finally{S.busy=false;if(!b.hidden){b.textContent=S.drafted?"Redraft narrative":"Draft this week’s status";}renderGate();}
   }
   function draftDoc(){return {acc:S.acc,pln:S.pln,raid:S.raid,sub:S.sub,rat:S.rat,rec:S.rec,newDates:S.ms.reduce(function(o,m){if(m.new_date)o[m.source.id]=m.new_date;return o;},{}),
-    drafted:S.drafted,draftedAt:S.draftedAt,draftedFields:S.draftedFields,changed:Object.keys(S.changed),asOf:S.asOf,updatedAt:new Date().toISOString()};}
+    drafted:S.drafted,draftedAt:S.draftedAt,draftedFields:S.draftedFields,changed:Object.keys(S.changed),asOf:S.asOf,updatedAt:new Date().toISOString(),clientId:CLIENT_ID};}
   var saveTimer=null;
-  function saveDraftSoon(){if(!db||locked())return;clearTimeout(saveTimer);saveTimer=setTimeout(saveDraft,900);}
-  async function saveDraft(){if(!db||locked())return;try{await db.doc(CFG.docRoot+"/status/draft").set(draftDoc());}catch(e){$("barNote").innerHTML='<span class="err">Draft kept here but not shared: '+esc((e&&e.message)||"write failed")+'</span>';}}
+  function saveDraftSoon(){dirty=true;if(!db||locked())return;clearTimeout(saveTimer);saveTimer=setTimeout(saveDraft,900);}
+  async function saveDraft(){if(!db||locked())return;try{await db.doc(CFG.docRoot+"/status/draft").set(draftDoc());dirty=false;}catch(e){$("barNote").innerHTML='<span class="err">Draft kept here but not shared: '+esc((e&&e.message)||"write failed")+'</span>';}}
   function applyDraft(v){
     if(!v)return;S.acc=v.acc||[];S.pln=v.pln||[];S.raid=v.raid||[];S.sub=v.sub||S.sub;S.rat=v.rat||S.rat;S.rec=v.rec||null;
     S.drafted=!!v.drafted;S.draftedAt=v.draftedAt||null;S.draftedFields=v.draftedFields||[];S.changed={};(v.changed||[]).forEach(function(f){S.changed[f]=true;});
@@ -946,8 +949,9 @@ input.in:disabled,select.in:disabled{opacity:.6}
         $("genNote").innerHTML='<span class="err">'+esc(job.error.message)+(job.error.owner?" Owner: "+esc(job.error.owner)+".":"")+'</span>';}
     }catch(e){
       var code=(e&&e.code)||"upstream_error",msg=(e&&e.message)||"call failed";
-      job.state="Failed";job.error={code:code,message:(fixCopy(code)||msg),owner:"Karta AI strategy",support_route:"Message Sean Bradley"};
-      $("genNote").innerHTML='<span class="err">'+esc(job.error.message)+(fixCopy(code)?"":" ("+esc(msg)+")")+'</span>';
+      var shown=code==="tool_error"?("The assembly service reported: "+msg):(fixCopy(code)||msg);
+      job.state="Failed";job.error={code:code,message:shown,detail:msg,owner:"Karta AI strategy",support_route:"Message Sean Bradley"};
+      $("genNote").innerHTML='<span class="err">'+esc(shown)+'</span>';
     }
     await save();S.busy=false;renderGate();
   }
@@ -1010,6 +1014,8 @@ input.in:disabled,select.in:disabled{opacity:.6}
     });
     d.doc(CFG.docRoot+"/status/draft").onSnapshot(function(doc){
       var v=snapData(doc);if(!v||S.approved||S.busy)return;
+      if(v.clientId===CLIENT_ID)return;          /* our own write echoed back */
+      if(dirty)return;                           /* never overwrite unsaved local edits */
       if(v.updatedAt&&S.draftedAt&&v.updatedAt<S.draftedAt)return;
       applyDraft(v);$("barNote").textContent="Showing the shared draft. Redraft only if the evidence changed.";renderAll();
     });

@@ -80,6 +80,9 @@ def failed(code: str, message: str, **extra: Any) -> dict:
 
 
 def create_app() -> FastMCP:
+    from karta_assembler.deck import DEFAULT_TEMPLATE
+    if not DEFAULT_TEMPLATE.exists():
+        raise RuntimeError(f"Bundled template missing at {DEFAULT_TEMPLATE}. Refusing to start.")
     mcp = FastMCP("Karta Assembly", auth=build_auth() if AUTH_MODE != "none" else None)
 
     @mcp.custom_route("/status", methods=["GET"])
@@ -144,6 +147,10 @@ def create_app() -> FastMCP:
             return failed(e.code, e.message)
         except KeyError as e:
             return failed("bad_request", f"Missing field {e.args[0]!r} in the request.")
+        except FileNotFoundError as e:
+            return failed("service_misconfigured", "The service is missing its base template. This is a deployment problem, not something in your values.")
+        except Exception as e:  # never let a raw exception reach the member
+            return failed("service_error", f"The deck could not be built: {type(e).__name__}. The service owner has the details.")
         deck = {
             "filename": item.get("name", manifest.filename),
             "size_bytes": len(data),

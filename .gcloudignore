@@ -6,3 +6,4 @@ artifact-site
 **/tests
 **/__pycache__
 *.pptx
+!assembler/karta_assembler/templates/*.pptx
