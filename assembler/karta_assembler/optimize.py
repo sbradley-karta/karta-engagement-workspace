@@ -129,9 +129,14 @@ def optimize_pptx(data: bytes, drop_svg: bool = False) -> tuple[bytes, dict]:
 
     order = [n for n in z.namelist() if n in parts] + [n for n in parts if n not in z.namelist()]
     out = io.BytesIO()
+    # Fixed timestamps make the output reproducible: the same approved values and base deck
+    # always yield the same bytes and hash, which the deck job records.
     with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as o:
         for n in order:
-            o.writestr(n, parts[n])
+            zi = zipfile.ZipInfo(n, date_time=(1980, 1, 1, 0, 0, 0))
+            zi.compress_type = zipfile.ZIP_DEFLATED
+            zi.external_attr = 0o644 << 16
+            o.writestr(zi, parts[n])
     result = out.getvalue()
     report["output_bytes"] = len(result)
     return result, report

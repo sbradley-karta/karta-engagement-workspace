@@ -135,3 +135,12 @@ def test_empty_raid_phrasing(tmp_path):
 
 def _write(tmp_path, data):
     p = tmp_path / "out.pptx"; p.write_bytes(data); return p
+
+
+@pytest.mark.skipif(not BASE, reason="set KCG_BASE_DECK")
+def test_build_is_reproducible():
+    from karta_assembler.optimize import optimize_pptx
+    base = Path(BASE).read_bytes()
+    a, _ = optimize_pptx(build_deck(base, approved())[0])
+    b, _ = optimize_pptx(build_deck(base, approved())[0])
+    assert a == b
