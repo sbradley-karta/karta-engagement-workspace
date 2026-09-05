@@ -1,0 +1,8 @@
+.git
+.github
+spike
+docs
+artifact-site
+**/tests
+**/__pycache__
+*.pptx
