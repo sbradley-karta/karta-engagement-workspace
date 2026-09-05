@@ -87,6 +87,10 @@ Sean's decision: run without sign-in until the admin approves, with members savi
 - What the open endpoint exposes: compute on one instance and the ability to render a Karta-branded deck from caller-supplied content. It stores nothing and reaches no Karta data, because the Graph path needs a member token that does not exist in this mode.
 - To return to the target design after consent: run `server/deploy.sh`, set the connector URL back to `/mcp` with Authentication Always required. The page needs no change; it follows the `delivery` field the service returns.
 
+## Interim deployment, September 5, 2026
+
+Revision `karta-assembly-00002-svl` deployed by Sean with `AUTH_MODE=none`, `MCP_PATH=/mcp-7f3c9a2e51b84d6f`, minimum instances zero. The interim endpoint answers MCP initialize without a token; `/mcp` returns 404. Connector `Karta Assembly` re-created by Sean with the interim URL and Authentication None.
+
 ## Operating notes
 
 - The pilot runs one always-on instance with in-memory sign-in state. A redeploy or restart signs everyone out of the connector; they sign in again on next use. A durable store is a later improvement.
