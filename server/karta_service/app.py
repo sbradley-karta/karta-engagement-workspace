@@ -83,7 +83,9 @@ def create_app() -> FastMCP:
     from karta_assembler.deck import DEFAULT_TEMPLATE
     if not DEFAULT_TEMPLATE.exists():
         raise RuntimeError(f"Bundled template missing at {DEFAULT_TEMPLATE}. Refusing to start.")
-    mcp = FastMCP("Karta Assembly", auth=build_auth() if AUTH_MODE != "none" else None)
+    # Stateless HTTP: every request stands alone, so a cold start or a new instance never turns a
+    # connector's remembered session into a 404 (observed September 5, 2026 as "Connector is temporarily unavailable").
+    mcp = FastMCP("Karta Assembly", auth=build_auth() if AUTH_MODE != "none" else None, stateless_http=True)
 
     @mcp.custom_route("/status", methods=["GET"])
     async def status(_: Request) -> JSONResponse:

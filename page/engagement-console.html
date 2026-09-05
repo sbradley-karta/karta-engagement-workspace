@@ -835,11 +835,17 @@ input.in:disabled,select.in:disabled{opacity:.6}
     var b=$("btnDraft");b.textContent="Drafting…";$("barNote").textContent="Asking Claude — this runs on your seat.";
     try{
       var o=await sample.json(draftPrompt(),{modelTier:"complex"});
-      S.acc=(o.accomplishments||[]).map(String);S.pln=(o.planned||[]).map(String);
-      S.raid=(o.risks||[]).slice(0,6).map(function(r){return typeof r==="string"?{type:"Risk",description:r}:{type:r.type||"Risk",priority:["High","Medium","Low"].indexOf(r.priority)>=0?r.priority:"",description:String(r.description||""),mitigation:String(r.mitigation||""),status:""}});
-      S.rec={};var a=o.assessments||{};
-      Object.keys(SUBKEY).forEach(function(k){var v=a[SUBKEY[k]]||{};var st=SUB.indexOf(v.status)>=0?v.status:"Unknown";S.rec[k]=st;S.sub[k]=st;S.rat[k]=String(v.rationale||"");});
-      S.drafted=true;S.draftedAt=new Date().toISOString();S.changed={};
+      var keptRaid=S.raid.filter(function(r){return r.origin==="reviewer"&&r.description&&r.description.trim()});
+      var keptAcc=S.acc.filter(function(x){return (S.addedAcc||[]).indexOf(x)>=0}),keptPln=S.pln.filter(function(x){return (S.addedPln||[]).indexOf(x)>=0});
+      S.acc=(o.accomplishments||[]).map(String).concat(keptAcc);S.pln=(o.planned||[]).map(String).concat(keptPln);
+      var drafted=(o.risks||[]).slice(0,6).map(function(r){return typeof r==="string"?{type:"Risk",description:r,origin:"model"}:{type:r.type||"Risk",priority:["High","Medium","Low"].indexOf(r.priority)>=0?r.priority:"",description:String(r.description||""),mitigation:String(r.mitigation||""),status:"",origin:"model"}});
+      S.raid=drafted.concat(keptRaid);
+      S.rec={};var a=o.assessments||{};var prevChanged=S.changed||{};
+      Object.keys(SUBKEY).forEach(function(k){var v=a[SUBKEY[k]]||{};var st=SUB.indexOf(v.status)>=0?v.status:"Unknown";S.rec[k]=st;
+        if(!prevChanged["assessments."+SUBKEY[k]]){S.sub[k]=st;S.rat[k]=String(v.rationale||"");}});
+      S.drafted=true;S.draftedAt=new Date().toISOString();
+      var keep={};Object.keys(prevChanged).forEach(function(f){if(f.indexOf("assessments.")===0||f==="milestones.new_date")keep[f]=true;});S.changed=keep;
+      if(keptRaid.length)S.changed.raid=true;if(keptAcc.length)S.changed.accomplishments=true;if(keptPln.length)S.changed.planned_activities=true;
       S.draftedFields=["accomplishments","planned_activities","raid","assessments.scope_schedule","assessments.resources","assessments.data"];
       $("barNote").textContent="Draft ready — correct anything wrong, then approve.";
       await saveDraft();
@@ -848,15 +854,17 @@ input.in:disabled,select.in:disabled{opacity:.6}
       if(c==="not_granted"){b.hidden=true;$("barNote").innerHTML='<span class="err">Drafting needs your permission. Reload and allow to enable it.</span>';}
       else if(c==="rate_limited"){$("barNote").innerHTML='<span class="err">You are at your Claude usage limit. Try again later.</span>';}
       else{$("barNote").innerHTML='<span class="err">Draft failed: '+esc((e&&e.message)||"unknown")+'</span>';}
-    }finally{S.busy=false;if(!b.hidden){b.textContent=S.drafted?"Redraft narrative":"Draft this week’s status";}renderGate();}
+    }finally{S.busy=false;if(!b.hidden){b.textContent=S.drafted?"Redraft (keeps your additions and changed assessments)":"Draft this week’s status";}renderGate();}
   }
-  function draftDoc(){return {acc:S.acc,pln:S.pln,raid:S.raid,sub:S.sub,rat:S.rat,rec:S.rec,newDates:S.ms.reduce(function(o,m){if(m.new_date)o[m.source.id]=m.new_date;return o;},{}),
+  function draftDoc(){return {acc:S.acc,pln:S.pln,raid:S.raid,addedAcc:S.addedAcc||[],addedPln:S.addedPln||[],sub:S.sub,rat:S.rat,rec:S.rec,newDates:S.ms.reduce(function(o,m){if(m.new_date)o[m.source.id]=m.new_date;return o;},{}),
     drafted:S.drafted,draftedAt:S.draftedAt,draftedFields:S.draftedFields,changed:Object.keys(S.changed),asOf:S.asOf,updatedAt:new Date().toISOString(),clientId:CLIENT_ID};}
   var saveTimer=null;
   function saveDraftSoon(){dirty=true;if(!db||locked())return;clearTimeout(saveTimer);saveTimer=setTimeout(saveDraft,900);}
   async function saveDraft(){if(!db||locked())return;try{await db.doc(CFG.docRoot+"/status/draft").set(draftDoc());dirty=false;}catch(e){$("barNote").innerHTML='<span class="err">Draft kept here but not shared: '+esc((e&&e.message)||"write failed")+'</span>';}}
   function applyDraft(v){
-    if(!v)return;S.acc=v.acc||[];S.pln=v.pln||[];S.raid=v.raid||[];S.sub=v.sub||S.sub;S.rat=v.rat||S.rat;S.rec=v.rec||null;
+    if(!v)return;S.acc=(v.acc||[]).slice();S.pln=(v.pln||[]).slice();S.raid=(v.raid||[]).map(function(r){return Object.assign({},r)});
+    S.sub=Object.assign({},S.sub,v.sub||{});S.rat=Object.assign({},S.rat,v.rat||{});S.rec=v.rec?Object.assign({},v.rec):null;
+    S.addedAcc=(v.addedAcc||[]).slice();S.addedPln=(v.addedPln||[]).slice();
     S.drafted=!!v.drafted;S.draftedAt=v.draftedAt||null;S.draftedFields=v.draftedFields||[];S.changed={};(v.changed||[]).forEach(function(f){S.changed[f]=true;});
     S.carry=Object.assign({},S.carry,v.newDates||{});if(S.tasks)S.ms=buildMs(S.tasks);
   }
@@ -895,11 +903,11 @@ input.in:disabled,select.in:disabled{opacity:.6}
   }
   function applyApproved(av){
     if(!av||!av.approval)return;S.approved=av;S.version=av.approval.version;S.editing=false;
-    S.ms=(av.milestones||[]).map(function(m){return Object.assign({},m,{source:m.source||{system:"asana",id:""}})});
+    S.ms=(av.milestones||[]).map(function(m){return Object.assign({},m,{source:Object.assign({system:"asana",id:""},m.source||{})})});
     S.carry=S.ms.reduce(function(o,m){if(m.new_date)o[m.source.id]=m.new_date;return o;},{});
     S.sub={scope:av.assessments.scope_schedule.status,resources:av.assessments.resources.status,data:av.assessments.data.status};
     S.rat={scope:av.assessments.scope_schedule.rationale,resources:av.assessments.resources.rationale,data:av.assessments.data.rationale};
-    S.acc=av.accomplishments||[];S.pln=av.planned_activities||[];S.raid=(av.raid||[]).map(function(r){return Object.assign({priority:"",mitigation:"",status:""},r)});
+    S.acc=(av.accomplishments||[]).slice();S.pln=(av.planned_activities||[]).slice();S.raid=(av.raid||[]).map(function(r){return Object.assign({priority:"",mitigation:"",status:""},r)});
     var cc=av.correction_capture||{};S.rec=cc.model_recommended_assessments?{scope:cc.model_recommended_assessments.scope_schedule,resources:cc.model_recommended_assessments.resources,data:cc.model_recommended_assessments.data}:S.rec;
     S.drafted=true;S.draftedAt=S.draftedAt||av.approval.approved_at;
   }
@@ -978,9 +986,10 @@ input.in:disabled,select.in:disabled{opacity:.6}
     if(locked()&&b.id!=="btnReopen"&&b.id!=="btnGenerate")return;
     if(b.dataset.sub){var k=b.dataset.sub;S.sub[k]=SUB[(SUB.indexOf(S.sub[k])+1)%SUB.length];markChanged("assessments."+SUBKEY[k]);renderRoll();saveDraftSoon();return;}
     if(b.dataset.rm){var a=b.dataset.rm==="acc"?S.acc:S.pln;a.splice(+b.dataset.i,1);markChanged(b.dataset.rm==="acc"?"accomplishments":"planned_activities");renderList(b.dataset.rm==="acc"?"accList":"plnList",a,b.dataset.rm);renderBudget();saveDraftSoon();return;}
-    if(b.dataset.add){var inp=$(b.dataset.add==="acc"?"addAcc":"addPln"),v=inp.value.trim();if(!v)return;(b.dataset.add==="acc"?S.acc:S.pln).push(v);inp.value="";markChanged(b.dataset.add==="acc"?"accomplishments":"planned_activities");renderList(b.dataset.add==="acc"?"accList":"plnList",b.dataset.add==="acc"?S.acc:S.pln,b.dataset.add);renderBudget();saveDraftSoon();return;}
+    if(b.dataset.add){var inp=$(b.dataset.add==="acc"?"addAcc":"addPln"),v=inp.value.trim();if(!v)return;(b.dataset.add==="acc"?S.acc:S.pln).push(v);
+      if(b.dataset.add==="acc"){S.addedAcc=(S.addedAcc||[]).concat([v]);}else{S.addedPln=(S.addedPln||[]).concat([v]);}inp.value="";markChanged(b.dataset.add==="acc"?"accomplishments":"planned_activities");renderList(b.dataset.add==="acc"?"accList":"plnList",b.dataset.add==="acc"?S.acc:S.pln,b.dataset.add);renderBudget();saveDraftSoon();return;}
     if(b.dataset.rmraid!==undefined){S.raid.splice(+b.dataset.rmraid,1);markChanged("raid");renderRaid();saveDraftSoon();return;}
-    if(b.id==="btnAddRaid"){S.raid.push({type:"Risk",priority:"",description:"",mitigation:"",status:""});S.drafted=S.drafted||S.raid.length>0;markChanged("raid");renderRaid();return;}
+    if(b.id==="btnAddRaid"){S.raid.push({type:"Risk",priority:"",description:"",mitigation:"",status:"",origin:"reviewer"});S.drafted=S.drafted||S.raid.length>0;markChanged("raid");renderRaid();return;}
     if(b.id==="btnDraft"){doDraft();return;}
     if(b.id==="btnApprove"){doApprove();return;}
     if(b.id==="btnReopen"){S.editing=true;renderGate();return;}
