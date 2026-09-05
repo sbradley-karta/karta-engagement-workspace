@@ -1016,6 +1016,7 @@ input.in:disabled,select.in:disabled{opacity:.6}
       var v=snapData(doc);if(!v||S.approved||S.busy)return;
       if(v.clientId===CLIENT_ID)return;          /* our own write echoed back */
       if(dirty)return;                           /* never overwrite unsaved local edits */
+      if(S.drafted&&!v.drafted)return;           /* never regress a drafted page to a pre-draft doc */
       if(v.updatedAt&&S.draftedAt&&v.updatedAt<S.draftedAt)return;
       applyDraft(v);$("barNote").textContent="Showing the shared draft. Redraft only if the evidence changed.";renderAll();
     });
