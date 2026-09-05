@@ -70,7 +70,11 @@ The SharePoint write tools that a Claude session can use are not exposed to arti
 - Decision 18 mechanism must change. Recommendation: the assembly service writes the deck to SharePoint through Microsoft Graph with delegated permission granted at the member's Microsoft sign-in. Fallback: `downloads` hand-off to the member.
 - Contract bound for the page-to-service request: keep the approved-values document under 512 KB of JSON, with a hard check in the page.
 
-### Cleanup once Sean closes the gate
+### Cleanup, done September 5, 2026 by Sean
+
+Stub service deleted (confirmed by describe returning not found). Test connector removed. Test page republished with an empty capability set.
+
+### Cleanup commands used
 
 - Delete Cloud Run service `karta-assembly-stub` (Sean, from his terminal): `gcloud run services delete karta-assembly-stub --region us-central1 --project project-2c1b0888-6c19-4832-a90`
 - Remove the `Karta Assembly Test` connector from Organization settings, Connectors.
