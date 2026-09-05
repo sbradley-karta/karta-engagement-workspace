@@ -78,6 +78,15 @@ The Karta tenant does not allow users to consent to applications. The first sign
 
 After either, every member can connect without seeing a consent screen. The permissions are delegated only: the service can never act outside the signed-in member's own access.
 
+## Interim mode while tenant consent is pending (September 5, 2026)
+
+Sean's decision: run without sign-in until the admin approves, with members saving the deck to SharePoint themselves.
+
+- `server/deploy-interim.sh` deploys with `AUTH_MODE=none`, the endpoint on an unguessable path, minimum instances zero, and the bundled optimized KCG template as the base deck. The tool returns the deck as base64; the page hands it to the member through the viewer's save dialog and points at the Status and Steer Co folder.
+- Update the `Karta Assembly` connector in Organization settings: URL to the printed interim endpoint, Authentication to None. Members click Connect; no sign-in appears.
+- What the open endpoint exposes: compute on one instance and the ability to render a Karta-branded deck from caller-supplied content. It stores nothing and reaches no Karta data, because the Graph path needs a member token that does not exist in this mode.
+- To return to the target design after consent: run `server/deploy.sh`, set the connector URL back to `/mcp` with Authentication Always required. The page needs no change; it follows the `delivery` field the service returns.
+
 ## Operating notes
 
 - The pilot runs one always-on instance with in-memory sign-in state. A redeploy or restart signs everyone out of the connector; they sign in again on next use. A durable store is a later improvement.

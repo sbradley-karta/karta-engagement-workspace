@@ -3,5 +3,5 @@ __pycache__/
 .venv/
 .env
 *.pptx
-!assembler/templates/*.pptx
+!assembler/karta_assembler/templates/*.pptx
 .DS_Store

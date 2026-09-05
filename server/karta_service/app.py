@@ -8,6 +8,7 @@ Configuration is by environment variable. Secrets arrive from Google Secret Mana
 """
 from __future__ import annotations
 
+import base64
 import hashlib
 import os
 from datetime import datetime, timezone
@@ -25,6 +26,8 @@ from karta_assembler.optimize import optimize_pptx
 
 from . import graph
 
+AUTH_MODE = os.environ.get("AUTH_MODE", "entra")  # entra | none (interim, download delivery only)
+MCP_PATH = os.environ.get("MCP_PATH", "/mcp")
 OWNER = os.environ.get("SUPPORT_OWNER", "Karta AI strategy")
 SUPPORT = os.environ.get("SUPPORT_ROUTE", "Message Sean Bradley")
 
@@ -58,7 +61,9 @@ def obo_config() -> graph.OboConfig:
     )
 
 
-def caller_identity() -> tuple[str, dict]:
+def caller_identity() -> tuple[Optional[str], dict]:
+    if AUTH_MODE == "none":
+        return None, {}
     tok = get_access_token()
     if tok is None:
         raise PermissionError("No signed-in member on this request.")
@@ -75,7 +80,7 @@ def failed(code: str, message: str, **extra: Any) -> dict:
 
 
 def create_app() -> FastMCP:
-    mcp = FastMCP("Karta Assembly", auth=build_auth())
+    mcp = FastMCP("Karta Assembly", auth=build_auth() if AUTH_MODE != "none" else None)
 
     @mcp.custom_route("/status", methods=["GET"])
     async def status(_: Request) -> JSONResponse:
@@ -85,6 +90,9 @@ def create_app() -> FastMCP:
     async def whoami() -> dict:
         """Confirm the signed-in member and that the service may act for them in Microsoft Graph."""
         upstream, claims = caller_identity()
+        if AUTH_MODE == "none":
+            return {"state": "ok", "auth_mode": "none", "delivery": "download", "service_version": SERVICE_VERSION,
+                    "note": "Interim mode: no sign-in, decks are returned to the page for the member to save."}
         try:
             async with httpx.AsyncClient(timeout=30) as client:
                 gt = await graph.graph_token(obo_config(), upstream, client)
@@ -94,44 +102,65 @@ def create_app() -> FastMCP:
         return {"state": "ok", "signed_in_as": member_email(claims, profile), "display_name": profile.get("displayName"), "graph_consent": "granted", "service_version": SERVICE_VERSION}
 
     @mcp.tool
-    async def assemble_status_deck(approved_values: dict, base_deck: dict, destination: dict,
-                                   conflict_behavior: str = "rename", optimize: bool = True, drop_vector_logos: bool = False) -> dict:
-        """Build the Project Status deck from approved values and save it to the engagement's SharePoint folder as the signed-in member.
+    async def assemble_status_deck(approved_values: dict, base_deck: Optional[dict] = None, destination: Optional[dict] = None,
+                                   delivery: str = "sharepoint", conflict_behavior: str = "rename",
+                                   optimize: bool = True, drop_vector_logos: bool = False) -> dict:
+        """Build the Project Status deck from approved values.
 
         approved_values: the approved-values document (contracts v1). Refused unless it carries a named approval and its derived fields match their inputs.
-        base_deck: {"drive_id", "item_id"} of last week's deck or the template to build from.
-        destination: {"drive_id", "folder_item_id"} of the folder to save into.
-        Returns a deck-job style result with state Built or Failed, the SharePoint link, size, hash, and warnings.
+        base_deck: optional {"drive_id", "item_id"} of last week's deck. Fetched as the signed-in member. When omitted, or when the service runs without sign-in, the bundled KCG template is the base.
+        destination: {"drive_id", "folder_item_id"} of the SharePoint folder, required for delivery "sharepoint".
+        delivery: "sharepoint" saves the deck as the signed-in member and returns the link. "download" returns the deck bytes as base64 for the page to hand to the member. Without sign-in only "download" is possible.
+        Returns a deck-job style result with state Built or Failed.
         """
         upstream, claims = caller_identity()
         started = datetime.now(timezone.utc).isoformat()
         if conflict_behavior not in ("rename", "replace", "fail"):
             return failed("bad_request", "conflict_behavior must be rename, replace, or fail.")
+        if AUTH_MODE == "none":
+            delivery = "download"
+        if delivery not in ("sharepoint", "download"):
+            return failed("bad_request", "delivery must be sharepoint or download.")
+        item: dict = {}
         try:
             async with httpx.AsyncClient(timeout=120) as client:
-                gt = await graph.graph_token(obo_config(), upstream, client)
-                base = await graph.download_item(gt, base_deck["drive_id"], base_deck["item_id"], client)
+                gt = None
+                base = None
+                if upstream is not None and base_deck:
+                    gt = await graph.graph_token(obo_config(), upstream, client)
+                    base = await graph.download_item(gt, base_deck["drive_id"], base_deck["item_id"], client)
                 data, manifest = build_deck(base, approved_values)
                 report = None
                 if optimize:
                     data, report = optimize_pptx(data, drop_svg=drop_vector_logos)
-                item = await graph.upload_file(gt, destination["drive_id"], destination["folder_item_id"], manifest.filename, data, client, conflict=conflict_behavior)
+                if delivery == "sharepoint":
+                    if not destination:
+                        return failed("bad_request", "destination is required to save to SharePoint.")
+                    gt = gt or await graph.graph_token(obo_config(), upstream, client)
+                    item = await graph.upload_file(gt, destination["drive_id"], destination["folder_item_id"], manifest.filename, data, client, conflict=conflict_behavior)
         except ApprovedValuesError as e:
             return failed("approved_values_rejected", str(e))
         except graph.GraphError as e:
             return failed(e.code, e.message)
         except KeyError as e:
             return failed("bad_request", f"Missing field {e.args[0]!r} in the request.")
+        deck = {
+            "filename": item.get("name", manifest.filename),
+            "size_bytes": len(data),
+            "sha256": hashlib.sha256(data).hexdigest(),
+            "written_as": member_email(claims) if upstream else None,
+            "base": "sharepoint_deck" if base is not None else "bundled_template",
+        }
+        if delivery == "sharepoint":
+            deck["sharepoint_web_url"] = item.get("webUrl")
+            deck["sharepoint_item_id"] = item.get("id")
+        else:
+            deck["content_base64"] = base64.b64encode(data).decode("ascii")
         return {
             "state": "Built",
-            "deck": {
-                "filename": item.get("name", manifest.filename),
-                "size_bytes": len(data),
-                "sha256": hashlib.sha256(data).hexdigest(),
-                "sharepoint_web_url": item.get("webUrl"),
-                "sharepoint_item_id": item.get("id"),
-                "written_as": member_email(claims),
-            },
+            "delivery": delivery,
+            "auth_mode": AUTH_MODE,
+            "deck": deck,
             "warnings": manifest.warnings,
             "optimization": report,
             "approved_values_sha256": manifest.approved_values_sha256,
@@ -144,4 +173,4 @@ def create_app() -> FastMCP:
 
 
 if __name__ == "__main__":
-    create_app().run(transport="http", host="0.0.0.0", port=int(os.environ.get("PORT", "8080")), path="/mcp")
+    create_app().run(transport="http", host="0.0.0.0", port=int(os.environ.get("PORT", "8080")), path=MCP_PATH)

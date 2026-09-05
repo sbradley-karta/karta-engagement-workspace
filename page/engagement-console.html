@@ -498,7 +498,8 @@ input.in:disabled,select.in:disabled{opacity:.6}
     /* Engagement configuration pointers. Identifiers only, no client facts. */
     dest:{driveId:"b!Iz0EH_LY40q5fxSIIqX6dUwmpS7DAARPnOZ1DlTZ2QS7kycWN8VATLM5YHSC_qsZ",
           folderId:"01FIBLTRS2JTME2G3L7VBIYVITYLUBCQ7V",
-          label:"doTERRA / 03_Raw Materials Planning / 00 - Project Management / Status & Steer Co"},
+          label:"doTERRA / 03_Raw Materials Planning / 00 - Project Management / Status & Steer Co",
+          webUrl:"https://kartaconsultinggroup.sharepoint.com/sites/KartaConsultingGroupDocuments/Documents/Firmwide - General & Delivery/Delivery/_Client Projects/doTERRA/03_Raw Materials Planning/00 - Project Management/Status & Steer Co"},
     docRoot:"engagements/doterra-rmpp",
     /* Engagement plan — the only values on this page not read live. Edit here. */
     phases:[
@@ -520,7 +521,7 @@ input.in:disabled,select.in:disabled{opacity:.6}
          rat:{scope:"",resources:"",data:""},rec:null,acc:[],pln:[],raid:[],
          drafted:false,draftedAt:null,draftedFields:[],changed:{},
          approved:null,version:0,editing:true,jobs:[],assembly:null,busy:false};
-  var db=null,sample=null,mcp=null;
+  var db=null,sample=null,mcp=null,downloads=null;
   var $=function(i){return document.getElementById(i)};
   var esc=function(s){var d=document.createElement("div");d.textContent=s==null?"":String(s);return d.innerHTML};
 
@@ -742,24 +743,23 @@ input.in:disabled,select.in:disabled{opacity:.6}
     $("narrSrc").textContent=S.approved&&!S.editing?"approved":(S.drafted?"draft, under review":"not drafted");
   }
   function renderGenerate(){
-    var ready=!!S.approved&&!S.editing&&S.assembly===true&&!!S.deck&&!S.busy;
+    var ready=!!S.approved&&!S.editing&&S.assembly===true&&!S.busy;
     $("genState").textContent=S.approved?(S.jobs[0]?S.jobs[0].state:"ready"):"step 4";
     $("btnGenerate").disabled=!ready;
     var info=[{t:"Approved values",s:S.approved?"Version "+S.version+", approved by "+S.approved.approval.reviewer_name:"Not approved yet"},
-      {t:"Base deck",s:S.deck?S.deck.name:"No previous deck found in SharePoint"},
+      {t:"Base deck",s:S.deck?S.deck.name+" when the service can read SharePoint, otherwise the KCG template":"KCG template (no previous deck found)"},
       {t:"Destination",s:CFG.dest.label}];
     $("genInfo").innerHTML=info.map(function(r){return '<div class="sr"><span class="ib"><svg class="ic" viewBox="0 0 20 20"><use href="#i-doc"/></svg></span><span><div class="t">'+esc(r.t)+'</div><div class="s">'+esc(r.s)+'</div></span><span></span></div>';}).join("");
     if(!S.approved)$("genNote").textContent="Approve first. The deck is built by the Karta assembly service and saved to the engagement’s SharePoint folder as you. Nothing is sent.";
     else if(S.editing)$("genNote").textContent="Approve the reopened values before generating.";
     else if(S.assembly===false)$("genNote").textContent="Add the Karta Assembly connector under Customize, Connectors, sign in with your Karta Microsoft account, then reload.";
-    else if(!S.deck)$("genNote").textContent="A previous deck is needed as the base. Building a first deck from the template is not yet available.";
-    else if(!S.busy)$("genNote").textContent="Builds the deck from the approved values and saves it to SharePoint as you.";
+    else if(!S.busy)$("genNote").textContent="Builds the deck from the approved values. Saved to SharePoint as you when the service can sign you in; otherwise handed to you to save.";
     renderJobs();
   }
   function renderJobs(){
     var h=$("jobHist");if(!S.jobs.length){h.innerHTML="";return;}
     h.innerHTML='<div class="lbl" style="margin:10px 0 4px">Deck history</div>'+S.jobs.slice(0,5).map(function(j){
-      var d=j.deck||{};var link=d.sharepoint_web_url?'<a class="link" href="'+esc(d.sharepoint_web_url)+'" target="_blank" rel="noopener">Open in SharePoint</a>':'';
+      var d=j.deck||{};var link=d.sharepoint_web_url?'<a class="link" href="'+esc(d.sharepoint_web_url)+'" target="_blank" rel="noopener">Open in SharePoint</a>':(j.delivery==="download"?'<span class="s" style="font-size:12px;color:var(--muted)">'+(d.saved_by_member?"saved by member":"not saved")+'</span>':'');
       return '<div class="job"><span class="st2">'+esc(j.state)+'</span><span><div class="nm" style="font-size:13px">'+esc(d.filename||("Job "+j.job_id.slice(0,8)))+'</div><div class="s" style="font-size:12px;color:var(--muted)">'+esc(new Date(j.updated_at).toLocaleString())+(d.written_as?" · written as "+esc(d.written_as):"")+(j.error?" · "+esc(j.error.message):"")+'</div></span>'+link+'</div>';}).join("");
   }
   function renderGate(){renderSteps();renderSources();renderRoll();renderMs();renderList("accList",S.acc,"acc");renderList("plnList",S.pln,"pln");renderBudget();renderRaid();renderApprove();renderGenerate();}
@@ -912,7 +912,7 @@ input.in:disabled,select.in:disabled{opacity:.6}
     case "tool_error":return "The assembly service reported a problem. See the message.";
     default:return "";}}
   async function doGenerate(){
-    if(!mcp||!S.approved||S.editing||!S.deck)return;
+    if(!mcp||!S.approved||S.editing)return;
     S.busy=true;renderGenerate();$("genNote").textContent="Building the deck…";
     var now=new Date().toISOString(),jobId=(crypto.randomUUID?crypto.randomUUID():String(Date.now()));
     var job={schema_version:"1.0",job_id:jobId,engagement_id:CFG.engagementId,approved_values:{version:S.version,sha256:await sha256(stable(S.approved))},
@@ -921,11 +921,27 @@ input.in:disabled,select.in:disabled{opacity:.6}
       if(db){try{await db.doc(CFG.docRoot+"/jobs/"+jobId).set(job);}catch(e){}}}
     await save();job.state="Building";await save();
     try{
-      var r=await mcp.callTool(CFG.assembly,"assemble_status_deck",
-        {approved_values:S.approved,base_deck:{drive_id:S.deck.driveId,item_id:S.deck.id},destination:{drive_id:CFG.dest.driveId,folder_item_id:CFG.dest.folderId}},{cache:false});
+      var args={approved_values:S.approved,destination:{drive_id:CFG.dest.driveId,folder_item_id:CFG.dest.folderId},delivery:"sharepoint"};
+      if(S.deck)args.base_deck={drive_id:S.deck.driveId,item_id:S.deck.id};
+      var r=await mcp.callTool(CFG.assembly,"assemble_status_deck",args,{cache:false});
       var p=r.payload||{};
-      if(p.state==="Built"&&p.deck){job.state="Built";job.deck=p.deck;job.warnings=p.warnings||[];job.service_version=p.service_version;
-        $("genNote").innerHTML='Saved to SharePoint as '+esc(p.deck.written_as||"you")+'. <a class="link" href="'+esc(p.deck.sharepoint_web_url||"#")+'" target="_blank" rel="noopener">Open in PowerPoint</a>'+(job.warnings.length?'<span class="warnnote"> · '+esc(job.warnings.join(" "))+'</span>':'');}
+      if(p.state==="Built"&&p.deck){
+        job.warnings=p.warnings||[];job.service_version=p.service_version;job.delivery=p.delivery||"sharepoint";
+        var d=Object.assign({},p.deck);var b64=d.content_base64;delete d.content_base64;job.deck=d;
+        if(job.delivery==="download"&&b64){
+          job.state="Built";
+          if(!downloads){$("genNote").innerHTML='<span class="err">The deck was built but this view cannot save files. Open the page in the Claude viewer and generate again.</span>';}
+          else{
+            try{var bin=atob(b64),u=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);
+              await downloads.save({filename:d.filename,data:u});job.deck.saved_by_member=true;
+              $("genNote").innerHTML='Deck saved to your computer. Upload it to <a class="link" href="'+esc(CFG.dest.webUrl)+'" target="_blank" rel="noopener">Status &amp; Steer Co</a> in SharePoint.'+(job.warnings.length?'<span class="warnnote"> · '+esc(job.warnings.join(" "))+'</span>':'');}
+            catch(de){var dc=de&&de.code;job.deck.saved_by_member=false;
+              $("genNote").innerHTML='<span class="err">'+(dc==="declined"?"Save cancelled. Generate again when ready.":dc==="rate_limited"?"A save prompt is already open. Answer it, then try again.":"The deck was built but could not be saved here: "+esc((de&&de.message)||dc||"unknown"))+'</span>';}
+          }
+        } else {
+          job.state="Built";
+          $("genNote").innerHTML='Saved to SharePoint as '+esc(d.written_as||"you")+'. <a class="link" href="'+esc(d.sharepoint_web_url||"#")+'" target="_blank" rel="noopener">Open in PowerPoint</a>'+(job.warnings.length?'<span class="warnnote"> · '+esc(job.warnings.join(" "))+'</span>':'');
+        }}
       else{job.state="Failed";job.error=p.error||{code:"unexpected",message:"The service returned an unexpected result.",owner:"Karta AI strategy"};
         $("genNote").innerHTML='<span class="err">'+esc(job.error.message)+(job.error.owner?" Owner: "+esc(job.error.owner)+".":"")+'</span>';}
     }catch(e){
@@ -1000,6 +1016,7 @@ input.in:disabled,select.in:disabled{opacity:.6}
     try{d.collection(CFG.docRoot+"/jobs").orderBy("requested_at","desc").limit(8).onSnapshot(function(s){var docs=snapDocs(s);if(docs.length){S.jobs=docs;renderGate();}});}catch(e){}
   }).catch(function(){});
   C.use("mcp").then(function(m){if(!m){S.tasks=[];S.assembly=false;$("mcSync").textContent="Sources unavailable";renderAll();return;}wireMcp(m);}).catch(function(){});
+  C.use("downloads").then(function(d){downloads=d||null;}).catch(function(){});
   C.use("sample").then(function(s){if(!s){$("btnDraft").hidden=true;$("barNote").textContent="Drafting is unavailable in this view.";return;}sample=s;renderApprove();if(!S.drafted)$("barNote").textContent="Ready to draft.";}).catch(function(){});
 })();
 </script>

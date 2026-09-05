@@ -8,5 +8,6 @@ karta_assembler.egg-info/SOURCES.txt
 karta_assembler.egg-info/dependency_links.txt
 karta_assembler.egg-info/requires.txt
 karta_assembler.egg-info/top_level.txt
+karta_assembler/templates/KCG_Status_Template.pptx
 tests/test_deck.py
 tests/test_status.py

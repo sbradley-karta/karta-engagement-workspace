@@ -46,3 +46,27 @@ def test_app_constructs_and_exposes_tools():
             return sorted(t.name for t in await c.list_tools())
 
     assert asyncio.run(names()) == ["assemble_status_deck", "whoami"]
+
+
+def test_none_mode_builds_from_bundled_template_and_returns_bytes(monkeypatch):
+    import asyncio, base64, importlib, sys
+    monkeypatch.setenv("AUTH_MODE", "none")
+    sys.modules.pop("karta_service.app", None)
+    app_mod = importlib.import_module("karta_service.app")
+    app = app_mod.create_app()
+    sys.path.insert(0, str(__import__("pathlib").Path(__file__).resolve().parents[2] / "assembler" / "tests"))
+    from test_deck import approved
+    from fastmcp import Client
+
+    async def run():
+        async with Client(app) as c:
+            who = await c.call_tool("whoami", {})
+            r = await c.call_tool("assemble_status_deck", {"approved_values": approved()})
+            return who.data, r.data
+
+    who, res = asyncio.run(run())
+    assert who["auth_mode"] == "none"
+    assert res["state"] == "Built" and res["delivery"] == "download" and res["deck"]["base"] == "bundled_template"
+    raw = base64.b64decode(res["deck"]["content_base64"])
+    assert raw[:2] == b"PK" and len(raw) == res["deck"]["size_bytes"] and len(raw) < 1_500_000
+    sys.modules.pop("karta_service.app", None)

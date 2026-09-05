@@ -15,6 +15,7 @@ import io
 import json
 import math
 from dataclasses import dataclass, field
+from pathlib import Path
 from datetime import date, datetime
 from typing import Optional
 
@@ -24,7 +25,8 @@ from pptx.oxml.ns import qn
 
 from .status import AssessmentStatus, derive_milestone_status, rollup_overall, status_period, variance_days
 
-SERVICE_VERSION = "0.1.0"
+SERVICE_VERSION = "0.2.0"
+DEFAULT_TEMPLATE = Path(__file__).parent / "templates" / "KCG_Status_Template.pptx"
 MAX_APPROVED_BYTES = 524_288
 LINE_CHARS = 48
 LINE_BUDGET = 14
@@ -194,7 +196,14 @@ def validate_approved_values(av: dict) -> None:
 
 # --- build -------------------------------------------------------------------
 
-def build_deck(base_pptx: bytes, av: dict) -> tuple[bytes, Manifest]:
+def default_base_deck() -> bytes:
+    """The bundled, optimized KCG status template. Used when no previous deck is supplied."""
+    return DEFAULT_TEMPLATE.read_bytes()
+
+
+def build_deck(base_pptx: Optional[bytes], av: dict) -> tuple[bytes, Manifest]:
+    if base_pptx is None:
+        base_pptx = default_base_deck()
     validate_approved_values(av)
     manifest = Manifest(filename=deck_filename(av["engagement"]["client"], av["as_of"]))
     manifest.approved_values_sha256 = hashlib.sha256(json.dumps(av, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
