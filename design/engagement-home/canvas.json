@@ -1,84 +1,150 @@
 {
+  "pages": [
+    {
+      "id": "round-2",
+      "name": "Round 2 \u00b7 viewport shell"
+    },
+    {
+      "id": "round-1",
+      "name": "Round 1 \u00b7 scrolling page"
+    }
+  ],
   "artboards": [
     {
       "file": "Main.dc.html",
-      "title": "Leading candidate (Option A)",
+      "title": "Leading candidate (Option D)",
       "x": 0,
       "y": 0,
       "w": 1440,
-      "h": 1780
+      "h": 900,
+      "page": "round-2"
+    },
+    {
+      "file": "OptionD.dc.html",
+      "title": "Option D \u00b7 Rail and drawer",
+      "x": 1560,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "page": "round-2"
+    },
+    {
+      "file": "OptionDCollapsed.dc.html",
+      "title": "Option D \u00b7 chat minimized",
+      "x": 3120,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "page": "round-2"
+    },
+    {
+      "file": "OptionE.dc.html",
+      "title": "Option E \u00b7 Sidebar and floating chat",
+      "x": 1560,
+      "y": 1080,
+      "w": 1440,
+      "h": 900,
+      "page": "round-2"
+    },
+    {
+      "file": "OptionF.dc.html",
+      "title": "Option F \u00b7 Tabs and chat rail",
+      "x": 3120,
+      "y": 1080,
+      "w": 1440,
+      "h": 900,
+      "page": "round-2"
+    },
+    {
+      "file": "OptionDCharcoal.dc.html",
+      "title": "Option D \u00b7 charcoal",
+      "x": 0,
+      "y": 1080,
+      "w": 1440,
+      "h": 900,
+      "page": "round-2"
     },
     {
       "file": "OptionA.dc.html",
       "title": "Option A \u00b7 Journey first",
-      "x": 1560,
+      "x": 0,
       "y": 0,
       "w": 1440,
-      "h": 1780
+      "h": 1780,
+      "page": "round-1"
     },
     {
       "file": "OptionB.dc.html",
       "title": "Option B \u00b7 Control point first",
-      "x": 3120,
+      "x": 1560,
       "y": 0,
       "w": 1440,
-      "h": 1620
+      "h": 1620,
+      "page": "round-1"
     },
     {
       "file": "OptionC.dc.html",
       "title": "Option C \u00b7 Ask first",
-      "x": 4680,
+      "x": 3120,
       "y": 0,
       "w": 1440,
-      "h": 1700
+      "h": 1700,
+      "page": "round-1"
     },
     {
       "file": "OptionACharcoal.dc.html",
       "title": "Option A \u00b7 charcoal",
-      "x": 1560,
-      "y": 1940,
+      "x": 4680,
+      "y": 0,
       "w": 1440,
-      "h": 1780
+      "h": 1780,
+      "page": "round-1"
     }
   ],
   "annotations": [
     {
-      "id": "read-me",
+      "id": "r2-brief",
       "x": 0,
-      "y": -260,
+      "y": -220,
       "w": 1440,
-      "text": "Engagement Home, Gate 5 direction options. Static mockups, not clickable. doTERRA content is sample data; Train, Deploy and Continuous Support dates are illustrative. All three share the Karta design system, the seven-stage journey with parallel workstreams, a next control point, deliverable states, an attention list, evidence and decisions, Ask this project labelled Beta, and a route to the catalog by stage and readiness. They differ in what leads."
+      "page": "round-2",
+      "text": "Round 2. Every option is a fixed 1440 by 900 application shell: no page scroll, the grid stretches to the viewport, and only long lists scroll inside their own card. Navigation for multiple areas is built in. Chat is a drawer, a floating panel, or a rail. Content is the same across options; doTERRA is sample data."
     },
     {
-      "id": "option-a",
+      "id": "opt-d",
       "x": 1560,
-      "y": -200,
+      "y": -160,
       "w": 420,
-      "text": "Option A \u00b7 Journey first\nMotivation: the lifecycle is the organizing model, so the dated journey with its parallel lanes is the first thing the eye lands on, then the current stage, then the attention rail. Closest to today's console, lowest change for pilot users.\nTrade-off: the next control point sits below the fold on smaller screens, and the journey band spends a lot of height on stages that are months away."
+      "page": "round-2",
+      "text": "Option D \u00b7 Rail and drawer\nA 76 px icon rail for areas (Home, Weekly status, Milestones, RAID, Decisions, Artifacts, Catalog) with an engagement switcher in the top bar. Ask this project opens as a 360 px right drawer from the top bar and minimizes to a pill; the grid re-flows to three columns when it is closed (next artboard).\nTrade-off: rail labels are terse, and the drawer takes a quarter of the width while open."
     },
     {
-      "id": "option-b",
+      "id": "opt-e",
+      "x": 1560,
+      "y": 920,
+      "w": 420,
+      "page": "round-2",
+      "text": "Option E \u00b7 Sidebar and floating chat\nA 248 px sidebar carries the engagement name, area navigation, and the seven lifecycle stages as a live list, which frees the main area from the journey strip. Chat floats bottom-right over content and minimizes to a pill.\nTrade-off: the floating panel covers part of the evidence column while open, and the sidebar spends width on stage names that rarely change."
+    },
+    {
+      "id": "opt-f",
       "x": 3120,
-      "y": -200,
+      "y": 920,
       "w": 420,
-      "text": "Option B \u00b7 Control point first\nMotivation: the ten control gates in the inventory become the spine. One large card carries the current stage, its objective, the next gate with evidence readiness, deliverable states and two actions; the journey shrinks to a dated strip inside it. Attention, evidence and Ask sit in three equal columns.\nTrade-off: Ask this project is one column among three rather than a hero, and the compact strip shows parallel workstreams only as text."
+      "page": "round-2",
+      "text": "Option F \u00b7 Tabs and chat rail\nArea tabs under the top bar keep the full width for content; a persistent 340 px chat rail sits on the right and collapses to an edge tab. The journey strip stays in the main area.\nTrade-off: least room for the Now panel, and a permanently visible chat gives a Beta capability the most real estate of the three."
     },
     {
-      "id": "option-c",
-      "x": 4680,
-      "y": -200,
-      "w": 420,
-      "text": "Option C \u00b7 Ask first\nMotivation: you asked to bring Ask this project forward. Here it is the hero with suggested questions, framed as the way into the project's memory. The journey strip and the Now panel follow, attention on the right.\nTrade-off: leads with a Beta capability whose answers today come from task data only, and it reads more like a chat product than a delivery workspace. Strongest once Project Chat is grounded in the approved record."
-    },
-    {
-      "id": "charcoal",
-      "x": 1560,
-      "y": 1860,
-      "w": 420,
-      "text": "Option A in charcoal. Same hierarchy, density, status language and interaction model as the light version; neutral charcoal surfaces with the lifted Salem accent, never navy."
+      "id": "r1-note",
+      "x": 0,
+      "y": -160,
+      "w": 600,
+      "page": "round-1",
+      "text": "Round 1, kept for reference. Rejected on Sep 6: these are scrolling pages and do not use the full viewport."
     }
   ],
   "launch": {
-    "view": "canvas"
+    "view": "canvas",
+    "page": "round-2"
   }
 }
