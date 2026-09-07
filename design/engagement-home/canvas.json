@@ -1,6 +1,10 @@
 {
   "pages": [
     {
+      "id": "final",
+      "name": "Final \u00b7 Option D"
+    },
+    {
       "id": "round-2",
       "name": "Round 2 \u00b7 viewport shell"
     },
@@ -12,12 +16,30 @@
   "artboards": [
     {
       "file": "Main.dc.html",
-      "title": "Leading candidate (Option D)",
+      "title": "Engagement Home \u00b7 light",
       "x": 0,
       "y": 0,
       "w": 1440,
       "h": 900,
-      "page": "round-2"
+      "page": "final"
+    },
+    {
+      "file": "MainMinimized.dc.html",
+      "title": "Engagement Home \u00b7 chat minimized",
+      "x": 1560,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "page": "final"
+    },
+    {
+      "file": "MainCharcoal.dc.html",
+      "title": "Engagement Home \u00b7 charcoal",
+      "x": 0,
+      "y": 1080,
+      "w": 1440,
+      "h": 900,
+      "page": "final"
     },
     {
       "file": "OptionD.dc.html",
@@ -103,6 +125,14 @@
   ],
   "annotations": [
     {
+      "id": "final-note",
+      "x": 0,
+      "y": -200,
+      "w": 1440,
+      "page": "final",
+      "text": "Final direction, approved Sep 6: Option D with two changes. No engagement switcher, because each engagement workspace is independent by design; the engagement name is static in the top bar. Sources are exposed as individual chips in the headline row so an issue or a missing source is visible at a glance: Asana, SharePoint, Karta Assembly, Granola, Harvest, RAID log. Green dot means read within the freshness window, grey dashed means not connected, red dashed means missing evidence the deck will record as a gap. Each chip opens its detail and fix. Being implemented on the console."
+    },
+    {
       "id": "r2-brief",
       "x": 0,
       "y": -220,
@@ -145,6 +175,6 @@
   ],
   "launch": {
     "view": "canvas",
-    "page": "round-2"
+    "page": "final"
   }
 }

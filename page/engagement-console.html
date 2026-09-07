@@ -251,6 +251,98 @@ input.in:disabled,select.in:disabled{opacity:.6}
 .warnnote{font-size:12.5px;color:var(--warn)}
 .gh+.sub{font-size:13.5px;color:var(--muted);margin-top:4px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* application shell */
+html,body{height:100%}
+body{overflow:hidden}
+.app{height:100vh;display:flex;flex-direction:column;overflow:hidden}
+.top{flex:none}
+.eng{display:flex;align-items:baseline;gap:8px;font-size:13.5px;font-weight:700;color:var(--ink);white-space:nowrap}
+.eng span{font-weight:500;color:var(--muted)}
+.body{flex:1;min-height:0;display:flex}
+.rail{width:100px;flex:none;background:var(--topbar);border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 8px;overflow:hidden}
+.rail button.nv{display:flex;flex-direction:column;align-items:center;gap:4px;padding:7px 4px;border-radius:8px;width:84px;background:none;border:0;cursor:pointer;color:var(--muted);font-family:var(--sans)}
+.rail button.nv .ic{width:18px;height:18px}
+.rail button.nv span{font-size:10px;font-weight:600;text-align:center;line-height:1.15}
+.rail button.nv:hover{color:var(--ink);background:var(--raise)}
+.rail button.nv.on{background:var(--accent-soft);color:var(--accent-2)}
+.rail .spacer{flex:1}
+.rail .srclbl{font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin:6px 0 2px;align-self:flex-start;padding-left:4px}
+.srcs{display:flex;flex-direction:column;gap:3px;width:84px}
+.sch{display:flex;align-items:center;gap:6px;width:100%;font-size:10px;font-weight:600;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:4px 6px;white-space:nowrap;overflow:hidden;cursor:pointer;font-family:var(--sans);text-align:left}
+.sch:hover{border-color:var(--line-strong)}
+.sch .d{width:7px;height:7px;border-radius:50%;flex:none;background:var(--faint)}
+.sch.ok .d{background:var(--accent-2)} .sch.warn .d{background:var(--warn)} .sch.risk .d{background:var(--risk)} .sch.off{border-style:dashed;color:var(--muted)} .sch.risk{border-style:dashed}
+.pop{position:fixed;z-index:20;width:320px;background:var(--surface);border:1px solid var(--line-strong);border-radius:10px;padding:12px 14px;box-shadow:0 10px 28px rgba(17,58,42,.14);font-size:12.5px;color:var(--text)}
+.pop .t{font-weight:700;color:var(--ink);margin-bottom:4px}
+.pop .fix{margin-top:8px;color:var(--muted)}
+.main{flex:1;min-width:0;min-height:0;display:flex;flex-direction:column;overflow:hidden}
+.view{flex:1;min-height:0;display:flex;flex-direction:column;padding:16px 20px;gap:12px}
+.view.scroll{overflow:auto}
+.view.scroll .page{padding:0 0 32px;max-width:none}
+.hrow{display:flex;align-items:center;justify-content:space-between;gap:16px;flex:none}
+.hrow h2{font-weight:800;font-size:24px;letter-spacing:-.03em;color:var(--ink)}
+.hrow .meta{font-size:12.5px;color:var(--muted)}
+.strip{display:flex;gap:8px;flex:none}
+.stg{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;padding:9px 12px;border-radius:8px;border:1px solid var(--line-strong);background:var(--surface);color:var(--ink)}
+.stg .n{display:flex;align-items:flex-start;gap:8px;font-size:12.5px;font-weight:600;line-height:1.2}
+.stg .n i{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:700;border:1.5px solid currentColor;flex:none;font-style:normal}
+.stg .n i .ic{width:11px;height:11px;stroke-width:2.4}
+.stg .s{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stg.done{background:var(--accent-soft);color:var(--accent-2);border-color:var(--line)} .stg.done .s{color:var(--accent-2)}
+.stg.now{background:var(--accent);color:var(--on-accent);border-color:var(--accent)} .stg.now .s{color:var(--on-accent);opacity:.9}
+.stg.par{border:1px dashed var(--accent-2)}
+.stg.na{background:transparent;color:var(--faint);border:1px dashed var(--line-strong)} .stg.na .s{color:var(--faint)}
+.hgrid{flex:1;min-height:0;display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:14px}
+body.drawer-open .hgrid{grid-template-columns:1.7fr 1fr}
+body.drawer-open .hgrid #evCard{grid-column:2}
+.hcard{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;min-height:0;overflow:hidden}
+.hcard .ct{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:10px}
+.hcard .ct h3{font-weight:700;font-size:15px;letter-spacing:-.015em;color:var(--ink)}
+.hcard .ct .m{font-size:12px;color:var(--muted)}
+.hcard .list{display:flex;flex-direction:column;overflow:auto;min-height:0}
+.obj{font-size:12.5px;color:var(--muted);margin:-4px 0 10px}
+.cp{display:flex;flex-direction:column;gap:8px;padding:12px 14px;border-radius:10px;background:var(--accent-soft);border:1px solid var(--line)}
+.cp .h{display:flex;align-items:center;gap:8px} .cp .h .lbl{color:var(--accent-2)} .cp .h .ev{margin-left:auto;font-size:12px;font-weight:600;color:var(--warn)}
+.cp .nm{font-weight:700;font-size:15px;color:var(--ink);letter-spacing:-.01em}
+.cp .meta{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+.cp .evs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;font-size:11.5px}
+.cp .evs div{display:flex;align-items:center;gap:6px;padding:6px 8px;border-radius:6px;background:var(--surface);border:1px solid var(--line);color:var(--text);white-space:nowrap;overflow:hidden}
+.cp .evs i{width:7px;height:7px;border-radius:50%;flex:none;display:inline-block}
+.nowgrid{display:grid;grid-template-columns:1fr 1.25fr;gap:18px;margin-top:12px;min-height:0;overflow:hidden}
+.drow{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:7px 0;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink)}
+.tag2{font-size:11px;font-weight:600;padding:3px 9px;border-radius:6px;white-space:nowrap;background:var(--raise);color:var(--faint)}
+.tag2.ok{background:var(--chip);color:var(--chip-ink)} .tag2.warn{color:var(--warn)} .tag2.risk{color:var(--risk)}
+.rrow{display:grid;grid-template-columns:30px 1fr auto;gap:10px;align-items:center;padding:8px 0;border-top:1px solid var(--line)}
+.rrow .ib{width:30px;height:30px;border-radius:7px;background:var(--raise);border:1px solid var(--line);color:var(--accent-2);display:grid;place-items:center}
+.rrow .ib .ic{width:15px;height:15px}
+.rrow .tx{min-width:0} .rrow .tx b{display:block;font-size:12.5px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis} .rrow .tx span{display:block;font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.btn.xs{font-size:12px;padding:6px 12px;border-radius:7px}
+.arow{display:grid;grid-template-columns:28px 1fr 12px;gap:10px;align-items:center;padding:8px 0;border-top:1px solid var(--line);cursor:pointer;background:none;border-left:0;border-right:0;border-bottom:0;width:100%;text-align:left;font-family:var(--sans)}
+.arow:first-child{border-top:0}
+.arow .ib{width:28px;height:28px;border-radius:7px;background:var(--raise);border:1px solid var(--line);color:var(--muted);display:grid;place-items:center} .arow .ib .ic{width:14px;height:14px}
+.arow .tx{min-width:0} .arow .tx b{display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis} .arow .tx span{display:block;font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.arow .dot{width:6px;height:6px;border-radius:50%;background:var(--risk);flex:none}
+.erow{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;padding:8px 0;border-top:1px solid var(--line)}
+.erow:first-child{border-top:0}
+.erow .ib{width:28px;height:28px;border-radius:7px;background:var(--raise);border:1px solid var(--line);color:var(--muted);display:grid;place-items:center} .erow .ib .ic{width:14px;height:14px}
+.erow .tx{min-width:0} .erow .tx b{display:block;font-size:12.5px;font-weight:500;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis} .erow .tx span{display:block;font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.drawer{width:360px;flex:none;background:var(--surface);border-left:1px solid var(--line);padding:14px 16px;display:flex;flex-direction:column;min-height:0}
+.drawer .dh{display:flex;align-items:center;gap:8px;margin-bottom:10px} .drawer .dh b{font-weight:700;font-size:14px;color:var(--ink)}
+.drawer .dh .ib{margin-left:auto;display:flex;gap:6px} .drawer .dh .ib button{width:26px;height:26px;border-radius:6px;border:1px solid var(--line);background:none;color:var(--muted);display:grid;place-items:center;cursor:pointer} .drawer .dh .ib button .ic{width:14px;height:14px}
+.beta{font-size:9.5px;font-weight:700;letter-spacing:.1em;color:var(--chip-ink);background:var(--chip);border-radius:4px;padding:1px 6px}
+.msgs{flex:1;min-height:0;overflow:auto;display:flex;flex-direction:column;gap:10px}
+.msg.q{align-self:flex-end;max-width:85%;font-size:12.5px;padding:8px 12px;border-radius:10px 10px 2px 10px;background:var(--accent);color:var(--on-accent)}
+.msg.a{align-self:flex-start;max-width:92%;display:flex;flex-direction:column;gap:8px;font-size:12.5px;padding:10px 12px;border-radius:10px 10px 10px 2px;background:var(--raise);border:1px solid var(--line);color:var(--text);white-space:pre-wrap}
+.cites{display:flex;gap:6px;flex-wrap:wrap} .cites span{font-size:10.5px;color:var(--accent-2);background:var(--accent-soft);border-radius:4px;padding:2px 6px}
+.sug{display:flex;gap:6px;flex-wrap:wrap} .sug button{font-size:11.5px;color:var(--text);background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:4px 10px;cursor:pointer;font-family:var(--sans);text-align:left} .sug button:hover{border-color:var(--line-strong)}
+.dinput{display:flex;align-items:center;gap:8px;margin-top:10px} .dinput input{flex:1;min-width:0;height:38px;font-family:var(--sans);font-size:12.5px;padding:0 12px;border:1px solid var(--line);border-radius:8px;background:var(--raise);color:var(--text)} .dinput button{width:38px;height:38px;border-radius:8px;background:var(--accent);border:0;color:var(--on-accent);display:grid;place-items:center;cursor:pointer;flex:none}
+.pill{position:fixed;right:20px;bottom:20px;z-index:6;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--on-accent);background:var(--accent);border:0;border-radius:22px;padding:10px 16px;box-shadow:0 6px 18px rgba(17,58,42,.18);cursor:pointer;font-family:var(--sans)}
+.pill .beta{background:var(--on-accent);color:var(--accent)}
+.tbl{overflow:auto;min-height:0}
+.tbl table th{position:sticky;top:0;background:var(--surface)}
+.empty2{font-size:13px;color:var(--muted);font-style:italic;padding:8px 0}
+.link{color:var(--accent-2);font-weight:600;text-decoration:none;font-size:13px}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
@@ -269,14 +361,23 @@ input.in:disabled,select.in:disabled{opacity:.6}
 <g id="i-sun"><circle cx="10" cy="10" r="3.8"/><path d="M10 2v2M10 16v2M2 10h2M16 10h2M4.6 4.6l1.4 1.4M14 14l1.4 1.4M15.4 4.6L14 6M6 14l-1.4 1.4"/></g>
 <g id="i-moon"><path d="M16 11.5A6.5 6.5 0 0 1 8.5 4a6.5 6.5 0 1 0 7.5 7.5z"/></g>
 <g id="i-list"><rect x="3.5" y="4" width="13" height="12" rx="2"/><path d="M6.5 8h7M6.5 11.5h4"/></g>
+<g id="i-home"><path d="M3 9.5L10 3l7 6.5V17H3z"/><path d="M8 17v-5h4v5"/></g>
+<g id="i-gate"><rect x="3" y="4" width="14" height="12" rx="2"/><path d="M7 10h6M10 7v6"/></g>
+<g id="i-book"><path d="M4 3.5h9a2 2 0 0 1 2 2v11H6a2 2 0 0 1-2-2z"/><path d="M4 14.5a2 2 0 0 1 2-2h9"/></g>
+<g id="i-grid"><rect x="3" y="3" width="6" height="6" rx="1.5"/><rect x="11" y="3" width="6" height="6" rx="1.5"/><rect x="3" y="11" width="6" height="6" rx="1.5"/><rect x="11" y="11" width="6" height="6" rx="1.5"/></g>
+<g id="i-min"><path d="M5 10h10"/></g>
+<g id="i-x"><path d="M6 6l8 8M14 6l-8 8"/></g>
+<g id="i-send"><path d="M3 10l14-7-4 14-3-6z"/></g>
+<g id="i-cog"><circle cx="10" cy="10" r="2.5"/><path d="M10 3v2M10 15v2M3 10h2M15 10h2M5 5l1.4 1.4M13.6 13.6L15 15M15 5l-1.4 1.4M6.4 13.6L5 15"/></g>
 </defs></svg>
 
+<div class="app">
 <div class="top">
   <span class="brand">Karta Consulting Group</span>
   <span class="vr"></span>
-  <span class="dept">Engagement Delivery</span>
+  <div class="eng">doTERRA <span>· Raw Materials &amp; Production Planning</span></div>
   <div class="r">
-    <button class="ghost" id="btnChat" type="button"><svg class="ic" viewBox="0 0 20 20"><use href="#i-chat"/></svg>Project chat</button>
+    <button class="ghost" id="btnChat" type="button"><svg class="ic" viewBox="0 0 20 20"><use href="#i-chat"/></svg>Ask this project <span class="beta">BETA</span></button>
     <button class="plain" type="button">Help</button>
     <button class="iconbtn" id="btnTheme" type="button" aria-label="Switch to dark mode" title="Switch theme">
       <svg class="ic" viewBox="0 0 20 20" id="themeIcon"><use href="#i-moon"/></svg>
@@ -284,97 +385,40 @@ input.in:disabled,select.in:disabled{opacity:.6}
     <span class="av">SB</span>
   </div>
 </div>
-
-<div class="page" id="home">
-  <div class="eh">
-    <h1>doTERRA</h1>
-    <div class="sub">Raw Materials &amp; Production Planning</div>
-    <div class="metachips">
-      <span class="mc"><svg class="ic" viewBox="0 0 20 20"><use href="#i-cal"/></svg><span id="mcPeriod">—</span></span>
-      <span class="mc"><svg class="ic" viewBox="0 0 20 20"><use href="#i-sync"/></svg><span id="mcSync">Connecting sources</span></span>
-      <span class="mc pill">Pilot</span>
-    </div>
-  </div>
-
-  <div class="hero">
-    <h2>Here’s where the project stands.</h2>
-    <p id="heroLine">Reading the project…</p>
-  </div>
-
-  <div class="card">
-    <div class="askrow">
-      <span class="askbox"><svg class="ic" viewBox="0 0 20 20"><use href="#i-chat"/></svg></span>
-      <span class="asklbl">Ask this project</span>
-      <input class="askin" id="ask" type="text" placeholder="Ask about requirements, decisions, milestones, meetings, or risks…">
-      <button class="btn" id="btnAsk" type="button">Ask</button>
-    </div>
-    <div id="askOut" class="pad" hidden style="padding-top:0"></div>
-  </div>
-
-  <div class="card">
-    <div class="pad" style="padding-bottom:0"><span class="lbl">Project journey</span></div>
-    <div class="jrny" id="jrny"></div>
-  </div>
-
-  <div class="two">
-    <div class="card pad">
-      <div class="sh">Recommended now</div>
-      <div class="recs">
-        <div class="rec">
-          <span class="ib"><svg class="ic" viewBox="0 0 20 20"><use href="#i-doc"/></svg></span>
-          <h3>Create weekly status</h3>
-          <p>Review this week’s evidence and prepare the client deck</p>
-          <button class="btn sm" id="btnStart" type="button">Start</button>
+<div class="body">
+  <nav class="rail" id="rail" aria-label="Areas">
+    <button type="button" class="nv on" data-view="home"><svg class="ic" viewBox="0 0 20 20"><use href="#i-home"/></svg><span>Home</span></button>
+    <button type="button" class="nv" data-view="status"><svg class="ic" viewBox="0 0 20 20"><use href="#i-doc"/></svg><span>Weekly status</span></button>
+    <button type="button" class="nv" data-view="milestones"><svg class="ic" viewBox="0 0 20 20"><use href="#i-flag"/></svg><span>Milestones</span></button>
+    <button type="button" class="nv" data-view="raid"><svg class="ic" viewBox="0 0 20 20"><use href="#i-alert"/></svg><span>RAID</span></button>
+    <button type="button" class="nv" data-view="decisions"><svg class="ic" viewBox="0 0 20 20"><use href="#i-gate"/></svg><span>Decisions</span></button>
+    <button type="button" class="nv" data-view="artifacts"><svg class="ic" viewBox="0 0 20 20"><use href="#i-book"/></svg><span>Artifacts</span></button>
+    <button type="button" class="nv" data-view="catalog"><svg class="ic" viewBox="0 0 20 20"><use href="#i-grid"/></svg><span>Catalog</span></button>
+    <div class="spacer"></div>
+    <div class="srclbl">Sources</div>
+    <div class="srcs" id="chips"></div>
+    <button type="button" class="nv" data-view="settings" aria-label="Engagement configuration" style="margin-top:6px"><svg class="ic" viewBox="0 0 20 20"><use href="#i-cog"/></svg><span>Config</span></button>
+  </nav>
+  <main class="main">
+    <section class="view" id="v-home">
+      <div class="hrow"><h2>Where the project stands</h2><div class="meta" id="hMeta">Reading the project…</div></div>
+      <div class="strip" id="jrny"></div>
+      <div class="hgrid">
+        <div class="hcard" id="nowCard">
+          <div class="ct"><h3 id="nowTitle">Now</h3><div class="m" id="nowMeta"></div></div>
+          <div class="obj" id="nowObj"></div>
+          <div id="cpBox"></div>
+          <div class="nowgrid">
+            <div><span class="lbl">Stage deliverables</span><div id="delivList"></div></div>
+            <div><span class="lbl">Recommended now</span><div id="recList"></div></div>
+          </div>
         </div>
-        <div class="rec">
-          <span class="ib"><svg class="ic" viewBox="0 0 20 20"><use href="#i-img"/></svg></span>
-          <h3>Generate a mockup</h3>
-          <p>Turn requirements or an idea into an editable visual</p>
-          <span class="tag">Available</span>
-        </div>
-        <div class="rec">
-          <span class="ib"><svg class="ic" viewBox="0 0 20 20"><use href="#i-chat"/></svg></span>
-          <h3>Capture meeting outcomes</h3>
-          <p>Turn workshop notes into actions and decisions</p>
-          <span class="tag mute">Coming soon</span>
-        </div>
-        <div class="rec">
-          <span class="ib"><svg class="ic" viewBox="0 0 20 20"><use href="#i-clip"/></svg></span>
-          <h3>Prepare for UAT</h3>
-          <p>Turn approved requirements into test scripts</p>
-          <span class="tag">Planned</span>
-        </div>
+        <div class="hcard" id="attCard"><div class="ct"><h3>Needs attention</h3><span class="tag2 risk" id="attCount" hidden></span></div><div class="list" id="ins"><div class="calm">Reading the project…</div></div></div>
+        <div class="hcard" id="evCard"><div class="ct"><h3>Evidence and decisions</h3><button class="plain" type="button" data-view="catalog" style="color:var(--accent-2);font-weight:500;font-size:12px">Capability catalog</button></div><div class="list" id="act"><div class="calm">Reading the project…</div></div></div>
       </div>
-    </div>
-
-    <div class="card pad">
-      <div class="sh">Project insights</div>
-      <div class="ins" id="ins">
-        <div class="calm">Reading the project…</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="card pad act">
-    <div class="sh">Recent project activity</div>
-    <div id="act"><div class="calm">Reading the project…</div></div>
-  </div>
-
-  <div class="viewall">
-    <button type="button">View all project capabilities <svg class="ic" viewBox="0 0 20 20" style="width:14px;height:14px"><use href="#i-chev"/></svg></button>
-  </div>
-
-  <div class="foot">
-    Every panel here is read with your own credentials — you see the engagements you are staffed on
-    and nothing else. Milestone status is derived in code, not by a model: complete; no date reads Unknown;
-    past its governing date reads Off Track; an approved New Date later than the original reads At Risk;
-    otherwise On Track. The New Date governs whenever it exists. Phase dates come from the engagement plan
-    and are the one thing on this page not read live.
-  </div>
-</div>
-
-<div class="page" id="gate" hidden>
-  <button class="back" id="btnBack" type="button">← Back to the project</button>
+    </section>
+    <section class="view scroll" id="v-status" hidden><div class="page" id="gate">
+  
   <div><span class="lbl">Weekly status</span><h2 class="gh" style="margin-top:5px">Weekly status</h2>
     <div class="sub" id="gateSub">Reading the status period…</div></div>
   <div class="steps" id="stepbar">
@@ -488,6 +532,24 @@ input.in:disabled,select.in:disabled{opacity:.6}
   </div>
 </div>
 
+</section>
+    <section class="view" id="v-milestones" hidden><div class="hrow"><h2>Milestones</h2><div class="meta" id="msMeta"></div></div><div class="hcard tbl" id="msView"></div></section>
+    <section class="view" id="v-raid" hidden><div class="hrow"><h2>Risks, assumptions, issues, dependencies</h2><div class="meta">from the latest approved status and the working draft</div></div><div class="hcard tbl" id="raidView"></div></section>
+    <section class="view" id="v-decisions" hidden><div class="hrow"><h2>Decisions</h2><div class="meta">what changed, why, when, who approved</div></div><div class="hcard tbl" id="decView"></div></section>
+    <section class="view" id="v-artifacts" hidden><div class="hrow"><h2>Artifacts</h2><div class="meta">approved records and generated decks</div></div><div class="hcard tbl" id="artView"></div></section>
+    <section class="view" id="v-catalog" hidden><div class="hrow"><h2>Capability catalog</h2><div class="meta">by lifecycle stage and readiness</div></div><div class="hcard tbl" id="catView"></div></section>
+    <section class="view" id="v-settings" hidden><div class="hrow"><h2>Engagement configuration</h2><div class="meta">identifiers and dates only, no client facts</div></div><div class="hcard tbl" id="cfgView"></div></section>
+  </main>
+  <aside class="drawer" id="drawer" hidden>
+    <div class="dh"><svg class="ic" viewBox="0 0 20 20" style="color:var(--accent-2)"><use href="#i-chat"/></svg><b>Ask this project</b><span class="beta">BETA</span><div class="ib"><button type="button" id="btnMin" aria-label="Minimize"><svg class="ic" viewBox="0 0 20 20"><use href="#i-min"/></svg></button><button type="button" id="btnClose" aria-label="Close"><svg class="ic" viewBox="0 0 20 20"><use href="#i-x"/></svg></button></div></div>
+    <div class="msgs" id="msgs"></div>
+    <div class="sug" id="sug" style="margin-top:8px"></div>
+    <div class="dinput"><input id="ask" type="text" placeholder="Ask about requirements, decisions, milestones, meetings, or risks" aria-label="Ask this project"><button type="button" id="btnAsk" aria-label="Send"><svg class="ic" viewBox="0 0 20 20"><use href="#i-send"/></svg></button></div>
+  </aside>
+</div>
+<button class="pill" id="pill" type="button" hidden><svg class="ic" viewBox="0 0 20 20"><use href="#i-chat"/></svg>Ask this project <span class="beta">BETA</span></button>
+</div>
+
 <script>
 (function(){
   var CFG={
@@ -501,13 +563,34 @@ input.in:disabled,select.in:disabled{opacity:.6}
           label:"doTERRA / 03_Raw Materials Planning / 00 - Project Management / Status & Steer Co",
           webUrl:"https://kartaconsultinggroup.sharepoint.com/sites/KartaConsultingGroupDocuments/Documents/Firmwide - General & Delivery/Delivery/_Client Projects/doTERRA/03_Raw Materials Planning/00 - Project Management/Status & Steer Co"},
     docRoot:"engagements/doterra-rmpp",
-    /* Engagement plan — the only values on this page not read live. Edit here. */
-    phases:[
-      {nm:"Project Planning", from:"2026-06-01", to:"2026-06-12", ic:"i-check"},
-      {nm:"Foundations",       from:"2026-06-15", to:"2026-07-03", ic:"i-check"},
-      {nm:"Build",             from:"2026-07-06", to:"2026-09-18", ic:"i-flag"},
-      {nm:"Test",              from:"2026-09-21", to:"2026-10-02", ic:"i-clip"},
-      {nm:"Train & Deploy",    from:"2026-10-05", to:"2026-10-16", ic:"i-rocket"}
+    /* Engagement configuration: identifiers and dates only. Train, Deploy and Continuous Support are illustrative for this sample engagement. */
+    stages:[
+      {id:"planning",nm:"Project Planning",from:"2026-06-01",to:"2026-06-12",kind:"stage"},
+      {id:"foundations",nm:"Foundations",from:"2026-06-15",to:"2026-07-03",kind:"stage"},
+      {id:"build",nm:"Build",from:"2026-07-06",to:"2026-09-18",kind:"stage"},
+      {id:"test",nm:"Test",from:"2026-09-21",to:"2026-10-02",kind:"stage"},
+      {id:"train",nm:"Train",from:"2026-09-14",to:"2026-10-09",kind:"parallel"},
+      {id:"deploy",nm:"Deploy",from:"2026-10-05",to:"2026-10-16",kind:"stage"},
+      {id:"support",nm:"Continuous Support",from:"2026-10-19",to:null,kind:"stage",contracted:false}
+    ],
+    stagesConfirmedAt:"2026-09-05",
+    objectives:{planning:"Transfer commercial and client context into delivery and establish a controlled engagement with clear scope, logistics, roles, sources and milestones.",
+      foundations:"Convert business intent and workshop evidence into an approved solution foundation that stays deliverable within scope, window, budget and capacity.",
+      build:"Configure the solution through a disciplined, traceable build and obtain documented initial business acceptance at each sprint review.",
+      test:"Demonstrate that the solution meets approved requirements through a deliberate UAT operating model and is ready for formal acceptance.",
+      train:"Prepare each in-scope audience to adopt, operate, administer or teach the solution.",
+      deploy:"Move the solution into production, complete the implementation responsibly and stabilize it.",
+      support:"Transfer operational ownership to Continuous Support and turn recurring evidence into improvements."},
+    controlPoints:[{stage:"build",nm:"Sprint 3 Review · initial business acceptance",due:"2026-09-11",owner:"[Business reviewer]",decision:"accept, follow up, or change",
+      evidence:[{t:"Demo items listed",s:"ok"},{t:"Requirements mapped",s:"ok"},{t:"Sprint 2 follow-ups",s:"warn"},{t:"Attendance confirmed",s:"off"}]}],
+    deliverables:{build:[{n:"Project build plan",s:"Approved",k:"ok"},{n:"Data Hub",s:"In progress",k:"warn"},{n:"Configured dashboards",s:"Draft",k:"mute"},{n:"Model documentation",s:"Missing",k:"risk"}]},
+    capabilities:[
+      {id:"status",nm:"Create weekly status",p:"Review this week’s evidence and prepare the client deck",ic:"i-doc",stages:["planning","foundations","build","test","train","deploy"],ready:"Piloted",live:true,owner:"Sean Bradley"},
+      {id:"sprint",nm:"Prepare sprint review",p:"What will be shown, requirements covered, evidence",ic:"i-clip",stages:["build"],ready:"Planned",live:false,owner:"Unassigned"},
+      {id:"mockup",nm:"Generate a mockup",p:"Turn requirements or an idea into an editable visual",ic:"i-img",stages:["foundations","build"],ready:"Available",live:true,owner:"Sean Bradley"},
+      {id:"meeting",nm:"Capture meeting outcomes",p:"Turn workshop notes into actions and decisions",ic:"i-chat",stages:["planning","foundations","build"],ready:"Coming soon",live:false,owner:"Unassigned"},
+      {id:"uat",nm:"Prepare for UAT",p:"Turn approved requirements into test scripts",ic:"i-clip",stages:["test"],ready:"Planned",live:false,owner:"Unassigned"},
+      {id:"onboard",nm:"Onboarding brief",p:"Bring a new team member up to speed from the approved record",ic:"i-book",stages:["planning","foundations","build","test","train","deploy","support"],ready:"Planned",live:false,owner:"Unassigned"}
     ]
   };
   var SUB=["Green","Yellow","Red","Unknown","Not assessed"];
@@ -522,6 +605,8 @@ input.in:disabled,select.in:disabled{opacity:.6}
          drafted:false,draftedAt:null,draftedFields:[],changed:{},
          approved:null,version:0,editing:true,jobs:[],assembly:null,busy:false};
   var db=null,sample=null,mcp=null,downloads=null;
+  var SRC={asana:{st:"off",d:"Connecting"},sharepoint:{st:"off",d:"Connecting"},assembly:{st:"off",d:"Checking"},granola:{st:"off",d:"Not connected in this pilot"},harvest:{st:"off",d:"Not connected in this pilot"},raid:{st:"risk",d:"Missing · risks are entered by the reviewer"}};
+  var CHAT=[];
   var CLIENT_ID=(crypto.randomUUID?crypto.randomUUID():String(Math.random()));
   var dirty=false;
   var $=function(i){return document.getElementById(i)};
@@ -585,56 +670,101 @@ input.in:disabled,select.in:disabled{opacity:.6}
   function markChanged(f){S.changed[f]=true;}
 
   var PER=statusPeriod(S.asOf);
-  $("mcPeriod").textContent=PER.label;
   $("gateSub").textContent="Status period "+PER.label+" · as of "+md(S.asOf);
   $("asOf").textContent="as of "+md(S.asOf);
 
-  /* ---------- journey ---------- */
-  (function journey(){
-    var now=Date.now(),box=$("jrny");
-    CFG.phases.forEach(function(p,i){
-      var end=new Date(p.to+"T23:59:59").getTime(),start=new Date(p.from+"T00:00:00").getTime();
-      var cls=end<now?"done":(start<=now?"now":"next");
-      var d=document.createElement("div");d.className="st "+cls;
-      var glyph=cls==="done"?'<svg class="ic" viewBox="0 0 20 20"><use href="#i-check"/></svg>':(i+1);
-      d.innerHTML='<div class="bub">'+glyph+'</div><div class="nm">'+esc(p.nm)+'</div><div class="dt">'+md(p.from)+' – '+md(p.to)+'</div><div class="sx">'+(cls==="done"?"Complete":cls==="now"?"Current phase":"Upcoming")+'</div>';
-      box.appendChild(d);
-    });
-  })();
-
-  /* ---------- home ---------- */
+  /* ---------- shell: navigation, sources, journey, home ---------- */
+  function showView(v){
+    if(!$("v-"+v))v="home";
+    document.querySelectorAll(".view").forEach(function(s){s.hidden=s.id!=="v-"+v;});
+    document.querySelectorAll("#rail button[data-view]").forEach(function(b){b.classList.toggle("on",b.dataset.view===v);});
+    try{localStorage.setItem("kcg-view",v)}catch(e){}
+    if(v==="milestones")renderMsView();if(v==="raid")renderRaidView();if(v==="decisions")renderDecView();if(v==="artifacts")renderArtView();if(v==="catalog")renderCatView();if(v==="settings")renderCfgView();
+  }
+  function setSrc(k,st,d,at){SRC[k]={st:st,d:d,at:at||null};renderChips();renderInsights();}
+  var SRCNM={asana:"Asana",sharepoint:"SharePoint",assembly:"Karta Assembly",granola:"Granola",harvest:"Harvest",raid:"RAID log"};
+  var SRCFIX={asana:"Connect Asana under Customize, Connectors, and confirm you are staffed on the project.",sharepoint:"Connect Microsoft 365 under Customize, Connectors.",assembly:"Add the Karta Assembly connector under Customize, Connectors, then reload.",granola:"Meeting evidence arrives when the Granola connector is added to this engagement.",harvest:"Capacity and PTO signals arrive when Harvest is connected.",raid:"Until a RAID log source is connected, risks are entered by the reviewer and the deck records the gap."};
+  function renderChips(){
+    var box=$("chips");if(!box)return;box.innerHTML="";
+    Object.keys(SRC).forEach(function(k){var s=SRC[k];var b=document.createElement("button");b.type="button";b.className="sch "+s.st;b.dataset.src=k;b.title=SRCNM[k]+" · "+s.d+(s.at?" · "+fresh(s.at):"");
+      b.innerHTML='<span class="d"></span><span>'+esc(SRCNM[k])+'</span>';box.appendChild(b);});
+  }
+  function togglePop(k){
+    var old=document.querySelector(".pop");if(old){var same=old.dataset.src===k;old.remove();if(same)return;}
+    var s=SRC[k],p=document.createElement("div");p.className="pop";p.dataset.src=k;
+    var b=document.querySelector('[data-src="'+k+'"]'),r=b.getBoundingClientRect();
+    p.style.left=(r.right+10)+"px";p.style.top=Math.max(8,Math.min(window.innerHeight-160,r.top-8))+"px";
+    p.innerHTML='<div class="t">'+esc(SRCNM[k])+' · '+esc(s.st==="ok"?"reading as you":s.st==="warn"?"attention":s.st==="risk"?"missing evidence":"not connected")+'</div><div>'+esc(s.d)+(s.at?" · last read "+fresh(s.at):"")+'</div>'+(s.st!=="ok"?'<div class="fix">'+esc(SRCFIX[k])+'</div>':'<div class="fix">Every read uses your own credentials. Nothing is cached beyond this view.</div>');
+    document.body.appendChild(p);
+  }
+  function stageState(p){var now=Date.now(),start=new Date(p.from+"T00:00:00").getTime(),end=p.to?new Date(p.to+"T23:59:59").getTime():Infinity;
+    if(p.contracted===false)return"na";if(end<now)return"done";if(start<=now)return p.kind==="parallel"?"par":"now";return p.kind==="parallel"?"par":"next";}
+  function currentStage(){return CFG.stages.filter(function(p){return p.kind==="stage"&&stageState(p)==="now"})[0]||CFG.stages.filter(function(p){return stageState(p)==="next"})[0]||CFG.stages[0];}
+  function renderJourney(){
+    var box=$("jrny");box.innerHTML="";
+    CFG.stages.forEach(function(p,i){var st=stageState(p),d=document.createElement("div");d.className="stg "+st;
+      var sub=(p.to?md(p.from)+" – "+md(p.to):"from "+md(p.from))+" · "+(st==="done"?"complete":st==="now"?"current":st==="par"?(new Date(p.from+"T00:00:00")<=Date.now()?"parallel, in progress":"parallel, not started"):st==="na"?"not contracted":"upcoming");
+      d.innerHTML='<div class="n"><i>'+(st==="done"?'<svg class="ic" viewBox="0 0 20 20"><use href="#i-check"/></svg>':(i+1))+'</i>'+esc(p.nm)+'</div><div class="s" title="'+esc(sub)+'">'+esc(sub)+'</div>';box.appendChild(d);});
+  }
+  function weekOf(p){var a=new Date(p.from+"T00:00:00"),b=p.to?new Date(p.to+"T00:00:00"):null;var w=Math.floor((Date.now()-a)/(7*DAY))+1,n=b?Math.round((b-a)/(7*DAY))+1:null;return n?"week "+Math.max(1,Math.min(w,n))+" of "+n:"week "+Math.max(1,w);}
+  function renderNow(){
+    var cur=currentStage();$("nowTitle").textContent="Now in "+cur.nm;$("nowMeta").textContent=(cur.to?md(cur.from)+" to "+md(cur.to):"from "+md(cur.from))+" · "+weekOf(cur);
+    $("nowObj").textContent=CFG.objectives[cur.id]||"";
+    var cps=(CFG.controlPoints||[]).filter(function(c){return c.stage===cur.id&&c.due>=S.asOf}).sort(function(a,b){return a.due<b.due?-1:1});var cp=cps[0];
+    if(cp){var ready=cp.evidence.filter(function(e){return e.s==="ok"}).length;
+      $("cpBox").innerHTML='<div class="cp"><div class="h"><svg class="ic" viewBox="0 0 20 20" style="color:var(--accent-2)"><use href="#i-gate"/></svg><span class="lbl">Next control point</span><span class="ev">Evidence '+ready+' of '+cp.evidence.length+' ready</span></div><div class="nm">'+esc(cp.nm)+'</div><div class="meta"><span>Due '+md(cp.due)+'</span><span>Owner: '+esc(cp.owner)+'</span><span>Decision: '+esc(cp.decision)+'</span></div><div class="evs">'+cp.evidence.map(function(e){return '<div><i style="background:var('+(e.s==="ok"?"--accent-2":e.s==="warn"?"--warn":"--faint")+')"></i>'+esc(e.t)+'</div>'}).join("")+'</div></div>';}
+    else $("cpBox").innerHTML='<div class="cp"><div class="h"><span class="lbl">Next control point</span></div><div style="font-size:12.5px;color:var(--muted)">No control point configured for this stage. Add one in the engagement configuration.</div></div>';
+    var dl=CFG.deliverables[cur.id]||[];$("delivList").innerHTML=dl.length?dl.map(function(d){return '<div class="drow"><span>'+esc(d.n)+'</span><span class="tag2 '+d.k+'">'+esc(d.s)+'</span></div>'}).join(""):'<div class="empty2">No deliverables configured.</div>';
+    var recs=CFG.capabilities.filter(function(c){return c.stages.indexOf(cur.id)>=0}).slice(0,document.body.classList.contains("drawer-open")?2:3);
+    $("recList").innerHTML=recs.map(function(c){return '<div class="rrow"><span class="ib"><svg class="ic" viewBox="0 0 20 20"><use href="#'+c.ic+'"/></svg></span><span class="tx"><b>'+esc(c.nm)+'</b><span>'+esc(c.p)+'</span></span>'+(c.id==="status"?'<button class="btn xs" type="button" data-view="status">Start</button>':'<span class="tag2 '+(c.live?"ok":"")+'">'+esc(c.ready)+'</span>')+'</div>'}).join("");
+  }
   function renderHero(){
-    if(S.tasks===null)return;
-    var cur=CFG.phases.filter(function(p){var n=Date.now();return new Date(p.from+"T00:00:00")<=n&&new Date(p.to+"T23:59:59")>=n;})[0];
     var late=S.ms.filter(function(m){return m.status==="Off Track"}).length;
-    $("heroLine").textContent=(cur?cur.nm+" is underway. ":"")+(late?late+" milestone"+(late>1?"s are":" is")+" past date with no approved new date.":"No milestone is past its date ahead of the next client update.");
+    $("hMeta").textContent=S.approved?"Overall status "+S.approved.overall.status+" · approved "+md(S.approved.approval.approved_at)+" by "+S.approved.approval.reviewer_name:(S.tasks===null?"Reading the project…":(late?late+" milestone"+(late>1?"s":"")+" past date with no approved new date":"No milestone past its date"));
   }
-  function insightRow(icon,title,sub,dot){
-    return '<button class="ir" type="button"><span class="ib"><svg class="ic" viewBox="0 0 20 20"><use href="#'+icon+'"/></svg></span><span><span class="t">'+(dot?'<span class="dot"></span>':'')+esc(title)+'</span><span class="s">'+esc(sub)+'</span></span><svg class="ic chev" viewBox="0 0 20 20" style="width:14px;height:14px"><use href="#i-chev"/></svg></button>';
-  }
+  function attRow(icon,title,sub,dot,view){return '<button class="arow" type="button"'+(view?' data-view="'+view+'"':'')+'><span class="ib"><svg class="ic" viewBox="0 0 20 20"><use href="#'+icon+'"/></svg></span><span class="tx"><b>'+(dot?'<span class="dot"></span>':'')+esc(title)+'</b><span>'+esc(sub)+'</span></span><svg class="ic" viewBox="0 0 20 20" style="width:12px;height:12px;color:var(--faint)"><use href="#i-chev"/></svg></button>';}
   function renderInsights(){
-    if(S.tasks===null)return;
-    var h="",pd=pastDue(),late=S.ms.filter(function(m){return m.status==="Off Track"});
-    h+=late.length?insightRow("i-alert","Needs attention",late.length+" milestone"+(late.length>1?"s":"")+" past date, no new date approved",true)
-      :insightRow("i-alert","Needs attention",pd.length?pd.length+" task"+(pd.length>1?"s":"")+" past due":"Nothing past due",pd.length>0);
-    var next=S.ms.filter(function(m){return !m.completed&&(m.new_date||m.original_date)&&(m.new_date||m.original_date)>=S.asOf})
-      .sort(function(a,b){return (a.new_date||a.original_date)<(b.new_date||b.original_date)?-1:1})[0];
-    h+=insightRow("i-cal","Upcoming milestone",next?next.name+" · "+md(next.new_date||next.original_date):"None scheduled",false);
-    var names=Array.from(new Set((S.tasks||[]).map(function(t){return(t.assignee||{}).name}).filter(Boolean)));
-    h+=insightRow("i-users","Team assigned",names.length?names.length+" people on open work":"No assignees on record",false);
-    h+=insightRow("i-doc","Next client update","Weekly status · "+PER.label,false);
-    $("ins").innerHTML=h;
+    if(S.tasks===null)return;var h="",urgent=0;
+    var late=S.ms.filter(function(m){return m.status==="Off Track"});
+    if(late.length){urgent++;h+=attRow("i-alert",late.length+" milestone"+(late.length>1?"s":"")+" past date, no new date approved",late.map(function(m){return m.name}).join(" · "),true,"milestones");}
+    var raid=(S.approved&&S.approved.raid)||S.raid||[];var high=raid.filter(function(r){return r.priority==="High"});
+    if(high.length){urgent++;var since=S.approved?Math.floor((Date.now()-new Date(S.approved.approval.approved_at))/DAY):0;h+=attRow("i-flag",high.length+" High "+(high.length>1?"items":"item")+(since?" open "+since+" day"+(since>1?"s":"")+" since approval":""),high[0].description,true,"raid");}
+    Object.keys(SRC).forEach(function(k){var s=SRC[k];if(s.st==="risk"||s.st==="warn")h+=attRow("i-sync","Source gap: "+SRCNM[k],s.d,false,null);});
+    var cp=(CFG.controlPoints||[]).filter(function(c){return c.due>=S.asOf})[0];if(cp&&/^\[/.test(cp.owner))h+=attRow("i-gate","Owner needed: "+cp.nm.split(" · ")[0],"Control point due "+md(cp.due)+" has no named owner",false,"decisions");
+    h+=attRow("i-users","Capacity not assessed","No PTO or capacity source connected",false,null);
+    $("ins").innerHTML=h;$("attCount").textContent=urgent?urgent+" urgent":"";$("attCount").hidden=!urgent;
   }
+  function evRow(icon,a,b,tag,view){return '<div class="erow"'+(view?' data-view="'+view+'" style="cursor:pointer"':'')+'><span class="ib"><svg class="ic" viewBox="0 0 20 20"><use href="#'+icon+'"/></svg></span><span class="tx"><b>'+esc(a)+'</b><span>'+esc(b)+'</span></span><span class="tag2 ok">'+esc(tag)+'</span></div>';}
   function renderActivity(){
-    if(S.tasks===null)return;
-    var rows=[];
-    if(S.deck)rows.push({ic:"i-doc",nm:S.deck.name||"Weekly status deck",dt:S.deck.lastModifiedDateTime?md(S.deck.lastModifiedDateTime):"—",st:"In SharePoint"});
-    (S.tasks||[]).filter(function(t){return t.completed&&t.completed_at}).sort(function(a,b){return a.completed_at<b.completed_at?1:-1}).slice(0,4)
-      .forEach(function(t){rows.push({ic:"i-check",nm:t.name,dt:md(t.completed_at),st:"Complete"})});
-    if(!rows.length){$("act").innerHTML='<div class="calm">No recent completions on record.</div>';return;}
-    $("act").innerHTML=rows.map(function(r){return '<div class="ar"><span class="ib"><svg class="ic" viewBox="0 0 20 20"><use href="#'+r.ic+'"/></svg></span><span class="nm">'+esc(r.nm)+'</span><span class="dt">'+esc(r.dt)+'</span><span class="st2">'+esc(r.st)+'</span><svg class="ic chev" viewBox="0 0 20 20" style="width:14px;height:14px;color:var(--faint)"><use href="#i-chev"/></svg></div>';}).join("");
+    if(S.tasks===null)return;var h="";
+    if(S.approved)h+=evRow("i-doc","Weekly status v"+S.version+" approved",md(S.approved.approval.approved_at)+" · "+S.approved.approval.reviewer_name+" · "+S.approved.overall.status+" overall","Approved","artifacts");
+    var built=S.jobs.filter(function(j){return j.state==="Built"})[0];if(built&&built.deck)h+=evRow("i-doc",built.deck.filename,"Built "+md(built.updated_at)+(built.delivery==="download"?(built.deck.saved_by_member?" · saved by member":" · not saved"):" · in SharePoint"),"Deck","artifacts");
+    (S.approved?S.approved.milestones:[]).filter(function(m){return m.new_date}).slice(0,2).forEach(function(m){h+=evRow("i-gate",m.name+" moved to "+md(m.new_date),"Approved new date · "+(m.variance_days>0?"+":"")+m.variance_days+" day variance","Decision","decisions");});
+    (S.tasks||[]).filter(function(t){return t.completed&&t.completed_at}).sort(function(a,b){return a.completed_at<b.completed_at?1:-1}).slice(0,2).forEach(function(t){h+=evRow("i-check",t.name,"Completed "+md(t.completed_at)+" · Asana","Complete",null);});
+    $("act").innerHTML=h||'<div class="calm">No approved records yet.</div>';
   }
-  function renderHome(){renderHero();renderInsights();renderActivity();}
+  function renderHome(){renderHero();renderJourney();renderNow();renderInsights();renderActivity();renderChips();}
+  renderJourney();renderChips();renderNow();
+
+  /* ---------- area views ---------- */
+  function table(cols,rows,empty){if(!rows.length)return '<div class="empty2">'+esc(empty)+'</div>';return '<table><thead><tr>'+cols.map(function(c){return "<th>"+esc(c)+"</th>"}).join("")+'</tr></thead><tbody>'+rows.map(function(r){return "<tr>"+r.map(function(c){return "<td>"+c+"</td>"}).join("")+"</tr>"}).join("")+'</tbody></table>';}
+  function renderMsView(){$("msMeta").textContent=S.ms.length+" milestones · Asana "+CFG.projectGid+(S.tasksAt?" · read "+fresh(S.tasksAt):"");
+    $("msView").innerHTML=table(["Milestone","Orig. date","New date","Variance","Status","Source"],S.ms.map(function(m){return [esc(m.name),'<span class="mono">'+fmtDate(m.original_date)+'</span>','<span class="mono">'+fmtDate(m.new_date)+'</span>','<span class="mono">'+(m.variance_days===null?"—":(m.variance_days>0?"+":"")+m.variance_days+" d")+'</span>','<span class="pill '+MSC[m.status]+'">'+esc(m.status)+'</span>','<span class="mono">'+esc(m.source.id)+'</span>']}),"Reading the Asana project…");}
+  function renderRaidView(){var raid=(S.approved&&S.approved.raid)||S.raid||[];
+    $("raidView").innerHTML=table(["Type","Priority","Description","Mitigation","Status","Recorded"],raid.map(function(r){return [esc(r.type||"Risk"),esc(r.priority||"—"),esc(r.description||""),esc(r.mitigation||"—"),esc(r.status||"Open"),S.approved?"Approved v"+S.version:"Working draft"]}),"No RAID items recorded. Draft or add them in Weekly status.");}
+  function renderDecView(){var rows=[];
+    if(S.approved){rows.push(["Weekly status approved","Version "+S.version+" · overall "+S.approved.overall.status,esc(S.approved.approval.reviewer_name),'<span class="mono">'+md(S.approved.approval.approved_at)+'</span>']);
+      S.approved.milestones.filter(function(m){return m.new_date}).forEach(function(m){rows.push([esc(m.name)+" re-planned","New date "+fmtDate(m.new_date)+" replaces "+fmtDate(m.original_date)+" · "+(m.variance_days>0?"+":"")+m.variance_days+" days",esc(S.approved.approval.reviewer_name),'<span class="mono">'+md(S.approved.approval.approved_at)+'</span>']);});}
+    $("decView").innerHTML=table(["Decision","Detail","Approved by","When"],rows,"No decisions recorded yet. Approvals and New Dates appear here.");}
+  function renderArtView(){var rows=[];
+    if(S.approved)rows.push(["Approved status record","Version "+S.version,esc(S.approved.approval.reviewer_name),'<span class="mono">'+md(S.approved.approval.approved_at)+'</span>','<span class="tag2 ok">Approved</span>']);
+    S.jobs.forEach(function(j){var d=j.deck||{};rows.push([esc(d.filename||"Deck job"),"Approved v"+j.approved_values.version+(d.size_bytes?" · "+Math.round(d.size_bytes/1024)+" KB":""),esc(j.requested_by||""),'<span class="mono">'+md(j.updated_at)+'</span>',j.state==="Built"?(d.sharepoint_web_url?'<a class="link" href="'+esc(d.sharepoint_web_url)+'" target="_blank" rel="noopener">Open in SharePoint</a>':'<span class="tag2 '+(d.saved_by_member?"ok":"")+'">'+(d.saved_by_member?"Saved by member":"Built, not saved")+'</span>'):'<span class="tag2 risk">'+esc(j.state)+(j.error?" · "+esc(j.error.message):"")+'</span>']);});
+    $("artView").innerHTML=table(["Artifact","Detail","By","When","State"],rows,"No artifacts yet.");}
+  function renderCatView(){var rows=[];CFG.stages.forEach(function(p){CFG.capabilities.filter(function(c){return c.stages.indexOf(p.id)>=0}).forEach(function(c){rows.push([esc(p.nm),esc(c.nm),esc(c.p),'<span class="tag2 '+(c.live?"ok":"")+'">'+esc(c.ready)+'</span>',esc(c.owner)]);});});
+    $("catView").innerHTML=table(["Stage","Capability","What it does","Readiness","Owner"],rows,"");}
+  function renderCfgView(){var rows=[["Engagement",esc(CFG.engagementId)+" · "+esc(CFG.client)+" · "+esc(CFG.projectName)],["Asana project",'<span class="mono">'+CFG.projectGid+'</span> · milestones by section “'+esc(CFG.milestoneSection)+'” or subtype “'+esc(CFG.milestoneSubtype)+'”'],["SharePoint destination",esc(CFG.dest.label)],["Stages confirmed",'<span class="mono">'+CFG.stagesConfirmedAt+'</span> by the engagement owner']];
+    CFG.stages.forEach(function(p){rows.push([esc(p.nm),'<span class="mono">'+p.from+(p.to?" → "+p.to:" →")+'</span> · '+esc(p.kind)+(p.contracted===false?" · not contracted":"")]);});
+    $("cfgView").innerHTML=table(["Setting","Value"],rows,"")+'<div class="empty2">Edit configuration in the engagement configuration document. Nothing here is a client fact.</div>';}
 
   /* ---------- milestones ---------- */
   function buildMs(tasks){
@@ -784,27 +914,27 @@ input.in:disabled,select.in:disabled{opacity:.6}
     return withData.length?withData[0].data:objs.filter(function(o){return o.gid});}
   function wireMcp(m){
     mcp=m;
-    m.listTools().then(function(lt){S.assembly=(lt.servers||[]).some(function(s){return s.server===CFG.assembly});renderGate();})
-      .catch(function(){S.assembly=false;renderGate();});
+    m.listTools().then(function(lt){S.assembly=(lt.servers||[]).some(function(s){return s.server===CFG.assembly});setSrc("assembly",S.assembly?"ok":"risk",S.assembly?"connected":"not connected");renderGate();})
+      .catch(function(){S.assembly=false;setSrc("assembly","risk","not connected");renderGate();});
     m.watchTool(CFG.asana,"asana_search_tasks",
       {projects_any:CFG.projectGid,limit:100,sort_by:"due_date",sort_ascending:true,
        opt_fields:"name,start_on,due_on,completed,completed_at,assignee.name,resource_subtype,memberships.section.name"},
       function(ev){
-        if(ev.type==="error"){$("mcSync").textContent="Asana unavailable";if(S.tasks===null){S.tasks=[];renderAll();}
-          $("heroLine").textContent="Asana could not be read: "+ev.error.message;
+        if(ev.type==="error"){setSrc("asana",ev.error.code==="needs_reauth"||ev.error.code==="server_not_connected"?"risk":"warn",ev.error.message);if(S.tasks===null){S.tasks=[];renderAll();}
           $("barNote").innerHTML='<span class="err">Asana: '+esc(ev.error.message)+'</span>';return;}
         S.tasks=tasksFrom(ev.result);S.tasksAt=(ev.result.cache&&ev.result.cache.storedAt)||Date.now();
         if(!locked())S.ms=buildMs(S.tasks);
-        $("mcSync").textContent="Sources synced";
+        setSrc("asana","ok",S.tasks.length+" tasks",S.tasksAt);
         if(sample&&!S.drafted)$("barNote").textContent="Ready to draft.";
         renderAll();
       });
     m.watchTool(CFG.m365,"sharepoint_search",{query:"KCG_Status "+CFG.client,limit:10},
       function(ev){
-        if(ev.type==="error"){S.deckAt=Date.now();renderGate();return;}
+        if(ev.type==="error"){S.deckAt=Date.now();setSrc("sharepoint","warn",ev.error.message);renderGate();return;}
         var named=objectsFrom(ev.result).filter(function(x){return x&&x.name&&x.driveId&&x.id&&/\.pptx$/i.test(x.name)});
         S.deckAt=(ev.result.cache&&ev.result.cache.storedAt)||Date.now();
         if(named.length){named.sort(function(a,b){return (b.lastModifiedDateTime||"")<(a.lastModifiedDateTime||"")?-1:1});S.deck=named[0];}
+        setSrc("sharepoint",named.length?"ok":"warn",named.length?"last deck "+md(S.deck.lastModifiedDateTime):"no status deck found",S.deckAt);
         renderAll();
       });
   }
@@ -964,24 +1094,45 @@ input.in:disabled,select.in:disabled{opacity:.6}
     await save();S.busy=false;renderGate();
   }
 
-  /* ---------- ask ---------- */
-  async function doAsk(){
-    var q=$("ask").value.trim(),out=$("askOut");out.hidden=false;
-    if(!q){out.innerHTML='<span class="err">Type a question first.</span>';return;}
-    if(!sample){out.innerHTML='<span class="calm">Asking needs the Claude viewer.</span>';return;}
-    out.innerHTML='<span class="calm">Thinking…</span>';
+  /* ---------- ask this project: drawer ---------- */
+  var SUGS=["What changed since last week’s status?","Which milestones have no approved new date?","What did we decide about the Sprint 3 scope?","Which risks are open and who owns them?"];
+  function openDrawer(open){$("drawer").hidden=!open;$("pill").hidden=open;document.body.classList.toggle("drawer-open",open);try{localStorage.setItem("kcg-drawer",open?"1":"0")}catch(e){}renderNow();if(open)renderChat();}
+  function renderChat(){
+    var box=$("msgs");box.innerHTML="";
+    if(!CHAT.length){var w=document.createElement("div");w.className="msg a";w.textContent="Ask about this engagement. Answers come from the Asana project and the approved status record, cite what they used, and say plainly when the evidence is missing. Nothing is saved unless you choose to.";box.appendChild(w);}
+    CHAT.forEach(function(m){var d=document.createElement("div");d.className="msg "+(m.role==="q"?"q":"a");d.textContent=m.text;
+      if(m.cites&&m.cites.length){var c=document.createElement("div");c.className="cites";m.cites.forEach(function(x){var s=document.createElement("span");s.textContent=x;c.appendChild(s)});d.appendChild(c);}
+      box.appendChild(d);});
+    box.scrollTop=box.scrollHeight;
+    $("sug").innerHTML=SUGS.map(function(q){return '<button type="button" data-q="'+esc(q)+'">'+esc(q)+'</button>'}).join("");
+  }
+  function chatContext(){
+    var lines=(S.tasks||[]).slice(0,80).map(function(t){return "- "+t.name+" | "+(t.completed?"complete":"open")+" | due "+(t.due_on||"none")+" | section "+secOf(t);});
+    var rec=S.approved?"\n\nApproved weekly status v"+S.version+" ("+S.approved.approval.approved_at.slice(0,10)+", "+S.approved.approval.reviewer_name+"): overall "+S.approved.overall.status+"; scope "+S.approved.assessments.scope_schedule.status+"; resources "+S.approved.assessments.resources.status+"; data "+S.approved.assessments.data.status+".\nMilestones: "+S.approved.milestones.map(function(m){return m.name+" ("+m.status+(m.new_date?", new date "+m.new_date:"")+")"}).join("; ")+".\nAccomplishments: "+S.approved.accomplishments.join(" | ")+".\nPlanned: "+S.approved.planned_activities.join(" | ")+".\nRAID: "+(S.approved.raid.map(function(r){return r.type+(r.priority?" ("+r.priority+")":"")+": "+r.description}).join(" | ")||"none")+".":"\n\nNo approved weekly status record yet.";
+    return "Asana tasks (read "+(S.tasksAt?fresh(S.tasksAt):"just now")+"):\n"+(lines.join("\n")||"(none)")+rec;
+  }
+  async function doAsk(qText){
+    var q=(qText||$("ask").value).trim();if(!q)return;$("ask").value="";
+    if(!sample){CHAT.push({role:"q",text:q},{role:"a",text:"Asking needs the Claude viewer."});renderChat();return;}
+    CHAT.push({role:"q",text:q},{role:"a",text:"Thinking…"});renderChat();
     try{
-      var ctx=(S.tasks||[]).slice(0,80).map(function(t){return "- "+t.name+" | "+(t.completed?"complete":"open")+" | due "+(t.due_on||"none")+" | section "+secOf(t);}).join("\n");
-      var r=await sample("Answer strictly from this Asana task data for the "+CFG.client+" "+CFG.engagement+" engagement. If the data does not contain the answer, say so plainly rather than guessing. Three sentences at most.\n\nData:\n"+ctx+"\n\nQuestion: "+q);
-      out.innerHTML="";var p=document.createElement("div");p.style.fontSize="13.5px";p.textContent=r.text;out.appendChild(p);
-    }catch(e){out.innerHTML='<span class="err"></span>';out.firstChild.textContent=(e&&e.code==="not_granted")?"Asking needs your permission.":((e&&e.message)||"Ask failed.");}
+      var r=await sample("You answer questions about the "+CFG.client+" "+CFG.engagement+" engagement strictly from the evidence below. If the evidence does not contain the answer, say so plainly rather than guessing. Do not invent status. Three sentences at most. Client-facing Karta tone.\n\nEvidence:\n"+chatContext()+"\n\nQuestion: "+q);
+      var cites=["Asana tasks · read "+(S.tasksAt?fresh(S.tasksAt):"now")];if(S.approved)cites.push("Approved status v"+S.version);Object.keys(SRC).forEach(function(k){if(SRC[k].st==="risk")cites.push("Gap: "+SRCNM[k])});
+      CHAT[CHAT.length-1]={role:"a",text:r.text,cites:cites};
+    }catch(e){CHAT[CHAT.length-1]={role:"a",text:(e&&e.code==="not_granted")?"Asking needs your permission. Reload and allow to enable it.":((e&&e.message)||"Ask failed.")};}
+    renderChat();
   }
 
   /* ---------- events ---------- */
   document.addEventListener("click",function(e){
+    if(!e.target.closest(".pop")&&!e.target.closest("[data-src]")){var pp=document.querySelector(".pop");if(pp)pp.remove();}
+    var er=e.target.closest(".erow[data-view]");if(er){showView(er.dataset.view);return;}
     var b=e.target.closest("button");if(!b)return;
-    if(b.id==="btnStart"||b.id==="btnChat"){$("home").hidden=true;$("gate").hidden=false;window.scrollTo(0,0);return;}
-    if(b.id==="btnBack"){$("gate").hidden=true;$("home").hidden=false;window.scrollTo(0,0);return;}
+    if(b.dataset.view){showView(b.dataset.view);return;}
+    if(b.id==="btnChat"||b.id==="pill"){openDrawer(true);return;}
+    if(b.id==="btnMin"||b.id==="btnClose"){openDrawer(false);return;}
+    if(b.dataset.src){togglePop(b.dataset.src);return;}
+    if(b.dataset.q){doAsk(b.dataset.q);return;}
     if(b.id==="btnAsk"){doAsk();return;}
     if(locked()&&b.id!=="btnReopen"&&b.id!=="btnGenerate")return;
     if(b.dataset.sub){var k=b.dataset.sub;S.sub[k]=SUB[(SUB.indexOf(S.sub[k])+1)%SUB.length];markChanged("assessments."+SUBKEY[k]);renderRoll();saveDraftSoon();return;}
@@ -1002,13 +1153,16 @@ input.in:disabled,select.in:disabled{opacity:.6}
     if(t.dataset&&t.dataset.rat){S.rat[t.dataset.rat]=t.value;markChanged("assessments."+SUBKEY[t.dataset.rat]);saveDraftSoon();return;}
   });
   $("ask").addEventListener("keydown",function(e){if(e.key==="Enter")doAsk();});
+  window.addEventListener("resize",function(){renderNow();});
   ["addAcc","addPln"].forEach(function(id){$(id).addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();document.querySelector('[data-add="'+(id==="addAcc"?"acc":"pln")+'"]').click();}});});
 
   /* ---------- runtime ---------- */
+  (function restore(){var v="home",d="0";try{v=localStorage.getItem("kcg-view")||"home";d=localStorage.getItem("kcg-drawer")||"0"}catch(e){}showView(v==="status"?"status":"home");openDrawer(d==="1");})();
   var C=(typeof claude!=="undefined"&&claude&&typeof claude.use==="function")?claude:null;
   if(!C){
-    S.tasks=[];$("btnDraft").hidden=true;$("mcSync").textContent="Sources unavailable";
-    $("heroLine").textContent="Opened outside the Claude viewer — live project data, drafting and deck generation are unavailable here.";
+    S.tasks=[];$("btnDraft").hidden=true;
+    Object.keys(SRC).forEach(function(k){SRC[k]={st:"off",d:"unavailable outside the Claude viewer"}});renderChips();
+    $("hMeta").textContent="Opened outside the Claude viewer. Live data, drafting and deck generation are unavailable here.";
     $("ins").innerHTML='<div class="calm">Live data unavailable in this view.</div>';$("act").innerHTML='<div class="calm">Live data unavailable in this view.</div>';
     $("barNote").textContent="Live data unavailable in this view.";S.assembly=false;renderGate();return;
   }
@@ -1031,7 +1185,7 @@ input.in:disabled,select.in:disabled{opacity:.6}
     });
     try{d.collection(CFG.docRoot+"/jobs").orderBy("requested_at","desc").limit(8).onSnapshot(function(s){var docs=snapDocs(s);if(docs.length){S.jobs=docs;renderGate();}});}catch(e){}
   }).catch(function(){});
-  C.use("mcp").then(function(m){if(!m){S.tasks=[];S.assembly=false;$("mcSync").textContent="Sources unavailable";renderAll();return;}wireMcp(m);}).catch(function(){});
+  C.use("mcp").then(function(m){if(!m){S.tasks=[];S.assembly=false;Object.keys(SRC).forEach(function(k){if(k!=="raid")SRC[k]={st:"risk",d:"connectors unavailable in this view"}});renderChips();renderAll();return;}wireMcp(m);}).catch(function(){});
   C.use("downloads").then(function(d){downloads=d||null;}).catch(function(){});
   C.use("sample").then(function(s){if(!s){$("btnDraft").hidden=true;$("barNote").textContent="Drafting is unavailable in this view.";return;}sample=s;renderApprove();if(!S.drafted)$("barNote").textContent="Ready to draft.";}).catch(function(){});
 })();
