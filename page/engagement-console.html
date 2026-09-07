@@ -260,15 +260,15 @@ body{overflow:hidden}
 .eng{display:flex;align-items:baseline;gap:8px;font-size:13.5px;font-weight:700;color:var(--ink);white-space:nowrap}
 .eng span{font-weight:500;color:var(--muted)}
 .body{flex:1;min-height:0;display:flex}
-.rail{width:100px;flex:none;background:var(--topbar);border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 8px;overflow:hidden}
-.rail button.nv{display:flex;flex-direction:column;align-items:center;gap:4px;padding:7px 4px;border-radius:8px;width:84px;background:none;border:0;cursor:pointer;color:var(--muted);font-family:var(--sans)}
+.rail{width:112px;flex:none;background:var(--topbar);border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 8px;overflow:hidden}
+.rail button.nv{display:flex;flex-direction:column;align-items:center;gap:4px;padding:7px 4px;border-radius:8px;width:96px;background:none;border:0;cursor:pointer;color:var(--muted);font-family:var(--sans)}
 .rail button.nv .ic{width:18px;height:18px}
 .rail button.nv span{font-size:10px;font-weight:600;text-align:center;line-height:1.15}
 .rail button.nv:hover{color:var(--ink);background:var(--raise)}
 .rail button.nv.on{background:var(--accent-soft);color:var(--accent-2)}
 .rail .spacer{flex:1}
 .rail .srclbl{font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin:6px 0 2px;align-self:flex-start;padding-left:4px}
-.srcs{display:flex;flex-direction:column;gap:3px;width:84px}
+.srcs{display:flex;flex-direction:column;gap:3px;width:96px}
 .sch{display:flex;align-items:center;gap:6px;width:100%;font-size:10px;font-weight:600;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:4px 6px;white-space:nowrap;overflow:hidden;cursor:pointer;font-family:var(--sans);text-align:left}
 .sch:hover{border-color:var(--line-strong)}
 .sch .d{width:7px;height:7px;border-radius:50%;flex:none;background:var(--faint)}
@@ -337,12 +337,28 @@ body.drawer-open .hgrid #evCard{grid-column:2}
 .cites{display:flex;gap:6px;flex-wrap:wrap} .cites span{font-size:10.5px;color:var(--accent-2);background:var(--accent-soft);border-radius:4px;padding:2px 6px}
 .sug{display:flex;gap:6px;flex-wrap:wrap} .sug button{font-size:11.5px;color:var(--text);background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:4px 10px;cursor:pointer;font-family:var(--sans);text-align:left} .sug button:hover{border-color:var(--line-strong)}
 .dinput{display:flex;align-items:center;gap:8px;margin-top:10px} .dinput input{flex:1;min-width:0;height:38px;font-family:var(--sans);font-size:12.5px;padding:0 12px;border:1px solid var(--line);border-radius:8px;background:var(--raise);color:var(--text)} .dinput button{width:38px;height:38px;border-radius:8px;background:var(--accent);border:0;color:var(--on-accent);display:grid;place-items:center;cursor:pointer;flex:none}
-.pill{position:fixed;right:20px;bottom:20px;z-index:6;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--on-accent);background:var(--accent);border:0;border-radius:22px;padding:10px 16px;box-shadow:0 6px 18px rgba(17,58,42,.18);cursor:pointer;font-family:var(--sans)}
+.pill{display:none;position:fixed;right:20px;bottom:20px;z-index:6;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--on-accent);background:var(--accent);border:0;border-radius:22px;padding:10px 16px;box-shadow:0 6px 18px rgba(17,58,42,.18);cursor:pointer;font-family:var(--sans)}
 .pill .beta{background:var(--on-accent);color:var(--accent)}
 .tbl{overflow:auto;min-height:0}
 .tbl table th{position:sticky;top:0;background:var(--surface)}
 .empty2{font-size:13px;color:var(--muted);font-style:italic;padding:8px 0}
 .link{color:var(--accent-2);font-weight:600;text-decoration:none;font-size:13px}
+
+/* comment round, Sep 7 */
+.klogo{width:30px;height:30px;border-radius:4px;background:var(--accent);color:var(--on-accent);display:grid;place-items:center;font-weight:800;font-size:16px;letter-spacing:-.02em;flex:none}
+.klogo.ph{outline:1px dashed var(--line-strong);outline-offset:2px}
+.hrow h2 span{font-weight:500;color:var(--muted)}
+.wk{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--chip-ink);background:var(--chip);border-radius:8px;padding:5px 10px;white-space:nowrap}
+.hrow .right{display:flex;align-items:center;gap:12px}
+.cp .evs div{gap:8px}
+.bd{width:16px;height:16px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex:none;border:1.5px solid var(--line-strong);color:var(--faint);background:var(--surface)}
+.bd .ic{width:10px;height:10px;stroke-width:2.6}
+.bd.ok{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.bd.warn{border-color:var(--warn);color:var(--warn)}
+.rrow .tag2,.rrow .btn.xs,.drow .tag2{min-width:96px;height:28px;display:inline-flex;align-items:center;justify-content:center;text-align:center;box-sizing:border-box;padding:0 10px}
+.ghost.primary{background:var(--accent);color:var(--on-accent);border-color:var(--accent);font-weight:600}
+.ghost.primary:hover{background:var(--ink);border-color:var(--ink)}
+.ghost.primary .beta{background:var(--on-accent);color:var(--accent)}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
@@ -368,17 +384,18 @@ body.drawer-open .hgrid #evCard{grid-column:2}
 <g id="i-min"><path d="M5 10h10"/></g>
 <g id="i-x"><path d="M6 6l8 8M14 6l-8 8"/></g>
 <g id="i-send"><path d="M3 10l14-7-4 14-3-6z"/></g>
-<g id="i-cog"><circle cx="10" cy="10" r="2.5"/><path d="M10 3v2M10 15v2M3 10h2M15 10h2M5 5l1.4 1.4M13.6 13.6L15 15M15 5l-1.4 1.4M6.4 13.6L5 15"/></g>
+<g id="i-cog"><path d="M10 2.6l1.5 1.2 1.9-.4.8 1.8 1.8.7.1 1.9 1.4 1.3-.7 1.8.7 1.8-1.4 1.3-.1 1.9-1.8.7-.8 1.8-1.9-.4L10 17.4l-1.5-1.2-1.9.4-.8-1.8-1.8-.7-.1-1.9-1.4-1.3.7-1.8-.7-1.8 1.4-1.3.1-1.9 1.8-.7.8-1.8 1.9.4z"/><circle cx="10" cy="10" r="2.6"/></g>
+<g id="i-info"><circle cx="10" cy="10" r="7.5"/><path d="M10 9v5M10 6.2h.01"/></g>
 </defs></svg>
 
 <div class="app">
 <div class="top">
-  <span class="brand">Karta Consulting Group</span>
+  <span class="klogo ph" title="Karta K logo placeholder: awaiting the brand asset" aria-label="Karta Consulting Group">K</span>
   <span class="vr"></span>
   <div class="eng">doTERRA <span>· Raw Materials &amp; Production Planning</span></div>
   <div class="r">
-    <button class="ghost" id="btnChat" type="button"><svg class="ic" viewBox="0 0 20 20"><use href="#i-chat"/></svg>Ask this project <span class="beta">BETA</span></button>
-    <button class="plain" type="button">Help</button>
+    <button class="ghost primary" id="btnChat" type="button"><svg class="ic" viewBox="0 0 20 20"><use href="#i-chat"/></svg>Ask this project <span class="beta">BETA</span></button>
+    <button class="iconbtn" type="button" aria-label="Help" title="Help"><svg class="ic" viewBox="0 0 20 20"><use href="#i-info"/></svg></button>
     <button class="iconbtn" id="btnTheme" type="button" aria-label="Switch to dark mode" title="Switch theme">
       <svg class="ic" viewBox="0 0 20 20" id="themeIcon"><use href="#i-moon"/></svg>
     </button>
@@ -401,7 +418,7 @@ body.drawer-open .hgrid #evCard{grid-column:2}
   </nav>
   <main class="main">
     <section class="view" id="v-home">
-      <div class="hrow"><h2>Where the project stands</h2><div class="meta" id="hMeta">Reading the project…</div></div>
+      <div class="hrow"><h2>doTERRA <span>· Raw Materials &amp; Production Planning</span></h2><div class="right"><span class="wk" id="wkFocus"></span><div class="meta" id="hMeta">Reading the project…</div></div></div>
       <div class="strip" id="jrny"></div>
       <div class="hgrid">
         <div class="hcard" id="nowCard">
@@ -547,7 +564,6 @@ body.drawer-open .hgrid #evCard{grid-column:2}
     <div class="dinput"><input id="ask" type="text" placeholder="Ask about requirements, decisions, milestones, meetings, or risks" aria-label="Ask this project"><button type="button" id="btnAsk" aria-label="Send"><svg class="ic" viewBox="0 0 20 20"><use href="#i-send"/></svg></button></div>
   </aside>
 </div>
-<button class="pill" id="pill" type="button" hidden><svg class="ic" viewBox="0 0 20 20"><use href="#i-chat"/></svg>Ask this project <span class="beta">BETA</span></button>
 </div>
 
 <script>
@@ -682,7 +698,7 @@ body.drawer-open .hgrid #evCard{grid-column:2}
     if(v==="milestones")renderMsView();if(v==="raid")renderRaidView();if(v==="decisions")renderDecView();if(v==="artifacts")renderArtView();if(v==="catalog")renderCatView();if(v==="settings")renderCfgView();
   }
   function setSrc(k,st,d,at){SRC[k]={st:st,d:d,at:at||null};renderChips();renderInsights();}
-  var SRCNM={asana:"Asana",sharepoint:"SharePoint",assembly:"Karta Assembly",granola:"Granola",harvest:"Harvest",raid:"RAID log"};
+  var SRCNM={asana:"Asana",sharepoint:"SharePoint",assembly:"Assembly Server",granola:"Granola",harvest:"Harvest",raid:"RAID log"};
   var SRCFIX={asana:"Connect Asana under Customize, Connectors, and confirm you are staffed on the project.",sharepoint:"Connect Microsoft 365 under Customize, Connectors.",assembly:"Add the Karta Assembly connector under Customize, Connectors, then reload.",granola:"Meeting evidence arrives when the Granola connector is added to this engagement.",harvest:"Capacity and PTO signals arrive when Harvest is connected.",raid:"Until a RAID log source is connected, risks are entered by the reviewer and the deck records the gap."};
   function renderChips(){
     var box=$("chips");if(!box)return;box.innerHTML="";
@@ -712,13 +728,14 @@ body.drawer-open .hgrid #evCard{grid-column:2}
     $("nowObj").textContent=CFG.objectives[cur.id]||"";
     var cps=(CFG.controlPoints||[]).filter(function(c){return c.stage===cur.id&&c.due>=S.asOf}).sort(function(a,b){return a.due<b.due?-1:1});var cp=cps[0];
     if(cp){var ready=cp.evidence.filter(function(e){return e.s==="ok"}).length;
-      $("cpBox").innerHTML='<div class="cp"><div class="h"><svg class="ic" viewBox="0 0 20 20" style="color:var(--accent-2)"><use href="#i-gate"/></svg><span class="lbl">Next control point</span><span class="ev">Evidence '+ready+' of '+cp.evidence.length+' ready</span></div><div class="nm">'+esc(cp.nm)+'</div><div class="meta"><span>Due '+md(cp.due)+'</span><span>Owner: '+esc(cp.owner)+'</span><span>Decision: '+esc(cp.decision)+'</span></div><div class="evs">'+cp.evidence.map(function(e){return '<div><i style="background:var('+(e.s==="ok"?"--accent-2":e.s==="warn"?"--warn":"--faint")+')"></i>'+esc(e.t)+'</div>'}).join("")+'</div></div>';}
+      $("cpBox").innerHTML='<div class="cp"><div class="h"><svg class="ic" viewBox="0 0 20 20" style="color:var(--accent-2)"><use href="#i-gate"/></svg><span class="lbl">Next control point</span><span class="ev">Evidence '+ready+' of '+cp.evidence.length+' ready</span></div><div class="nm">'+esc(cp.nm)+'</div><div class="meta"><span>Due '+md(cp.due)+'</span><span>Owner: '+esc(cp.owner)+'</span><span>Decision: '+esc(cp.decision)+'</span></div><div class="evs">'+cp.evidence.map(function(e){return '<div><span class="bd '+(e.s==="ok"?"ok":e.s==="warn"?"warn":"")+'">'+(e.s==="ok"?'<svg class="ic" viewBox="0 0 20 20"><use href="#i-check"/></svg>':'')+'</span>'+esc(e.t)+'</div>'}).join("")+'</div></div>';}
     else $("cpBox").innerHTML='<div class="cp"><div class="h"><span class="lbl">Next control point</span></div><div style="font-size:12.5px;color:var(--muted)">No control point configured for this stage. Add one in the engagement configuration.</div></div>';
     var dl=CFG.deliverables[cur.id]||[];$("delivList").innerHTML=dl.length?dl.map(function(d){return '<div class="drow"><span>'+esc(d.n)+'</span><span class="tag2 '+d.k+'">'+esc(d.s)+'</span></div>'}).join(""):'<div class="empty2">No deliverables configured.</div>';
     var recs=CFG.capabilities.filter(function(c){return c.stages.indexOf(cur.id)>=0}).slice(0,document.body.classList.contains("drawer-open")?2:3);
     $("recList").innerHTML=recs.map(function(c){return '<div class="rrow"><span class="ib"><svg class="ic" viewBox="0 0 20 20"><use href="#'+c.ic+'"/></svg></span><span class="tx"><b>'+esc(c.nm)+'</b><span>'+esc(c.p)+'</span></span>'+(c.id==="status"?'<button class="btn xs" type="button" data-view="status">Start</button>':'<span class="tag2 '+(c.live?"ok":"")+'">'+esc(c.ready)+'</span>')+'</div>'}).join("");
   }
   function renderHero(){
+    $("wkFocus").textContent="Week in focus · "+PER.label;
     var late=S.ms.filter(function(m){return m.status==="Off Track"}).length;
     $("hMeta").textContent=S.approved?"Overall status "+S.approved.overall.status+" · approved "+md(S.approved.approval.approved_at)+" by "+S.approved.approval.reviewer_name:(S.tasks===null?"Reading the project…":(late?late+" milestone"+(late>1?"s":"")+" past date with no approved new date":"No milestone past its date"));
   }
@@ -744,7 +761,7 @@ body.drawer-open .hgrid #evCard{grid-column:2}
     $("act").innerHTML=h||'<div class="calm">No approved records yet.</div>';
   }
   function renderHome(){renderHero();renderJourney();renderNow();renderInsights();renderActivity();renderChips();}
-  renderJourney();renderChips();renderNow();
+  renderJourney();renderChips();renderNow();$("wkFocus").textContent="Week in focus · "+PER.label;
 
   /* ---------- area views ---------- */
   function table(cols,rows,empty){if(!rows.length)return '<div class="empty2">'+esc(empty)+'</div>';return '<table><thead><tr>'+cols.map(function(c){return "<th>"+esc(c)+"</th>"}).join("")+'</tr></thead><tbody>'+rows.map(function(r){return "<tr>"+r.map(function(c){return "<td>"+c+"</td>"}).join("")+"</tr>"}).join("")+'</tbody></table>';}
@@ -1096,7 +1113,7 @@ body.drawer-open .hgrid #evCard{grid-column:2}
 
   /* ---------- ask this project: drawer ---------- */
   var SUGS=["What changed since last week’s status?","Which milestones have no approved new date?","What did we decide about the Sprint 3 scope?","Which risks are open and who owns them?"];
-  function openDrawer(open){$("drawer").hidden=!open;$("pill").hidden=open;document.body.classList.toggle("drawer-open",open);try{localStorage.setItem("kcg-drawer",open?"1":"0")}catch(e){}renderNow();if(open)renderChat();}
+  function openDrawer(open){$("drawer").hidden=!open;document.body.classList.toggle("drawer-open",open);try{localStorage.setItem("kcg-drawer",open?"1":"0")}catch(e){}renderNow();if(open)renderChat();}
   function renderChat(){
     var box=$("msgs");box.innerHTML="";
     if(!CHAT.length){var w=document.createElement("div");w.className="msg a";w.textContent="Ask about this engagement. Answers come from the Asana project and the approved status record, cite what they used, and say plainly when the evidence is missing. Nothing is saved unless you choose to.";box.appendChild(w);}
@@ -1129,7 +1146,7 @@ body.drawer-open .hgrid #evCard{grid-column:2}
     var er=e.target.closest(".erow[data-view]");if(er){showView(er.dataset.view);return;}
     var b=e.target.closest("button");if(!b)return;
     if(b.dataset.view){showView(b.dataset.view);return;}
-    if(b.id==="btnChat"||b.id==="pill"){openDrawer(true);return;}
+    if(b.id==="btnChat"){openDrawer(true);return;}
     if(b.id==="btnMin"||b.id==="btnClose"){openDrawer(false);return;}
     if(b.dataset.src){togglePop(b.dataset.src);return;}
     if(b.dataset.q){doAsk(b.dataset.q);return;}
