@@ -261,15 +261,15 @@ body{overflow:hidden}
 .eng span{font-weight:500;color:var(--muted)}
 .eng{letter-spacing:-.01em}
 .body{flex:1;min-height:0;display:flex}
-.rail{width:112px;flex:none;background:var(--topbar);border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 8px;overflow:hidden}
-.rail button.nv{display:flex;flex-direction:column;align-items:center;gap:4px;padding:7px 4px;border-radius:8px;width:96px;background:none;border:0;cursor:pointer;color:var(--muted);font-family:var(--sans)}
+.rail{width:124px;flex:none;background:var(--topbar);border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 8px;overflow:hidden}
+.rail button.nv{display:flex;flex-direction:column;align-items:center;gap:4px;padding:7px 4px;border-radius:8px;width:108px;background:none;border:0;cursor:pointer;color:var(--muted);font-family:var(--sans)}
 .rail button.nv .ic{width:18px;height:18px}
 .rail button.nv span{font-size:10px;font-weight:600;text-align:center;line-height:1.15}
 .rail button.nv:hover{color:var(--ink);background:var(--raise)}
 .rail button.nv.on{background:var(--accent-soft);color:var(--accent-2)}
 .rail .spacer{flex:1}
 .rail .srclbl{font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin:6px 0 2px;align-self:flex-start;padding-left:4px}
-.srcs{display:flex;flex-direction:column;gap:3px;width:96px}
+.srcs{display:flex;flex-direction:column;gap:3px;width:108px}
 .sch{display:flex;align-items:center;gap:6px;width:100%;font-size:10px;font-weight:600;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:4px 6px;white-space:nowrap;overflow:hidden;cursor:pointer;font-family:var(--sans);text-align:left}
 .sch:hover{border-color:var(--line-strong)}
 .sch .d{width:7px;height:7px;border-radius:50%;flex:none;background:var(--faint)}
@@ -279,8 +279,6 @@ body{overflow:hidden}
 .pop .fix{margin-top:8px;color:var(--muted)}
 .main{flex:1;min-width:0;min-height:0;display:flex;flex-direction:column;overflow:hidden}
 .view{flex:1;min-height:0;display:flex;flex-direction:column;padding:16px 20px;gap:12px}
-.view.scroll{overflow:auto}
-.view.scroll .page{padding:0 0 32px;max-width:none}
 .hrow{display:flex;align-items:center;justify-content:space-between;gap:16px;flex:none}
 .hrow h2{font-weight:800;font-size:24px;letter-spacing:-.03em;color:var(--ink)}
 .hrow .meta{font-size:12.5px;color:var(--muted)}
@@ -364,6 +362,43 @@ body.drawer-open .hgrid #evCard{grid-column:2}
 .ghost.primary{background:var(--accent);color:var(--on-accent);border-color:var(--accent);font-weight:600}
 .ghost.primary:hover{background:var(--ink);border-color:var(--ink)}
 .ghost.primary .beta{background:var(--on-accent);color:var(--accent)}
+
+/* weekly status: four viewport-fitting panes */
+#v-status{padding:14px 20px 16px}
+.wsg{flex:1;min-height:0;display:flex;flex-direction:column;gap:10px;padding:0;max-width:none;width:100%;margin:0}
+.wsg .steps{flex:none}
+.wsg .steps>div{cursor:pointer}
+.wsg .steps>div.pick{box-shadow:inset 0 -2px 0 var(--accent-2)}
+.wsg .foot{display:none}
+.wstep{display:none;flex:1;min-height:0}
+.wstep.on{display:grid}
+.wstep[data-step="1"]{grid-template-columns:1.6fr 1fr;gap:12px}
+.wstep[data-step="1"] .card{display:flex;flex-direction:column;min-height:0;overflow:hidden}
+.wstep[data-step="1"] .card .pad{overflow:auto;min-height:0}
+.wsl{display:flex;flex-direction:column;min-height:0}
+.wsr{min-height:0}
+.wsr .two{grid-template-columns:1fr;grid-template-rows:auto 1fr;height:100%;min-height:0}
+.wstep[data-step="2"]{grid-template-rows:auto 1fr auto;gap:10px}
+.ws3{display:grid;grid-template-columns:1fr 1fr 1.2fr;gap:12px;min-height:0}
+.ws3 .two{display:contents}
+.ws3 .card{display:flex;flex-direction:column;min-height:0;overflow:hidden}
+.ws3 .card .pad{overflow:auto;min-height:0;display:flex;flex-direction:column}
+.ws3 .budget{margin-top:auto}
+.wstep[data-step="3"],.wstep[data-step="4"]{grid-template-columns:minmax(0,860px);justify-content:start;align-content:start}
+.wstep[data-step="4"] .card{display:flex;flex-direction:column;min-height:0;max-height:100%;overflow:hidden}
+.wstep[data-step="4"] .card .pad{overflow:auto;min-height:0}
+.wstep .card{align-self:stretch}
+.wsg .gbar{margin:0}
+
+.hrow{min-height:40px}
+.hrow h2{font-size:22px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.hrow .right{flex:none;max-width:52%;justify-content:flex-end}
+.hrow .right .meta{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.wsg>div:first-child .lbl{display:none}
+.wsg>div:first-child{display:flex;align-items:baseline;gap:14px}
+.wsg>div:first-child .gh{font-size:22px}
+.wsg>div:first-child .sub{margin-top:0}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
@@ -439,18 +474,20 @@ body.drawer-open .hgrid #evCard{grid-column:2}
         <div class="hcard" id="evCard"><div class="ct"><h3>Evidence and decisions</h3><button class="plain" type="button" data-view="catalog" style="color:var(--accent-2);font-weight:500;font-size:12px">Capability catalog</button></div><div class="list" id="act"><div class="calm">Reading the project…</div></div></div>
       </div>
     </section>
-    <section class="view scroll" id="v-status" hidden><div class="page" id="gate">
-  
-  <div><span class="lbl">Weekly status</span><h2 class="gh" style="margin-top:5px">Weekly status</h2>
-    <div class="sub" id="gateSub">Reading the status period…</div></div>
-  <div class="steps" id="stepbar">
+    <section class="view scroll" id="v-status" hidden><div class="page wsg" id="gate"><div><span class="lbl">Weekly status</span><h2 class="gh" style="margin-top:2px">Weekly status</h2>
+    <div class="sub" id="gateSub">Reading the status period…</div></div><div class="steps" id="stepbar">
     <div data-step="1"><span class="lbl">1 · Review sources</span><div class="t" id="st1">Reading…</div></div>
     <div data-step="2"><span class="lbl">2 · Draft narrative</span><div class="t" id="st2">Not drafted</div></div>
     <div data-step="3"><span class="lbl">3 · Approve</span><div class="t" id="st3">Not approved</div></div>
     <div data-step="4"><span class="lbl">4 · Generate deck</span><div class="t" id="st4">Waiting for approval</div></div>
-  </div>
-
-  <div class="two">
+  </div><div class="wstep on" data-step="1"><div class="wsl"><div class="card">
+    <div class="phead"><h2>Milestones</h2><span class="lbl" id="msCount">—</span></div>
+    <div class="pad" style="overflow-x:auto">
+      <table><thead><tr><th style="width:40%">Milestone</th><th>Orig. date</th><th>New date</th><th>Variance</th><th>Status</th></tr></thead>
+        <tbody id="msBody"><tr><td colspan="5" class="empty">Reading the Asana project…</td></tr></tbody></table>
+      <div class="prov" style="margin-top:10px">Status is derived in code from completion and dates. To change a status, enter the approved New Date. Past date with no New Date reads Off Track. No date at all reads Unknown.</div>
+    </div>
+  </div></div><div class="wsr"><div class="two">
     <div class="card">
       <div class="phead"><h2>Sources</h2><span class="lbl" id="asOf">as of —</span></div>
       <div class="pad"><div class="src" id="srcList"><div class="calm">Connecting…</div></div></div>
@@ -459,9 +496,7 @@ body.drawer-open .hgrid #evCard{grid-column:2}
       <div class="phead"><h2>Source gaps</h2><span class="lbl">recorded with the deck</span></div>
       <div class="pad"><ul class="bul" id="gapList"><li class="empty" style="list-style:none;margin-left:-17px">None recorded.</li></ul></div>
     </div>
-  </div>
-
-  <div class="roll" id="roll">
+  </div></div></div><div class="wstep" data-step="2"><div class="roll" id="roll">
     <div class="lead"><span class="lbl">Overall status</span>
       <span class="sv"><span class="dot" id="dOverall"></span><span id="tOverall">—</span></span>
       <span class="derived">worst of the three · never Green with a gap</span></div>
@@ -477,18 +512,7 @@ body.drawer-open .hgrid #evCard{grid-column:2}
       <button class="sv" data-sub="data" type="button"><span class="dot"></span><span>—</span></button>
       <span class="rec-note" id="recData">&nbsp;</span>
       <input class="in" data-rat="data" type="text" placeholder="Why, in one line" aria-label="Data rationale"></div>
-  </div>
-
-  <div class="card">
-    <div class="phead"><h2>Milestones</h2><span class="lbl" id="msCount">—</span></div>
-    <div class="pad" style="overflow-x:auto">
-      <table><thead><tr><th style="width:40%">Milestone</th><th>Orig. date</th><th>New date</th><th>Variance</th><th>Status</th></tr></thead>
-        <tbody id="msBody"><tr><td colspan="5" class="empty">Reading the Asana project…</td></tr></tbody></table>
-      <div class="prov" style="margin-top:10px">Status is derived in code from completion and dates. To change a status, enter the approved New Date. Past date with no New Date reads Off Track. No date at all reads Unknown.</div>
-    </div>
-  </div>
-
-  <div class="two">
+  </div><div class="ws3"><div class="two">
     <div class="card">
       <div class="phead"><h2>Activities completed</h2><span class="lbl" id="narrSrc">not drafted</span></div>
       <div class="pad">
@@ -505,22 +529,16 @@ body.drawer-open .hgrid #evCard{grid-column:2}
           <div class="meter"><i id="budFill" style="width:0%"></i></div></div>
       </div>
     </div>
-  </div>
-
-  <div class="card">
+  </div><div class="card">
     <div class="phead"><h2>Key risks &amp; issues</h2><span class="lbl">RAID · up to three on the slide</span></div>
     <div class="pad">
       <div id="raidBox" class="empty">Draft to populate.</div>
       <div class="addrow" style="margin-top:12px"><button class="btn out sm" id="btnAddRaid" type="button">Add a risk or issue</button></div>
     </div>
-  </div>
-
-  <div class="card gbar">
+  </div></div><div class="card gbar">
     <button class="btn" id="btnDraft" type="button" disabled>Draft this week’s status</button>
     <span class="note" id="barNote">Connecting…</span>
-  </div>
-
-  <div class="card">
+  </div></div><div class="wstep" data-step="3"><div class="card">
     <div class="phead"><h2>Approve</h2><span class="lbl" id="apprState">step 3</span></div>
     <div class="pad" id="apprPanel">
       <div class="form">
@@ -534,9 +552,7 @@ body.drawer-open .hgrid #evCard{grid-column:2}
         <span class="note" id="apprNote">Draft and review first. Approving records your name, the time, every value, and which values you changed.</span>
       </div>
     </div>
-  </div>
-
-  <div class="card">
+  </div></div><div class="wstep" data-step="4"><div class="card">
     <div class="phead"><h2>Generate deck</h2><span class="lbl" id="genState">step 4</span></div>
     <div class="pad">
       <div class="src" id="genInfo"></div>
@@ -547,14 +563,7 @@ body.drawer-open .hgrid #evCard{grid-column:2}
       <div id="jobOut" style="margin-top:14px"></div>
       <div id="jobHist" style="margin-top:6px"></div>
     </div>
-  </div>
-
-  <div class="foot">
-    Statuses, variances, the status period, and the overall rollup are derived in code and re-checked by the assembly service before any deck is built. The model drafts narrative and recommends assessments; the named reviewer owns every value. Distribution is a human action outside this page.
-  </div>
-</div>
-
-</section>
+  </div></div></div></section>
     <section class="view" id="v-milestones" hidden><div class="hrow"><h2>Milestones</h2><div class="meta" id="msMeta"></div></div><div class="hcard tbl" id="msView"></div></section>
     <section class="view" id="v-raid" hidden><div class="hrow"><h2>Risks, assumptions, issues, dependencies</h2><div class="meta">from the latest approved status and the working draft</div></div><div class="hcard tbl" id="raidView"></div></section>
     <section class="view" id="v-decisions" hidden><div class="hrow"><h2>Decisions</h2><div class="meta">what changed, why, when, who approved</div></div><div class="hcard tbl" id="decView"></div></section>
@@ -809,7 +818,9 @@ body.drawer-open .hgrid #evCard{grid-column:2}
     $("st3").textContent=S.approved?"Approved v"+S.version+" by "+S.approved.approval.reviewer_name:"Not approved";
     var lastJob=S.jobs[0];
     $("st4").textContent=!S.approved?"Waiting for approval":(lastJob?lastJob.state+(lastJob.deck&&lastJob.deck.filename?" · "+lastJob.deck.filename:""):"Ready to generate");
-    var cur=!srcOk?1:(!S.drafted?2:(!S.approved||S.editing?3:4));
+    var cur=S.step||(!srcOk?1:(!S.drafted?2:(!S.approved||S.editing?3:4)));
+    document.querySelectorAll(".wstep").forEach(function(p){p.classList.toggle("on",+p.dataset.step===cur);});
+    document.querySelectorAll("#stepbar > div").forEach(function(d){d.classList.toggle("pick",+d.dataset.step===cur);});
     document.querySelectorAll("#stepbar > div").forEach(function(d){var n=+d.dataset.step;d.className=n<cur?"done":(n===cur?"on":"");});
   }
   function renderSources(){
@@ -995,7 +1006,7 @@ body.drawer-open .hgrid #evCard{grid-column:2}
       S.rec={};var a=o.assessments||{};var prevChanged=S.changed||{};
       Object.keys(SUBKEY).forEach(function(k){var v=a[SUBKEY[k]]||{};var st=SUB.indexOf(v.status)>=0?v.status:"Unknown";S.rec[k]=st;
         if(!prevChanged["assessments."+SUBKEY[k]]){S.sub[k]=st;S.rat[k]=String(v.rationale||"");}});
-      S.drafted=true;S.draftedAt=new Date().toISOString();
+      S.drafted=true;S.draftedAt=new Date().toISOString();S.step=2;
       var keep={};Object.keys(prevChanged).forEach(function(f){if(f.indexOf("assessments.")===0||f==="milestones.new_date")keep[f]=true;});S.changed=keep;
       if(keptRaid.length)S.changed.raid=true;if(keptAcc.length)S.changed.accomplishments=true;if(keptPln.length)S.changed.planned_activities=true;
       S.draftedFields=["accomplishments","planned_activities","raid","assessments.scope_schedule","assessments.resources","assessments.data"];
@@ -1049,7 +1060,7 @@ body.drawer-open .hgrid #evCard{grid-column:2}
     try{
       if(db){await db.doc(CFG.docRoot+"/approved/v"+av.approval.version).set(av);
         await db.doc(CFG.docRoot).set({latestApprovedVersion:av.approval.version,latestApprovedAt:av.approval.approved_at,latestApprovedBy:name,updatedAt:av.approval.approved_at});}
-      S.approved=av;S.version=av.approval.version;S.editing=false;
+      S.approved=av;S.version=av.approval.version;S.editing=false;S.step=4;
     }catch(e){$("apprNote").innerHTML='<span class="err">Could not save the approval: '+esc((e&&e.message)||"write failed")+'</span>';}
     finally{S.busy=false;renderGate();}
   }
@@ -1149,6 +1160,7 @@ body.drawer-open .hgrid #evCard{grid-column:2}
   document.addEventListener("click",function(e){
     if(!e.target.closest(".pop")&&!e.target.closest("[data-src]")){var pp=document.querySelector(".pop");if(pp)pp.remove();}
     var er=e.target.closest(".erow[data-view]");if(er){showView(er.dataset.view);return;}
+    var st=e.target.closest("#stepbar > div[data-step]");if(st){S.step=+st.dataset.step;renderSteps();return;}
     var b=e.target.closest("button");if(!b)return;
     if(b.dataset.view){showView(b.dataset.view);return;}
     if(b.id==="btnChat"){openDrawer(true);return;}
