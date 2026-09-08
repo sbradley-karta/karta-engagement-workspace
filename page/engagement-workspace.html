@@ -912,7 +912,9 @@ body.drawer-open .hgrid #evCard{grid-column:2}
       if(found){s.drive_id=found.driveId;s.status_folder_item_id=found.id;s.label=labelFromUrl(found.webUrl);s.status_folder_web_url=found.webUrl;s.verified=true;vf("sharepoint","ok","Verified: "+s.label+".");}
       else{s.verified=false;vf("sharepoint","warn","No folder you can open matches this address."+(near.length?" Folders named “"+name+"” that you can see include: "+near.join("; ")+".":"")+" Check the address and that you have access. The link is saved.");}}
     catch(e){s.verified=false;vf("sharepoint","warn","Could not check with Microsoft 365: "+((e&&e.message)||"call failed")+". The link is saved.");}}
-  async function verifyGranola(d){var g=d.sources.granola;var q=(g.folder_name||"").trim();if(!q){vf("granola","","Optional. The Granola folder that holds this engagement’s meeting notes.");g.verified=null;return;}
+  async function verifyGranola(d){var g=d.sources.granola;var gs=$("src-granola-sel");
+    if(gs&&!gs.hidden){if(g.folder_id){vf("granola","ok","Selected: “"+g.folder_name+"”"+(g.note_count!=null?" · "+g.note_count+" notes":"")+".");}else{vf("granola","","Optional. Choose the Granola folder that holds this engagement’s meeting notes.");}return;}
+    var q=(g.folder_name||"").trim();if(!q){vf("granola","","Optional. The Granola folder that holds this engagement’s meeting notes.");g.verified=null;return;}
     if(!mcp){vf("granola","warn","Saved. It will be checked when Granola is connected.");g.verified=null;return;}
     vf("granola","","Checking with Granola…");
     try{var r=await mcp.callTool(CFG.granola,"list_meeting_folders",{},{cache:false});var all=[];objectsFrom(r).forEach(function(x){if(Array.isArray(x.folders))all=all.concat(x.folders);else if(x.title&&x.id)all.push(x);});
@@ -924,7 +926,9 @@ body.drawer-open .hgrid #evCard{grid-column:2}
       else{var client=(d.client||"").toLowerCase().split(/\s+/)[0];var sugg=client?all.filter(function(f){return String(f.title||"").toLowerCase().indexOf(client)>=0}).map(function(f){return "“"+f.title+"”"+(f.note_count!=null?" ("+f.note_count+" notes)":"")}):[];
         g.verified=false;vf("granola","warn",(isLink?"Granola links cannot be matched to a folder. Type the folder name as it appears in Granola.":"No Granola folder named “"+q+"” in your account.")+(sugg.length?" Folders you have that match the client: "+sugg.join(", ")+".":"")+" Saved as typed.");}}
     catch(e){g.verified=false;vf("granola","warn","Could not check with Granola: "+((e&&e.message)||"call failed")+". Saved as typed.");}}
-  async function verifyHarvest(d){var hv=d.sources.harvest;var q=(hv.project||"").trim();if(!q){vf("harvest","","Optional. The Harvest project name or code for this engagement.");hv.verified=null;return;}
+  async function verifyHarvest(d){var hv=d.sources.harvest;var hs=$("src-harvest-sel");
+    if(hs&&!hs.hidden){if(hv.project_id!=null){vf("harvest","ok","Selected: "+(hv.client_name?hv.client_name+" · ":"")+hv.project_name+".");}else{vf("harvest","","Optional. Choose the Harvest project for this engagement. Harvest lists only projects you are assigned to.");}return;}
+    var q=(hv.project||"").trim();if(!q){vf("harvest","","Optional. The Harvest project name or code for this engagement.");hv.verified=null;return;}
     if(!mcp){vf("harvest","warn","Saved. It will be checked when Harvest is connected.");hv.verified=null;return;}
     vf("harvest","","Checking with Harvest…");
     try{var r=await mcp.callTool(CFG.harvest,"list_projects",{search:q,is_active:true},{cache:false});var all=[];objectsFrom(r).forEach(function(x){if(Array.isArray(x.projects))all=all.concat(x.projects);else if(x.name&&x.id)all.push(x);});
@@ -941,6 +945,26 @@ body.drawer-open .hgrid #evCard{grid-column:2}
   var cfgEdit=null;
   function blankDoc(){return cfgToDoc();}
   function fld(id,label,val,ph,type,hint){return '<div class="field"><label for="'+id+'">'+esc(label)+'</label><input class="in'+(type==="date"?" date":"")+'" id="'+id+'" type="'+(type||"text")+'" value="'+esc(val||"")+'"'+(ph?' placeholder="'+esc(ph)+'"':'')+'>'+(hint?'<div class="hint">'+hint+'</div>':'')+'</div>';}
+  function pickRow(k,label,val,ph,hint){return '<div class="field"><label for="src-'+k+'">'+esc(label)+'</label><select class="in" id="src-'+k+'-sel" hidden><option value="">Choose…</option></select><input class="in" id="src-'+k+'" type="text" value="'+esc(val||"")+'" placeholder="'+esc(ph)+'"><div class="vf" id="vf-'+k+'"></div>'+(hint?'<div class="hint">'+hint+'</div>':'')+'</div>';}
+  var PICK={granola:null,harvest:null};
+  function fillPicker(k,d){
+    var sel=$("src-"+k+"-sel"),inp=$("src-"+k);if(!sel||!inp||!PICK[k])return;
+    var cur=k==="granola"?(d.sources.granola.folder_id||""):(d.sources.harvest.project_id!=null?String(d.sources.harvest.project_id):"");
+    var curName=k==="granola"?(d.sources.granola.folder_name||""):(d.sources.harvest.project_name||d.sources.harvest.project||"");
+    var opts='<option value="">'+(k==="granola"?"Choose the Granola folder…":"Choose the Harvest project…")+'</option>';
+    PICK[k].forEach(function(o){var id=String(k==="granola"?o.id:o.id),label=k==="granola"?(o.title+(o.note_count!=null?" · "+o.note_count+" notes":"")):((o.client_name?o.client_name+" · ":"")+o.name+(o.code?" ("+o.code+")":""));
+      var picked=cur?id===cur:(curName&&String(k==="granola"?o.title:o.name).toLowerCase()===curName.toLowerCase());
+      opts+='<option value="'+esc(id)+'"'+(picked?" selected":"")+' data-title="'+esc(k==="granola"?o.title:o.name)+'" data-n="'+esc(o.note_count==null?"":o.note_count)+'" data-client="'+esc(o.client_name||"")+'" data-code="'+esc(o.code||"")+'">'+esc(label)+'</option>';});
+    sel.innerHTML=opts;sel.hidden=false;inp.hidden=true;
+    if(!sel.dataset.wired){sel.dataset.wired="1";sel.addEventListener("change",function(){try{readForm(cfgEdit||(cfgEdit=blankDoc()),$("v-setup").hidden?"config":"setup");}catch(e){}if(k==="granola")verifyGranola(cfgEdit);else verifyHarvest(cfgEdit);});}
+    if(k==="granola")verifyGranola(d);else verifyHarvest(d);
+  }
+  async function loadPickers(d){
+    if(!mcp)return;d=d||cfgEdit||blankDoc();
+    if(!PICK.granola&&connected(CFG.granola)){try{var r=await mcp.callTool(CFG.granola,"list_meeting_folders",{},{cache:true});var all=[];objectsFrom(r).forEach(function(x){if(Array.isArray(x.folders))all=all.concat(x.folders);else if(x.title&&x.id)all.push(x);});PICK.granola=all.sort(function(a,b){return String(a.title).localeCompare(String(b.title))||(b.note_count||0)-(a.note_count||0)});}catch(e){}}
+    if(!PICK.harvest&&connected(CFG.harvest)){try{var r2=await mcp.callTool(CFG.harvest,"list_projects",{is_active:true},{cache:true});var all2=[];objectsFrom(r2).forEach(function(x){if(Array.isArray(x.projects))all2=all2.concat(x.projects);else if(x.name&&x.id)all2.push(x);});PICK.harvest=all2;}catch(e){}}
+    fillPicker("granola",d);fillPicker("harvest",d);
+  }
   function srcRow(k,label,val,ph,hint){return '<div class="field"><label for="src-'+k+'">'+esc(label)+'</label><input class="in" id="src-'+k+'" type="text" value="'+esc(val||"")+'" placeholder="'+esc(ph)+'"><div class="vf" id="vf-'+k+'"></div>'+(hint?'<div class="hint">'+hint+'</div>':'')+'</div>';}
   function formHtml(d,mode){
     var setup=mode==="setup",h='';
@@ -953,8 +977,8 @@ body.drawer-open .hgrid #evCard{grid-column:2}
     h+='<div class="hcard"><div class="ct"><h3>Sources</h3><span class="m">paste links · checked with your own connectors</span></div><div class="grid2">'+
       srcRow("asana","Asana project link",d.sources.asana.project_url,"https://app.asana.com/…/project/…","Open the project in Asana and copy the address bar.")+
       srcRow("sharepoint","SharePoint status folder link",d.sources.sharepoint.status_folder_web_url,"https://kartaconsultinggroup.sharepoint.com/sites/…/Status & Steer Co","Open the Status &amp; Steer Co folder in the browser and copy the address bar, not a Share link.")+
-      srcRow("granola","Granola folder",d.sources.granola.folder_name,"Folder name in Granola","")+
-      srcRow("harvest","Harvest project",d.sources.harvest.project,"Project name or code in Harvest","")+'</div>'+
+      pickRow("granola","Granola folder",d.sources.granola.folder_name,"Folder name in Granola","Loads your Granola folders when Granola is connected; choose the one for this engagement.")+
+      pickRow("harvest","Harvest project",d.sources.harvest.project,"Project name in Harvest","Lists the Harvest projects you are assigned to; choose the one for this engagement.")+'</div>'+
       '<div class="row"><button class="btn out sm" type="button" id="btnVerify"'+(mcp?"":" disabled")+'>Check links</button><span class="sub" id="vfNote">'+(mcp?"Checks run as you through your connected Asana, Microsoft 365, Granola and Harvest.":((typeof claude!=="undefined"&&claude&&typeof claude.use==="function")?"Waiting for the Claude viewer to hand this page your connectors…":"Open this page in the Claude viewer to check links. Links can be saved unchecked."))+'</span></div>'+
       '<div class="sub" style="margin-top:10px">Your connectors</div><div id="connStat" style="margin-top:4px;display:flex;gap:6px;flex-wrap:wrap"></div></div>';
     h+='<div class="hcard"><details'+(setup?"":" open")+'><summary>Stage dates'+(setup?" (optional now, set them any time in Config)":"")+'</summary>'+
@@ -990,8 +1014,12 @@ body.drawer-open .hgrid #evCard{grid-column:2}
     var a=d.sources.asana,sp=d.sources.sharepoint,g=d.sources.granola,hv=d.sources.harvest;
     var au=$("src-asana").value.trim();if(au!==a.project_url){a.project_url=au;a.project_gid=asanaGid(au);a.project_name="";a.verified=null;}
     var su=$("src-sharepoint").value.trim();if(su!==sp.status_folder_web_url){sp.status_folder_web_url=su;sp.drive_id="";sp.status_folder_item_id="";sp.label=labelFromUrl(su);sp.verified=null;}
-    var gq=$("src-granola").value.trim();if(gq!==g.folder_name){g.folder_name=gq;g.folder_id="";g.note_count=null;g.verified=null;}
-    var hq=$("src-harvest").value.trim();if(hq!==hv.project){hv.project=hq;hv.project_id=null;hv.project_name="";hv.client_name="";hv.code="";hv.verified=null;}
+    var gs=$("src-granola-sel");
+    if(gs&&!gs.hidden){var go=gs.options[gs.selectedIndex];if(gs.value){if(g.folder_id!==gs.value){g.folder_id=gs.value;g.folder_name=go.dataset.title||"";g.note_count=go.dataset.n===""?null:+go.dataset.n;g.verified=true;}}else{g.folder_id="";g.folder_name="";g.note_count=null;g.verified=null;}}
+    else{var gq=$("src-granola").value.trim();if(gq!==g.folder_name){g.folder_name=gq;g.folder_id="";g.note_count=null;g.verified=null;}}
+    var hs=$("src-harvest-sel");
+    if(hs&&!hs.hidden){var ho=hs.options[hs.selectedIndex];if(hs.value){if(String(hv.project_id)!==hs.value){hv.project_id=+hs.value;hv.project_name=ho.dataset.title||"";hv.client_name=ho.dataset.client||"";hv.code=ho.dataset.code||"";hv.project=hv.project_name;hv.verified=true;}}else{hv.project="";hv.project_id=null;hv.project_name="";hv.client_name="";hv.code="";hv.verified=null;}}
+    else{var hq=$("src-harvest").value.trim();if(hq!==hv.project){hv.project=hq;hv.project_id=null;hv.project_name="";hv.client_name="";hv.code="";hv.verified=null;}}
     document.querySelectorAll('input[data-st]').forEach(function(inp){var s=d.stages[+inp.dataset.st];if(inp.dataset.f==="contracted")s.contracted=inp.checked;else s[inp.dataset.f]=inp.value||null;});
     d.stages_confirmed_at=$("f-confirmed").value||d.stages_confirmed_at||null;
     if(mode!=="setup"){
@@ -1237,6 +1265,7 @@ body.drawer-open .hgrid #evCard{grid-column:2}
   function refreshConnectors(errText){
     if(!CFG.configured){CONN.forEach(function(c){if(c.k==="assembly")return;var on=connected(c.server);setSrc(c.k,on?"off":"warn",on?"connected as you · not linked to this engagement yet":"not connected · add "+c.server+" under Customize, Connectors in claude.ai");});}
     var box=$("connStat");if(!box)return;
+    if(Array.isArray(S.servers))loadPickers();
     if(!Array.isArray(S.servers)){box.innerHTML='<span class="calm">'+(errText?"Could not list your connectors: "+esc(errText):"Checking your connectors…")+'</span>';return;}
     box.innerHTML=CONN.map(function(c){var on=connected(c.server);return '<span class="tag2 '+(on?"ok":"risk")+'" title="'+(on?"Connected in your claude.ai account":"Not connected. Add it under Customize, Connectors, then reload this page.")+'">'+esc(c.server)+' · '+(on?"connected":"not connected")+'</span>';}).join(" ")+
       (CONN.every(function(c){return connected(c.server)})?'':'<div class="hint" style="margin-top:6px">Connectors are per person. Add any missing one in claude.ai under Customize, Connectors, sign in there, then reload this page. Links can still be saved unchecked.</div>');
