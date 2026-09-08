@@ -601,7 +601,7 @@ body.drawer-open .hgrid #evCard{grid-column:2}
 <script>
 (function(){
   /* Snapshot of this page's own markup, taken before any script has changed the DOM, so the page can republish itself with a new title after setup. */
-  var SRC_HTML=(function(){try{var d=document.documentElement.cloneNode(true);d.querySelectorAll("script").forEach(function(s){if(!/var STAGE_DEF=/.test(s.textContent))s.remove();});return "<!doctype html>\n"+d.outerHTML;}catch(e){return null;}})();
+  var SRC_HTML=(function(){try{var d=document.documentElement.cloneNode(true);d.removeAttribute("data-theme");d.removeAttribute("style");d.querySelectorAll("script").forEach(function(s){if(!/var STAGE_DEF=/.test(s.textContent))s.remove();});return "<!doctype html>\n"+d.outerHTML;}catch(e){return null;}})();
   var STAGE_DEF=[
     {id:"planning",nm:"Project Planning",kind:"stage"},{id:"foundations",nm:"Foundations",kind:"stage"},{id:"build",nm:"Build",kind:"stage"},
     {id:"test",nm:"Test",kind:"stage"},{id:"train",nm:"Train",kind:"parallel"},{id:"deploy",nm:"Deploy",kind:"stage"},{id:"support",nm:"Continuous Support",kind:"stage"}];
@@ -617,7 +617,7 @@ body.drawer-open .hgrid #evCard{grid-column:2}
     harvestProject:{query:"",id:null,name:"",client:"",code:""},
     verified:{asana:null,sharepoint:null,granola:null,harvest:null},
     docRoot:"engagements/this",
-    stages:STAGE_DEF.map(function(s){return {id:s.id,nm:s.nm,from:null,to:null,kind:s.kind,contracted:s.id==="support"?false:true}}),
+    stages:STAGE_DEF.map(function(s){return {id:s.id,nm:s.nm,from:null,to:null,kind:s.kind,contracted:true}}),
     stagesConfirmedAt:null,
     objectives:{planning:"Transfer commercial and client context into delivery and establish a controlled engagement with clear scope, logistics, roles, sources and milestones.",
       foundations:"Convert business intent and workshop evidence into an approved solution foundation that stays deliverable within scope, window, budget and capacity.",
