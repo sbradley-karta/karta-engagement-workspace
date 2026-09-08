@@ -1,6 +1,6 @@
 # Standing up an engagement workspace
 
-**Status:** Gate 6 working process, revised September 8, 2026 after Sean's direction: setup by links, owner named at stand-up. Sean Bradley holds every role during the pilot and delegates later.
+**Status:** Gate 6 closed September 8, 2026. Proven once on Legend, Continuous Support (Sean as initial owner). Revise after the cold test and the first Weekly Status run. Sean Bradley holds every role during the pilot and delegates later.
 **Target:** a new engagement live in under one day, each member productive in under one hour.
 
 ## Roles and responsibilities
@@ -19,14 +19,15 @@ Rule that does not bend: every read runs as the viewer. A member who is not staf
 
 ## The stand-up checklist
 
-Do these in order. Steps 1 to 2 and 6 are the initial owner. Steps 3 to 4 are the owner with the team, then or later. Steps 5 and 7 are the product owner. Step 8 is each member.
+Do these in order. Steps 1 to 2 and 6 are the initial owner. Steps 3 to 4 are the owner with the team, then or later. Steps 5, 6a and 7 are the product owner. Step 8 is each member.
 
 1. **Confirm the engagement identifier and names.** `engagement_id` in kebab case (for example `acme-fpa`), client name, project name. Nothing else about the client goes into configuration.
 2. **Collect the links.** The Asana project link and the SharePoint engagement folder link (Copy link works). Granola and Harvest are picked from lists on the page. No identifiers are typed by hand; the page derives them from the links and verifies them through the owner's connectors.
 3. **Write the seven stages.** Start and end dates for Project Planning, Foundations, Build, Test, Train, Deploy, and Continuous Support. Mark Train as parallel. Mark Continuous Support contracted or not. Record where the dates came from and the date you confirmed them.
 4. **Write the current stage's control point and deliverables.** The next gate with its due date, a named owner, the decision it produces, and the evidence items with their state. The stage's deliverables with Approved, In progress, Draft, Missing, or Not started.
 5. **Create the engagement page.** Publish a copy of the blank workspace (`page/engagement-workspace.html`) as a new artifact with the standard capability manifest (Asana, Microsoft 365, Granola, Harvest App, Karta Assembly, sample, db, downloads). Share it with the initial owner only. Never share publicly. Record the artifact URL in the handover.
-6. **Hand the page to the initial owner.** The owner opens it and completes the setup screen: client and project names, their own name and email, and the links to the Asana project, the SharePoint engagement folder (Copy link or browser address; the page finds the Status and Steer Co folder inside it), and picks the Granola folder and Harvest project from lists. The page checks each through the owner's own connectors and records what it could verify. Stage dates can be entered then or later in Config. After setup the owner adds reviewers and members in Config and shares the page with them.
+6. **Hand the page to the initial owner.** The owner opens it and completes the setup screen: client and project names, their own name and email, the Asana project link, the SharePoint engagement folder (Copy link or browser address; the page finds the Status and Steer Co folder inside it and, if the link points at a client folder, asks which project folder), and the Granola folder and Harvest project chosen from lists. Check links verifies each through the owner's own connectors. Stage dates can be entered then or later in Config. All seven stages start in scope; the owner unticks what the engagement does not include. After setup the owner adds reviewers and members in Config and shares the page with them.
+6a. **Name the workspace.** When setup is saved the page retitles its own document to "Client · Project", but the name shown in the claude.ai tab and gallery is artifact metadata that only a publish through the product owner's Claude session can set. The product owner republishes the page once with that name. Until the platform offers a rename in the viewer, this is a manual step and belongs to whoever published the page.
 7. **Run the access test** (`docs/access-test-plan.md`) with one staffed member and one member who is not staffed. Record the result before anyone uses the page for client work.
 8. **Onboard each member** using `docs/onboarding-runbook.md`.
 
