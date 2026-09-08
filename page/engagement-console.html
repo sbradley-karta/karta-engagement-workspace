@@ -339,6 +339,16 @@ body.drawer-open .hgrid #evCard{grid-column:2}
 .pill{display:none;position:fixed;right:20px;bottom:20px;z-index:6;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--on-accent);background:var(--accent);border:0;border-radius:22px;padding:10px 16px;box-shadow:0 6px 18px rgba(17,58,42,.18);cursor:pointer;font-family:var(--sans)}
 .pill .beta{background:var(--on-accent);color:var(--accent)}
 .tbl{overflow:auto;min-height:0}
+.cfgstack{flex:1;min-height:0;overflow:auto;display:flex;flex-direction:column;gap:12px;padding-right:2px}
+.cfgstack .hcard{flex:none;overflow:visible}
+.cfgstack table td{vertical-align:middle}
+.cfgstack input.in.date{width:132px}
+.cfgstack .row{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-top:10px}
+.cfgstack .row .field{flex:1;min-width:160px}
+.cfgstack textarea.in{font-family:var(--mono);font-size:12px;line-height:1.45;min-height:220px;width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:var(--raise);color:var(--text);resize:vertical}
+.cfgstack .src-note{font-size:12.5px;color:var(--muted);margin-bottom:8px}
+.cfgstack .src-note b{color:var(--ink);font-weight:600}
+.cfgstack .sub{font-size:12px;color:var(--faint);margin-top:6px}
 .tbl table th{position:sticky;top:0;background:var(--surface)}
 .empty2{font-size:13px;color:var(--muted);font-style:italic;padding:8px 0}
 .link{color:var(--accent-2);font-weight:600;text-decoration:none;font-size:13px}
@@ -569,10 +579,10 @@ body.drawer-open .hgrid #evCard{grid-column:2}
     <section class="view" id="v-decisions" hidden><div class="hrow"><h2>Decisions</h2><div class="meta">what changed, why, when, who approved</div></div><div class="hcard tbl" id="decView"></div></section>
     <section class="view" id="v-artifacts" hidden><div class="hrow"><h2>Artifacts</h2><div class="meta">approved records and generated decks</div></div><div class="hcard tbl" id="artView"></div></section>
     <section class="view" id="v-catalog" hidden><div class="hrow"><h2>Capability catalog</h2><div class="meta">by lifecycle stage and readiness</div></div><div class="hcard tbl" id="catView"></div></section>
-    <section class="view" id="v-settings" hidden><div class="hrow"><h2>Engagement configuration</h2><div class="meta">identifiers and dates only, no client facts</div></div><div class="hcard tbl" id="cfgView"></div></section>
+    <section class="view" id="v-settings" hidden><div class="hrow"><h2>Engagement configuration</h2><div class="meta" id="cfgMeta">identifiers and dates only, no client facts</div></div><div class="cfgstack" id="cfgView"></div></section>
   </main>
   <aside class="drawer" id="drawer" hidden>
-    <div class="dh"><svg class="ic" viewBox="0 0 20 20" style="color:var(--accent-2)"><use href="#i-chat"/></svg><b>Ask this project</b><span class="beta">BETA</span><div class="ib"><button type="button" id="btnMin" aria-label="Minimize"><svg class="ic" viewBox="0 0 20 20"><use href="#i-min"/></svg></button><button type="button" id="btnClose" aria-label="Close"><svg class="ic" viewBox="0 0 20 20"><use href="#i-x"/></svg></button></div></div>
+    <div class="dh"><svg class="ic" viewBox="0 0 20 20" style="color:var(--accent-2)"><use href="#i-chat"/></svg><b>Ask Claude</b><span class="beta">BETA</span><div class="ib"><button type="button" id="btnMin" aria-label="Minimize"><svg class="ic" viewBox="0 0 20 20"><use href="#i-min"/></svg></button><button type="button" id="btnClose" aria-label="Close"><svg class="ic" viewBox="0 0 20 20"><use href="#i-x"/></svg></button></div></div>
     <div class="msgs" id="msgs"></div>
     <div class="sug" id="sug" style="margin-top:8px"></div>
     <div class="dinput"><input id="ask" type="text" placeholder="Ask about requirements, decisions, milestones, meetings, or risks" aria-label="Ask this project"><button type="button" id="btnAsk" aria-label="Send"><svg class="ic" viewBox="0 0 20 20"><use href="#i-send"/></svg></button></div>
@@ -604,6 +614,8 @@ body.drawer-open .hgrid #evCard{grid-column:2}
       {id:"support",nm:"Continuous Support",from:"2026-10-19",to:null,kind:"stage",contracted:false}
     ],
     stagesConfirmedAt:"2026-09-05",
+    roles:{engagement_lead:"sbradley@kartacg.com",reviewers:["sbradley@kartacg.com"],members:["sbradley@kartacg.com"]},
+    support:{route:"Message Sean Bradley in Teams",owner:"sbradley@kartacg.com"},
     objectives:{planning:"Transfer commercial and client context into delivery and establish a controlled engagement with clear scope, logistics, roles, sources and milestones.",
       foundations:"Convert business intent and workshop evidence into an approved solution foundation that stays deliverable within scope, window, budget and capacity.",
       build:"Configure the solution through a disciplined, traceable build and obtain documented initial business acceptance at each sprint review.",
@@ -635,6 +647,8 @@ body.drawer-open .hgrid #evCard{grid-column:2}
          drafted:false,draftedAt:null,draftedFields:[],changed:{},
          approved:null,version:0,editing:true,jobs:[],assembly:null,busy:false};
   var db=null,sample=null,mcp=null,downloads=null;
+  var CFGDOC={source:"built-in",at:null,by:null};
+  var MEAS=[];
   var SRC={asana:{st:"off",d:"Connecting"},sharepoint:{st:"off",d:"Connecting"},assembly:{st:"off",d:"Checking"},granola:{st:"off",d:"Not connected in this pilot"},harvest:{st:"off",d:"Not connected in this pilot"},raid:{st:"risk",d:"Missing · risks are entered by the reviewer"}};
   var CHAT=[];
   var CLIENT_ID=(crypto.randomUUID?crypto.randomUUID():String(Math.random()));
@@ -761,6 +775,7 @@ body.drawer-open .hgrid #evCard{grid-column:2}
     var raid=(S.approved&&S.approved.raid)||S.raid||[];var high=raid.filter(function(r){return r.priority==="High"});
     if(high.length){urgent++;var since=S.approved?Math.floor((Date.now()-new Date(S.approved.approval.approved_at))/DAY):0;h+=attRow("i-flag",high.length+" High "+(high.length>1?"items":"item")+(since?" open "+since+" day"+(since>1?"s":"")+" since approval":""),high[0].description,true,"raid");}
     Object.keys(SRC).forEach(function(k){var s=SRC[k];if(s.st==="risk"||s.st==="warn")h+=attRow("i-sync","Source gap: "+SRCNM[k],s.d,false,null);});
+    if(CFG.stagesConfirmedAt&&(Date.now()-new Date(CFG.stagesConfirmedAt+"T00:00:00").getTime())>30*DAY)h+=attRow("i-cog","Confirm stage dates","Last confirmed "+md(CFG.stagesConfirmedAt)+" by the engagement owner",false,"settings");
     var cp=(CFG.controlPoints||[]).filter(function(c){return c.due>=S.asOf})[0];if(cp&&/^\[/.test(cp.owner))h+=attRow("i-gate","Owner needed: "+cp.nm.split(" · ")[0],"Control point due "+md(cp.due)+" has no named owner",false,"decisions");
     h+=attRow("i-users","Capacity not assessed","No PTO or capacity source connected",false,null);
     $("ins").innerHTML=h;$("attCount").textContent=urgent?urgent+" urgent":"";$("attCount").hidden=!urgent;
@@ -793,9 +808,113 @@ body.drawer-open .hgrid #evCard{grid-column:2}
     $("artView").innerHTML=table(["Artifact","Detail","By","When","State"],rows,"No artifacts yet.");}
   function renderCatView(){var rows=[];CFG.stages.forEach(function(p){CFG.capabilities.filter(function(c){return c.stages.indexOf(p.id)>=0}).forEach(function(c){rows.push([esc(p.nm),esc(c.nm),esc(c.p),'<span class="tag2 '+(c.live?"ok":"")+'">'+esc(c.ready)+'</span>',esc(c.owner)]);});});
     $("catView").innerHTML=table(["Stage","Capability","What it does","Readiness","Owner"],rows,"");}
-  function renderCfgView(){var rows=[["Engagement",esc(CFG.engagementId)+" · "+esc(CFG.client)+" · "+esc(CFG.projectName)],["Asana project",'<span class="mono">'+CFG.projectGid+'</span> · milestones by section “'+esc(CFG.milestoneSection)+'” or subtype “'+esc(CFG.milestoneSubtype)+'”'],["SharePoint destination",esc(CFG.dest.label)],["Stages confirmed",'<span class="mono">'+CFG.stagesConfirmedAt+'</span> by the engagement owner']];
-    CFG.stages.forEach(function(p){rows.push([esc(p.nm),'<span class="mono">'+p.from+(p.to?" → "+p.to:" →")+'</span> · '+esc(p.kind)+(p.contracted===false?" · not contracted":"")]);});
-    $("cfgView").innerHTML=table(["Setting","Value"],rows,"")+'<div class="empty2">Edit configuration in the engagement configuration document. Nothing here is a client fact.</div>';}
+  /* ---------- engagement configuration document (contract engagement-config v1.1) ---------- */
+  var STAGE_IDS=["planning","foundations","build","test","train","deploy","support"];
+  var DELIV_K={"Approved":"ok","In progress":"warn","Draft":"mute","Missing":"risk","Not started":"mute"};
+  var CAP_IC={status:"i-doc",sprint:"i-clip",mockup:"i-img",meeting:"i-chat",uat:"i-clip",onboard:"i-book"};
+  function cfgToDoc(){
+    return {schema_version:"1.1",engagement_id:CFG.engagementId,client:CFG.client,project_name:CFG.projectName,
+      stages:CFG.stages.map(function(p){var o={id:p.id,name:p.nm,start:p.from,end:p.to||null,kind:p.kind};if(p.contracted===false)o.contracted=false;if(p.source)o.source=p.source;return o;}),
+      stages_confirmed_at:CFG.stagesConfirmedAt,objectives:Object.assign({},CFG.objectives),
+      control_points:(CFG.controlPoints||[]).map(function(c){return {stage:c.stage,name:c.nm,due:c.due,owner:c.owner,decision:c.decision,evidence:(c.evidence||[]).map(function(e){return {item:e.t,state:e.s}})}}),
+      deliverables:Object.keys(CFG.deliverables||{}).reduce(function(o,k){o[k]=CFG.deliverables[k].map(function(d){return {name:d.n,state:d.s}});return o;},{}),
+      sources:{asana:{project_gid:CFG.projectGid,milestone_section_names:[CFG.milestoneSection],milestone_resource_subtype:CFG.milestoneSubtype},
+               sharepoint:{drive_id:CFG.dest.driveId,status_folder_item_id:CFG.dest.folderId,status_folder_web_url:CFG.dest.webUrl,label:CFG.dest.label}},
+      templates:{status_deck_template_version:"KCG_Status Template, optimized 2026-09-05"},
+      capabilities:CFG.capabilities.map(function(c){return {id:c.id,name:c.nm,description:c.p,readiness:c.ready,owner:c.owner,live:!!c.live,stages:c.stages.slice()}}),
+      roles:CFG.roles||{engagement_lead:"",reviewers:[],members:[]},support:CFG.support||{route:"Message Sean Bradley in Teams"}};
+  }
+  function docToCfg(d){
+    if(!d||!Array.isArray(d.stages)||d.stages.length!==7)throw new Error("The configuration must list the seven Karta stages.");
+    var ids=d.stages.map(function(s){return s.id});STAGE_IDS.forEach(function(id){if(ids.indexOf(id)<0)throw new Error("Stage “"+id+"” is missing.");});
+    d.stages.forEach(function(s){if(!/^\d{4}-\d{2}-\d{2}$/.test(s.start||""))throw new Error("Stage “"+s.id+"” needs a start date.");if(s.end&&!/^\d{4}-\d{2}-\d{2}$/.test(s.end))throw new Error("Stage “"+s.id+"” has an invalid end date.");});
+    if(d.engagement_id&&d.engagement_id!==CFG.engagementId)throw new Error("This document belongs to engagement “"+d.engagement_id+"”, not “"+CFG.engagementId+"”.");
+    var n={};
+    if(d.client)n.client=d.client;if(d.project_name){n.projectName=d.project_name;n.engagement=d.project_name;}
+    n.stages=STAGE_IDS.map(function(id){var s=d.stages.filter(function(x){return x.id===id})[0];var o={id:id,nm:s.name||CFG.stages.filter(function(x){return x.id===id})[0].nm,from:s.start,to:s.end||null,kind:s.kind||"stage"};if(s.contracted===false)o.contracted=false;if(s.source)o.source=s.source;return o;});
+    if(d.stages_confirmed_at)n.stagesConfirmedAt=d.stages_confirmed_at;
+    if(d.objectives)n.objectives=Object.assign({},CFG.objectives,d.objectives);
+    if(Array.isArray(d.control_points))n.controlPoints=d.control_points.map(function(c){return {stage:c.stage,nm:c.name,due:c.due,owner:c.owner||"",decision:c.decision||"",evidence:(c.evidence||[]).map(function(e){return {t:e.item,s:e.state||"off"}})}});
+    if(d.deliverables)n.deliverables=Object.keys(d.deliverables).reduce(function(o,k){o[k]=(d.deliverables[k]||[]).map(function(x){return {n:x.name,s:x.state,k:DELIV_K[x.state]||"mute"}});return o;},{});
+    if(d.sources&&d.sources.asana){var a=d.sources.asana;if(a.project_gid)n.projectGid=a.project_gid;if(a.milestone_section_names&&a.milestone_section_names[0])n.milestoneSection=a.milestone_section_names[0];if(a.milestone_resource_subtype)n.milestoneSubtype=a.milestone_resource_subtype;}
+    if(d.sources&&d.sources.sharepoint){var s=d.sources.sharepoint;n.dest=Object.assign({},CFG.dest,{driveId:s.drive_id||CFG.dest.driveId,folderId:s.status_folder_item_id||CFG.dest.folderId,webUrl:s.status_folder_web_url||CFG.dest.webUrl,label:s.label||CFG.dest.label});}
+    if(Array.isArray(d.capabilities)&&d.capabilities.length)n.capabilities=d.capabilities.map(function(c){return {id:c.id,nm:c.name,p:c.description||"",ic:CAP_IC[c.id]||"i-doc",stages:(c.stages||[]).slice(),ready:c.readiness||"Experimental",live:!!c.live,owner:c.owner||"Unassigned"}});
+    if(d.roles)n.roles=d.roles;if(d.support)n.support=d.support;
+    return n;
+  }
+  function applyConfig(d,meta){var n=docToCfg(d);Object.keys(n).forEach(function(k){CFG[k]=n[k];});CFGDOC={source:"document",at:(meta&&meta.updated_at)||d.updated_at||null,by:(meta&&meta.updated_by)||d.updated_by||null};}
+  var cfgEdit=null; /* working copy while editing */
+  function cfgSaveNote(html){var n=$("cfgNote");if(n)n.innerHTML=html;}
+  async function saveConfig(doc,by){
+    if(!db){cfgSaveNote('<span class="err">Configuration cannot be saved outside the Claude viewer.</span>');return;}
+    if(!by){cfgSaveNote('<span class="err">Enter your name. Configuration changes are recorded under a named person.</span>');return;}
+    try{docToCfg(doc);}catch(e){cfgSaveNote('<span class="err">'+esc(e.message)+'</span>');return;}
+    doc.updated_at=new Date().toISOString();doc.updated_by=by;doc.client_id=CLIENT_ID;
+    try{await db.doc(CFG.docRoot+"/config").set(doc);applyConfig(doc);cfgEdit=null;renderAll();renderCfgView();cfgSaveNote('Saved '+md(doc.updated_at)+' by '+esc(by)+'. Stage dates and control points now come from the engagement configuration document.');}
+    catch(e){cfgSaveNote('<span class="err">Could not save: '+esc((e&&e.message)||"write failed")+'</span>');}
+  }
+  function renderCfgView(){
+    var doc=cfgEdit||cfgToDoc();
+    $("cfgMeta").textContent=CFGDOC.source==="document"?("engagement configuration document · saved "+(CFGDOC.at?md(CFGDOC.at):"")+(CFGDOC.by?" by "+CFGDOC.by:"")):"built-in configuration · no document saved yet";
+    var h='';
+    h+='<div class="hcard"><div class="ct"><h3>Identifiers</h3><span class="m">no client facts, pointers only</span></div>'+table(["Setting","Value"],[
+      ["Engagement",esc(CFG.engagementId)+" · "+esc(CFG.client)+" · "+esc(CFG.projectName)],
+      ["Asana project",'<span class="mono">'+esc(CFG.projectGid)+'</span> · milestones by section “'+esc(CFG.milestoneSection)+'” or subtype “'+esc(CFG.milestoneSubtype)+'”'],
+      ["SharePoint destination",esc(CFG.dest.label)],
+      ["Reviewers",esc(((CFG.roles||{}).reviewers||[]).join(", ")||"not set")],
+      ["Support route",esc((CFG.support||{}).route||"not set")]],"")+
+      '<div class="sub">Identifiers change only through the configuration document (Advanced below). Follow docs/engagement-standup.md when standing up a new engagement.</div></div>';
+    h+='<div class="hcard"><div class="ct"><h3>Stages and control point</h3><span class="m">confirmed '+esc(doc.stages_confirmed_at||"—")+'</span></div>';
+    h+='<table><thead><tr><th>Stage</th><th>Start</th><th>End</th><th>Kind</th><th>Scope</th></tr></thead><tbody>'+doc.stages.map(function(s,i){
+      return '<tr><td>'+esc(s.name)+'</td><td><input class="in date" type="date" data-st="'+i+'" data-f="start" value="'+esc(s.start||"")+'"></td><td><input class="in date" type="date" data-st="'+i+'" data-f="end" value="'+esc(s.end||"")+'"></td><td><span class="mono">'+esc(s.kind)+'</span></td><td><span class="tag2 '+(s.contracted===false?"":"ok")+'">'+(s.contracted===false?"not contracted":"in scope")+'</span></td></tr>';}).join("")+'</tbody></table>';
+    var cp=doc.control_points&&doc.control_points[0]?doc.control_points[0]:{stage:"build",name:"",due:"",owner:"",decision:"",evidence:[]};
+    h+='<div class="row"><div class="field"><label>Next control point</label><input class="in" id="cpName" value="'+esc(cp.name||"")+'" placeholder="Sprint 3 Review · initial business acceptance"></div>'+
+       '<div class="field"><label>Stage</label><select class="in" id="cpStage">'+STAGE_IDS.map(function(id){return '<option value="'+id+'"'+(cp.stage===id?" selected":"")+'>'+id+'</option>'}).join("")+'</select></div>'+
+       '<div class="field"><label>Due</label><input class="in date" type="date" id="cpDue" value="'+esc(cp.due||"")+'"></div>'+
+       '<div class="field"><label>Owner</label><input class="in" id="cpOwner" value="'+esc(cp.owner||"")+'" placeholder="Named person"></div>'+
+       '<div class="field"><label>Decision</label><input class="in" id="cpDec" value="'+esc(cp.decision||"")+'" placeholder="accept, follow up, or change"></div></div>';
+    h+='<div class="row"><div class="field"><label>Dates confirmed on</label><input class="in date" type="date" id="cfgConfirmed" value="'+esc(doc.stages_confirmed_at||"")+'"></div>'+
+       '<div class="field"><label>Your name</label><input class="in" id="cfgBy" placeholder="Engagement owner"></div>'+
+       '<button class="btn sm" type="button" id="btnCfgSave"'+(db?"":" disabled")+'>Save configuration</button></div>'+
+       '<div class="sub" id="cfgNote">'+(db?"Saving writes the engagement configuration document that every viewer of this page reads. Nothing here is a client fact.":"Configuration can be saved only inside the Claude viewer.")+'</div></div>';
+    h+='<div class="hcard"><div class="ct"><h3>Pilot measures</h3><span class="m">captured at approval and generation</span></div>'+renderMeasures()+'</div>';
+    h+='<div class="hcard"><div class="ct"><h3>Advanced · full document</h3><span class="m">contract engagement-config v1.1</span></div><textarea class="in" id="cfgJson" spellcheck="false">'+esc(JSON.stringify(doc,null,2))+'</textarea>'+
+       '<div class="row"><button class="btn out sm" type="button" id="btnCfgApply">Apply JSON to the form</button><button class="btn out sm" type="button" id="btnCfgExport"'+(downloads?"":" disabled")+'>Save a copy</button><span class="sub" id="cfgJsonNote">Edit identifiers, objectives, deliverables, capabilities and roles here, apply, then save above.</span></div></div>';
+    $("cfgView").innerHTML=h;
+    function working(){var d=cfgEdit||cfgToDoc();cfgEdit=d;return d;}
+    document.querySelectorAll('#cfgView input[data-st]').forEach(function(inp){inp.addEventListener("change",function(){var d=working();d.stages[+inp.dataset.st][inp.dataset.f]=inp.value||null;});});
+    ["cpName","cpStage","cpDue","cpOwner","cpDec","cfgConfirmed"].forEach(function(id){$(id).addEventListener("change",function(){var d=working();if(!d.control_points||!d.control_points.length)d.control_points=[{stage:"build",name:"",due:"",owner:"",decision:"",evidence:[]}];var c=d.control_points[0];
+      if(id==="cpName")c.name=$(id).value;if(id==="cpStage")c.stage=$(id).value;if(id==="cpDue")c.due=$(id).value;if(id==="cpOwner")c.owner=$(id).value;if(id==="cpDec")c.decision=$(id).value;if(id==="cfgConfirmed")d.stages_confirmed_at=$(id).value;});});
+    $("btnCfgSave").addEventListener("click",function(){var d=working();if(!d.stages_confirmed_at)d.stages_confirmed_at=todayIso();saveConfig(d,$("cfgBy").value.trim());});
+    $("btnCfgApply").addEventListener("click",function(){try{var d=JSON.parse($("cfgJson").value);docToCfg(d);cfgEdit=d;renderCfgView();$("cfgJsonNote").textContent="Applied. Review the form, enter your name, and save.";}catch(e){$("cfgJsonNote").innerHTML='<span class="err">'+esc(e.message)+'</span>';}});
+    $("btnCfgExport").addEventListener("click",async function(){if(!downloads)return;try{var s=JSON.stringify(cfgEdit||cfgToDoc(),null,2);await downloads.save({filename:CFG.engagementId+".config.json",data:new TextEncoder().encode(s)});$("cfgJsonNote").textContent="Copy saved.";}catch(e){$("cfgJsonNote").innerHTML='<span class="err">'+esc((e&&e.message)||"save failed")+'</span>';}});
+    document.querySelectorAll('#cfgView button[data-err]').forEach(function(b){b.addEventListener("click",function(){notePostApprovalError(b.dataset.err);});});
+  }
+  /* ---------- pilot measures: correction rate, time to approval, adoption, post-approval errors ---------- */
+  function measureFor(av){
+    var drafted=av.correction_capture&&av.correction_capture.model_drafted_fields||[],changed=av.correction_capture&&av.correction_capture.reviewer_changed_fields||[];
+    var rec=(av.correction_capture||{}).model_recommended_assessments||{},asm=av.assessments||{};
+    var recChanged=["scope_schedule","resources","data"].filter(function(k){return rec[k]&&asm[k]&&rec[k]!==asm[k].status}).length;
+    var dAt=S.draftedAt?new Date(S.draftedAt).getTime():null,aAt=new Date(av.approval.approved_at).getTime();
+    return {schema_version:"1.0",version:av.approval.version,engagement_id:CFG.engagementId,approved_by:av.approval.reviewer_email,approved_at:av.approval.approved_at,drafted_at:S.draftedAt||null,
+      minutes_to_approval:dAt?Math.round((aAt-dAt)/60000):null,drafted_fields:drafted.length,changed_fields:changed.length,
+      correction_rate:drafted.length?Math.round(100*changed.length/drafted.length)/100:null,assessments_overridden:recChanged,
+      reviewer_added_items:((S.addedAcc||[]).length+(S.addedPln||[]).length),source_gaps:(av.source_gaps||[]).length,deck_state:null,deck_delivery:null,post_approval_errors:0};
+  }
+  async function saveMeasure(m){if(!db)return;try{await db.doc(CFG.docRoot+"/measures/v"+m.version).set(m);}catch(e){}}
+  async function updateMeasure(version,patch){if(!db)return;try{var ref=db.doc(CFG.docRoot+"/measures/v"+version);var s=await ref.get();var cur=snapData(s)||{version:version};Object.keys(patch).forEach(function(k){cur[k]=patch[k]});await ref.set(cur);}catch(e){}}
+  async function notePostApprovalError(version){var m=MEAS.filter(function(x){return String(x.version)===String(version)})[0];var n=((m&&m.post_approval_errors)||0)+1;await updateMeasure(version,{post_approval_errors:n,last_error_noted_at:new Date().toISOString()});if(m)m.post_approval_errors=n;renderCfgView();}
+  function renderMeasures(){
+    if(!MEAS.length)return '<div class="empty2">No approvals recorded yet. Measures appear after the first approved status.</div>';
+    var rows=MEAS.slice().sort(function(a,b){return b.version-a.version}).map(function(m){
+      return ['<span class="mono">v'+m.version+'</span>',esc(m.approved_by||"—"),'<span class="mono">'+(m.minutes_to_approval==null?"—":m.minutes_to_approval+" min")+'</span>',
+        '<span class="mono">'+(m.correction_rate==null?"—":Math.round(m.correction_rate*100)+"% ("+m.changed_fields+"/"+m.drafted_fields+")")+'</span>','<span class="mono">'+(m.assessments_overridden||0)+'</span>',
+        m.deck_state?'<span class="tag2 '+(m.deck_state==="Built"?"ok":"risk")+'">'+esc(m.deck_state)+(m.deck_delivery?" · "+esc(m.deck_delivery):"")+'</span>':'<span class="tag2">not generated</span>',
+        '<span class="mono">'+(m.post_approval_errors||0)+'</span> <button class="btn out xs" type="button" data-err="'+m.version+'"'+(db?"":" disabled")+'>+1</button>'];});
+    var approvers={};MEAS.forEach(function(m){if(m.approved_by)approvers[m.approved_by]=1});
+    return table(["Version","Approved by","Time to approval","Fields corrected","Assessments overridden","Deck","Errors after approval"],rows,"")+
+      '<div class="sub">Adoption: '+MEAS.length+' approved status'+(MEAS.length===1?"":"es")+' by '+Object.keys(approvers).length+' reviewer'+(Object.keys(approvers).length===1?"":"s")+'. Time to approval runs from the draft to the named approval. Fields corrected counts drafted fields the reviewer changed. Use +1 when a client or reviewer finds an error after approval.</div>';
+  }
 
   /* ---------- milestones ---------- */
   function buildMs(tasks){
@@ -1061,6 +1180,7 @@ body.drawer-open .hgrid #evCard{grid-column:2}
       if(db){await db.doc(CFG.docRoot+"/approved/v"+av.approval.version).set(av);
         await db.doc(CFG.docRoot).set({latestApprovedVersion:av.approval.version,latestApprovedAt:av.approval.approved_at,latestApprovedBy:name,updatedAt:av.approval.approved_at});}
       S.approved=av;S.version=av.approval.version;S.editing=false;S.step=4;
+      var meas=measureFor(av);MEAS=[meas].concat(MEAS.filter(function(x){return x.version!==meas.version}));saveMeasure(meas);
     }catch(e){$("apprNote").innerHTML='<span class="err">Could not save the approval: '+esc((e&&e.message)||"write failed")+'</span>';}
     finally{S.busy=false;renderGate();}
   }
@@ -1125,6 +1245,7 @@ body.drawer-open .hgrid #evCard{grid-column:2}
       $("genNote").innerHTML='<span class="err">'+esc(shown)+'</span>';
     }
     await save();S.busy=false;renderGate();
+    updateMeasure(S.version,{deck_state:job.state,deck_delivery:job.delivery||null,deck_at:job.updated_at});
   }
 
   /* ---------- ask this project: drawer ---------- */
@@ -1204,6 +1325,11 @@ body.drawer-open .hgrid #evCard{grid-column:2}
   function snapDocs(s){var arr=s&&s.docs?s.docs:(Array.isArray(s)?s:[]);return arr.map(snapData).filter(Boolean);}
   C.use("db").then(function(d){
     if(!d)return;db=d;
+    d.doc(CFG.docRoot+"/config").onSnapshot(function(doc){
+      var v=snapData(doc);if(!v)return;if(v.client_id===CLIENT_ID&&CFGDOC.source==="document")return;
+      try{applyConfig(v);renderAll();if(!$("v-settings").hidden){cfgEdit=null;renderCfgView();}}catch(e){CFGDOC={source:"built-in",at:null,by:null};}
+    });
+    try{d.collection(CFG.docRoot+"/measures").onSnapshot(function(s){MEAS=snapDocs(s);if(!$("v-settings").hidden)renderCfgView();});}catch(e){}
     d.doc(CFG.docRoot).onSnapshot(function(doc){
       var v=snapData(doc);if(!v||!v.latestApprovedVersion)return;
       if(S.approved&&S.version>=v.latestApprovedVersion)return;
