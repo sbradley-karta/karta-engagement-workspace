@@ -138,12 +138,14 @@
       "milestone_resource_subtype": "milestone"
     },
     "sharepoint": {
+      "engagement_folder_url": "",
       "drive_id": "b!Iz0EH_LY40q5fxSIIqX6dUwmpS7DAARPnOZ1DlTZ2QS7kycWN8VATLM5YHSC_qsZ",
+      "folder_item_id": "",
+      "folder_web_url": "",
+      "label": "doTERRA / 03_Raw Materials Planning",
       "status_folder_item_id": "01FIBLTRS2JTME2G3L7VBIYVITYLUBCQ7V",
       "status_folder_web_url": "https://kartaconsultinggroup.sharepoint.com/sites/KartaConsultingGroupDocuments/Documents/Firmwide - General & Delivery/Delivery/_Client Projects/doTERRA/03_Raw Materials Planning/00 - Project Management/Status & Steer Co",
-      "deck_filename_pattern": "KCG_Status {client} {m}-{d}-{yyyy}.pptx",
-      "verified": true,
-      "label": "doTERRA / 03_Raw Materials Planning / 00 - Project Management / Status & Steer Co"
+      "verified": true
     },
     "granola": {
       "folder_name": "doTERRA",

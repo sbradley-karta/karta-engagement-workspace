@@ -79,3 +79,7 @@ Stub service deleted (confirmed by describe returning not found). Test connector
 - Delete Cloud Run service `karta-assembly-stub` (Sean, from his terminal): `gcloud run services delete karta-assembly-stub --region us-central1 --project project-2c1b0888-6c19-4832-a90`
 - Remove the `Karta Assembly Test` connector from Organization settings, Connectors.
 - Republish the test page with `capabilities: {}` or delete the artifact.
+
+## September 8, 2026: SharePoint Share links resolve without Graph's shares API
+
+A modern SharePoint folder Share link (`https://<tenant>.sharepoint.com/:f:/s/<site>/<token>?e=…`) carries a base64url token whose bytes 2 to 17 are the folder's unique id. The Microsoft 365 connector's item ids are `01` + base32 of a 20-byte value whose first 4 bytes are constant per document library and whose last 16 bytes are that unique id. So: take any search result from the same library, decode its id to learn the 4-byte prefix, prepend it to the token's 16 bytes, base32-encode, prefix `01`, and `read_resource file:///<driveId>/<id>` lists the folder's children. Verified against a live link and folder on September 8, 2026. A folder's own web address is not returned by `read_resource`; the page recovers it by searching one child folder's name and matching the child's id, then dropping the last path segment. File Share links (`:x:`, `:p:`, `:w:`) were not tested.

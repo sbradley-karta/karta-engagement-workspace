@@ -75,18 +75,27 @@
         "sharepoint": {
           "type": "object",
           "additionalProperties": true,
+          "description": "The engagement's project folder, as pasted by the owner (Share link or browser address), resolved by the page to the folder and to the Status and Steer Co folder inside it.",
           "properties": {
-            "status_folder_web_url": {
-              "type": "string",
-              "description": "Browser address of the Status and Steer Co folder, not a sharing link."
+            "engagement_folder_url": {
+              "type": "string"
             },
             "drive_id": {
+              "type": "string"
+            },
+            "folder_item_id": {
+              "type": "string"
+            },
+            "folder_web_url": {
+              "type": "string"
+            },
+            "label": {
               "type": "string"
             },
             "status_folder_item_id": {
               "type": "string"
             },
-            "label": {
+            "status_folder_web_url": {
               "type": "string"
             },
             "verified": {

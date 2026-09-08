@@ -612,6 +612,7 @@ body.drawer-open .hgrid #evCard{grid-column:2}
     asana:"Asana", m365:"Microsoft 365", assembly:"Karta Assembly", granola:"Granola", harvest:"Harvest App",
     projectGid:"", projectUrl:"", projectNameAsana:"", milestoneSection:"Project Milestones", milestoneSubtype:"milestone",
     dest:{driveId:"",folderId:"",label:"",webUrl:""},
+    spRoot:{url:"",itemId:"",webUrl:""},
     granolaFolder:{name:"",id:"",noteCount:null},
     harvestProject:{query:"",id:null,name:"",client:"",code:""},
     verified:{asana:null,sharepoint:null,granola:null,harvest:null},
@@ -786,7 +787,9 @@ body.drawer-open .hgrid #evCard{grid-column:2}
     if(CFG.stagesConfirmedAt&&(Date.now()-new Date(CFG.stagesConfirmedAt+"T00:00:00").getTime())>30*DAY)h+=attRow("i-cog","Confirm stage dates","Last confirmed "+md(CFG.stagesConfirmedAt)+" by the engagement owner",false,"settings");
     var cp=(CFG.controlPoints||[]).filter(function(c){return c.due>=S.asOf})[0];if(cp&&/^\[/.test(cp.owner))h+=attRow("i-gate","Owner needed: "+cp.nm.split(" · ")[0],"Control point due "+md(cp.due)+" has no named owner",false,"decisions");
     if(!CFG.projectGid)h+=attRow("i-cog","Asana project not linked","Paste the project link in Config",false,"settings");
-    if(!CFG.dest.webUrl)h+=attRow("i-cog","SharePoint status folder not linked","Paste the folder link in Config",false,"settings");
+    if(!CFG.spRoot.url&&!CFG.dest.webUrl)h+=attRow("i-cog","SharePoint engagement folder not linked","Paste the folder’s Share link in Config",false,"settings");
+    else if(CFG.verified.sharepoint===false)h+=attRow("i-cog","SharePoint folder not matched","Check the link in Config",false,"settings");
+    else if(!CFG.dest.folderId)h+=attRow("i-cog","No Status & Steer Co folder found","Decks will be handed to you to file. Check the folder in Config",false,"settings");
     if(!CFG.stages[0].from)h+=attRow("i-cal","Stage dates not set","Enter the seven stage dates in Config",false,"settings");
     h+=attRow("i-users","Capacity not assessed","No PTO or capacity source connected",false,null);
     $("ins").innerHTML=h;$("attCount").textContent=urgent?urgent+" urgent":"";$("attCount").hidden=!urgent;
@@ -830,7 +833,7 @@ body.drawer-open .hgrid #evCard{grid-column:2}
     return {schema_version:"1.2",engagement_id:CFG.engagementId,client:CFG.client,project_name:CFG.projectName,
       owner:{name:CFG.owner.name,email:CFG.owner.email},roles:{reviewers:(CFG.roles.reviewers||[]).slice(),members:(CFG.roles.members||[]).slice()},
       sources:{asana:{project_url:CFG.projectUrl,project_gid:CFG.projectGid,project_name:CFG.projectNameAsana,verified:CFG.verified.asana,milestone_section_names:[CFG.milestoneSection],milestone_resource_subtype:CFG.milestoneSubtype},
-               sharepoint:{status_folder_web_url:CFG.dest.webUrl,drive_id:CFG.dest.driveId,status_folder_item_id:CFG.dest.folderId,label:CFG.dest.label,verified:CFG.verified.sharepoint},
+               sharepoint:{engagement_folder_url:CFG.spRoot.url,drive_id:CFG.dest.driveId,folder_item_id:CFG.spRoot.itemId,folder_web_url:CFG.spRoot.webUrl,label:CFG.dest.label,status_folder_item_id:CFG.dest.folderId,status_folder_web_url:CFG.dest.webUrl,verified:CFG.verified.sharepoint},
                granola:{folder_name:CFG.granolaFolder.name,folder_id:CFG.granolaFolder.id,note_count:CFG.granolaFolder.noteCount,verified:CFG.verified.granola},
                harvest:{project:CFG.harvestProject.query,project_id:CFG.harvestProject.id,project_name:CFG.harvestProject.name,client_name:CFG.harvestProject.client,code:CFG.harvestProject.code,verified:CFG.verified.harvest}},
       stages:CFG.stages.map(function(p){return {id:p.id,name:p.nm,start:p.from||null,end:p.to||null,kind:p.kind,contracted:p.contracted!==false}}),
@@ -860,7 +863,8 @@ body.drawer-open .hgrid #evCard{grid-column:2}
     var src=d.sources||{},a=src.asana||{},sp=src.sharepoint||{},g=src.granola||{},hv=src.harvest||{};
     n.projectUrl=a.project_url||"";n.projectGid=a.project_gid||asanaGid(a.project_url||"")||"";n.projectNameAsana=a.project_name||"";
     if(a.milestone_section_names&&a.milestone_section_names[0])n.milestoneSection=a.milestone_section_names[0];if(a.milestone_resource_subtype)n.milestoneSubtype=a.milestone_resource_subtype;
-    n.dest={driveId:sp.drive_id||"",folderId:sp.status_folder_item_id||"",webUrl:sp.status_folder_web_url||"",label:sp.label||labelFromUrl(sp.status_folder_web_url||"")};
+    n.dest={driveId:sp.drive_id||"",folderId:sp.status_folder_item_id||"",webUrl:sp.status_folder_web_url||sp.folder_web_url||"",label:sp.label||labelFromUrl(sp.folder_web_url||sp.status_folder_web_url||"")};
+    n.spRoot={url:sp.engagement_folder_url||"",itemId:sp.folder_item_id||"",webUrl:sp.folder_web_url||""};
     n.granolaFolder={name:g.folder_name||"",id:g.folder_id||"",noteCount:g.note_count==null?null:g.note_count};
     n.harvestProject={query:hv.project||"",id:hv.project_id||null,name:hv.project_name||"",client:hv.client_name||"",code:hv.code||""};
     n.verified={asana:a.verified==null?null:!!a.verified,sharepoint:sp.verified==null?null:!!sp.verified,granola:g.verified==null?null:!!g.verified,harvest:hv.verified==null?null:!!hv.verified};
@@ -895,23 +899,63 @@ body.drawer-open .hgrid #evCard{grid-column:2}
       var o=objectsFrom(r).map(function(x){return x.data||x}).filter(function(x){return x&&x.gid})[0];
       if(o){a.project_name=o.name||"";a.verified=true;vf("asana","ok","Verified: "+(o.name||gid)+".");}else{a.verified=false;vf("asana","warn","Asana answered but did not return this project. Check that you are a member of it.");}}
     catch(e){a.verified=false;vf("asana","warn","Could not check with Asana: "+((e&&e.message)||"call failed")+". The link is saved.");}}
-  async function verifySharePoint(d){var s=d.sources.sharepoint;var u=(s.status_folder_web_url||"").trim();if(!u){vf("sharepoint","","Optional now. Decks are uploaded here and the previous deck is read from here.");s.verified=null;return;}
+  /* SharePoint: a Share link encodes the folder's unique id; with the library's id prefix (from any search result in that library) it becomes a Graph item id the connector can read. */
+  var B32="ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
+  function b32dec(s){var bits=0,val=0,out=[];s=String(s).toUpperCase().replace(/=+$/,"");for(var i=0;i<s.length;i++){var v=B32.indexOf(s[i]);if(v<0)continue;val=(val<<5)|v;bits+=5;if(bits>=8){out.push((val>>>(bits-8))&255);bits-=8;}}return out;}
+  function b32enc(bytes){var bits=0,val=0,out="";for(var i=0;i<bytes.length;i++){val=(val<<8)|bytes[i];bits+=8;while(bits>=5){out+=B32[(val>>>(bits-5))&31];bits-=5;}}if(bits>0)out+=B32[(val<<(5-bits))&31];return out;}
+  function b64urlDec(s){s=String(s).replace(/-/g,"+").replace(/_/g,"/");while(s.length%4)s+="=";var bin=atob(s),out=[];for(var i=0;i<bin.length;i++)out.push(bin.charCodeAt(i));return out;}
+  function shareParts(u){var m=String(u||"").match(/^https:\/\/([^\/]+)\/:[a-z]:\/s\/([^\/?#]+)\/([A-Za-z0-9_-]+)/i);return m?{host:m[1],site:m[2],token:m[3]}:null;}
+  var SITE_DRIVE={};
+  async function siteDrive(host,site){var key=host+"/"+site;if(SITE_DRIVE[key])return SITE_DRIVE[key];
+    var r=await mcp.callTool(CFG.m365,"sharepoint_folder_search",{name:"Project Management",limit:50,offset:0},{cache:true});
+    var hit=objectsFrom(r).filter(function(x){return x&&x.webUrl&&x.driveId&&x.id&&x.webUrl.toLowerCase().indexOf(("https://"+host+"/sites/"+site+"/").toLowerCase())===0})[0];
+    if(!hit)return null;var raw=b32dec(hit.id.slice(2));SITE_DRIVE[key]={driveId:hit.driveId,prefix:raw.slice(0,4)};return SITE_DRIVE[key];}
+  function itemIdFromShare(token,prefix){var b=b64urlDec(token);if(b.length<18)return null;return "01"+b32enc(prefix.concat(b.slice(2,18)));}
+  function linesFrom(r){var out=[];(r.content||[]).forEach(function(b){if(b.type==="text")String(b.text||"").split("\n").forEach(function(l){if(l.trim())out.push(l.trim());});});if(!out.length&&typeof r.payload==="string")r.payload.split("\n").forEach(function(l){if(l.trim())out.push(l.trim());});return out;}
+  async function listFolder(driveId,itemId){var r=await mcp.callTool(CFG.m365,"read_resource",{uri:"file:///"+driveId+"/"+itemId},{cache:true});
+    return linesFrom(r).map(function(l){var m=l.match(/^(.*?) \((folder|file)\b[^)]*\) file:\/\/\/([^\/\s]+)\/(\S+)$/);return m?{name:m[1],kind:m[2],driveId:m[3],id:m[4]}:null;}).filter(Boolean);}
+  async function urlOfFolder(driveId,itemId,childName){ /* a folder's own web address, recovered from a search on one of its children */
+    var offset=0;for(var pg=0;pg<4;pg++){var r=await mcp.callTool(CFG.m365,"sharepoint_folder_search",{name:childName,limit:50,offset:offset},{cache:true});var items=objectsFrom(r);
+      var hit=items.filter(function(x){return x&&x.id===itemId&&x.driveId===driveId})[0];if(hit)return hit.webUrl;
+      var more=items.filter(function(x){return x&&x.moreResults&&x.nextOffset!=null})[0];if(!more)break;offset=more.nextOffset;}return "";}
+  function parentUrl(u){return String(u||"").replace(/\/[^\/]+$/,"");}
+  async function describeFolder(driveId,itemId,knownUrl){ /* children, own url, project-management and status folders */
+    var kids=await listFolder(driveId,itemId),folders=kids.filter(function(k){return k.kind==="folder"});
+    var url=knownUrl||"";if(!url&&folders.length){var cu=await urlOfFolder(driveId,folders[0].id,folders[0].name);url=parentUrl(cu);}
+    var pm=folders.filter(function(k){return /project management/i.test(k.name)})[0],status=null,pmUrl="";
+    if(pm){var pmKids=await listFolder(driveId,pm.id);status=pmKids.filter(function(k){return k.kind==="folder"&&/status/i.test(k.name)})[0]||null;pmUrl=url?url+"/"+pm.name:"";}
+    else{status=folders.filter(function(k){return /status/i.test(k.name)})[0]||null;pmUrl=url;}
+    return {url:url,folders:folders,pm:pm,status:status,statusUrl:status&&pmUrl?pmUrl+"/"+status.name:""};}
+  function spSummary(s){return "Verified: "+s.label+(s.status_folder_item_id?" · decks go to "+(s.status_folder_web_url?s.status_folder_web_url.split("/").slice(-2).join(" / "):"its status folder"):" · no Status & Steer Co folder found inside; decks will be handed to you to file");}
+  async function adoptFolder(s,driveId,itemId,knownUrl){
+    var info=await describeFolder(driveId,itemId,knownUrl);
+    if(!info.pm&&!info.status&&info.folders.length&&info.folders.every(function(k){return !/^\d/.test(k.name)})){ /* looks like a client folder holding project folders */
+      s.verified=false;var el=$("vf-sharepoint");if(el){el.className="vf warn";el.innerHTML="This folder holds several project folders. Choose the engagement’s folder: <select class=\"in\" id=\"sp-sub\" style=\"margin-top:4px;width:100%\"><option value=\"\">Choose…</option>"+info.folders.map(function(k){return "<option value=\""+esc(k.id)+"\" data-name=\""+esc(k.name)+"\">"+esc(k.name)+"</option>"}).join("")+"</select>";
+        $("sp-sub").addEventListener("change",async function(){var o=this.options[this.selectedIndex];if(!this.value)return;vf("sharepoint","","Reading “"+o.dataset.name+"”…");try{await adoptFolder(s,driveId,this.value,info.url?info.url+"/"+o.dataset.name:"");}catch(e){s.verified=false;vf("sharepoint","warn","Could not read that folder: "+((e&&e.message)||"call failed"));}});}
+      return;}
+    s.drive_id=driveId;s.folder_item_id=itemId;s.folder_web_url=info.url;s.label=info.url?labelFromUrl(info.url):"Shared folder";
+    s.status_folder_item_id=info.status?info.status.id:"";s.status_folder_web_url=info.statusUrl||"";s.verified=true;vf("sharepoint","ok",spSummary(s));}
+  async function verifySharePoint(d){var s=d.sources.sharepoint;var u=(s.engagement_folder_url||"").trim();
+    if(!u){vf("sharepoint","","Optional now. The engagement folder holds the status decks the workspace reads and writes.");s.verified=null;return;}
     if(!/^https:\/\/[^\/]+\.sharepoint\.com\//i.test(u)){vf("sharepoint","err","This is not a SharePoint link.");s.verified=false;return;}
-    if(isShareLink(u)){s.verified=false;s.label=s.label||"";vf("sharepoint","warn","This is a sharing link, which cannot be matched to a folder. Open the folder in the browser and copy the address bar instead. The link is saved.");return;}
-    s.label=labelFromUrl(u);var segs=spSegs(u);var name=segs[segs.length-1]||"";
-    if(!name||/\.aspx$/i.test(name)){s.verified=false;vf("sharepoint","warn","Open the folder itself in SharePoint (double-click into it) and copy the address bar from there. The link is saved.");return;}
     if(!mcp){vf("sharepoint","warn","Link saved. It will be matched to the folder when Microsoft 365 is connected.");s.verified=null;return;}
     vf("sharepoint","","Checking with Microsoft 365…");
-    try{var target=normUrl(u),found=null,offset=0;
-      var tail3=spTail(u,3),near=[];
+    try{
+      var sp=shareParts(u);
+      if(sp){var sd=await siteDrive(sp.host,sp.site);if(!sd){s.verified=false;vf("sharepoint","warn","Could not identify the document library behind this link. Paste the folder’s browser address instead. The link is saved.");return;}
+        var itemId=itemIdFromShare(sp.token,sd.prefix);if(!itemId){s.verified=false;vf("sharepoint","warn","This Share link is not a folder link the page can read. Paste the folder’s browser address instead.");return;}
+        try{await adoptFolder(s,sd.driveId,itemId,"");}catch(e){s.verified=false;vf("sharepoint","warn","No folder you can open matches this Share link. Check that you have access, or paste the folder’s browser address. The link is saved.");}
+        return;}
+      var segs=spSegs(u),name=segs[segs.length-1]||"";
+      if(!name||/\.aspx$/i.test(name)){s.verified=false;vf("sharepoint","warn","Open the folder itself in SharePoint and copy the address bar from there, or use Copy link. The link is saved.");return;}
+      var target=spKey(u),tail3=spTail(u,3),found=null,offset=0;
       for(var page=0;page<4&&!found;page++){var r=await mcp.callTool(CFG.m365,"sharepoint_folder_search",{name:name,limit:50,offset:offset},{cache:false});
         var items=objectsFrom(r).filter(function(x){return x&&x.webUrl&&x.driveId&&x.id});
         found=items.filter(function(x){return spKey(x.webUrl)===target})[0]||items.filter(function(x){return spTail(x.webUrl,3)===tail3})[0]||null;
-        items.forEach(function(x){if(near.length<3)near.push(labelFromUrl(x.webUrl));});
         var more=objectsFrom(r).filter(function(x){return x&&x.moreResults&&x.nextOffset!=null})[0];if(!more)break;offset=more.nextOffset;}
-      if(found){s.drive_id=found.driveId;s.status_folder_item_id=found.id;s.label=labelFromUrl(found.webUrl);s.status_folder_web_url=found.webUrl;s.verified=true;vf("sharepoint","ok","Verified: "+s.label+".");}
-      else{s.verified=false;vf("sharepoint","warn","No folder you can open matches this address."+(near.length?" Folders named “"+name+"” that you can see include: "+near.join("; ")+".":"")+" Check the address and that you have access. The link is saved.");}}
-    catch(e){s.verified=false;vf("sharepoint","warn","Could not check with Microsoft 365: "+((e&&e.message)||"call failed")+". The link is saved.");}}
+      if(!found){s.verified=false;vf("sharepoint","warn","No folder you can open matches this address. Check it and that you have access, or use Copy link on the folder. The link is saved.");return;}
+      await adoptFolder(s,found.driveId,found.id,found.webUrl);
+    }catch(e){s.verified=false;vf("sharepoint","warn","Could not check with Microsoft 365: "+((e&&e.message)||"call failed")+". The link is saved.");}}
   async function verifyGranola(d){var g=d.sources.granola;var gs=$("src-granola-sel");
     if(gs&&!gs.hidden){if(g.folder_id){vf("granola","ok","Selected: “"+g.folder_name+"”"+(g.note_count!=null?" · "+g.note_count+" notes":"")+".");}else{vf("granola","","Optional. Choose the Granola folder that holds this engagement’s meeting notes.");}return;}
     var q=(g.folder_name||"").trim();if(!q){vf("granola","","Optional. The Granola folder that holds this engagement’s meeting notes.");g.verified=null;return;}
@@ -976,7 +1020,7 @@ body.drawer-open .hgrid #evCard{grid-column:2}
     h+='</div>';
     h+='<div class="hcard"><div class="ct"><h3>Sources</h3><span class="m">paste links · checked with your own connectors</span></div><div class="grid2">'+
       srcRow("asana","Asana project link",d.sources.asana.project_url,"https://app.asana.com/…/project/…","Open the project in Asana and copy the address bar.")+
-      srcRow("sharepoint","SharePoint status folder link",d.sources.sharepoint.status_folder_web_url,"https://kartaconsultinggroup.sharepoint.com/sites/…/Status & Steer Co","Open the Status &amp; Steer Co folder in the browser and copy the address bar, not a Share link.")+
+      srcRow("sharepoint","SharePoint engagement folder",d.sources.sharepoint.engagement_folder_url||d.sources.sharepoint.status_folder_web_url,"Paste the folder’s Share link or browser address","The engagement’s project folder in SharePoint. Share link (Copy link) or browser address both work; the page finds the Status &amp; Steer Co folder inside it.")+
       pickRow("granola","Granola folder",d.sources.granola.folder_name,"Folder name in Granola","Loads your Granola folders when Granola is connected; choose the one for this engagement.")+
       pickRow("harvest","Harvest project",d.sources.harvest.project,"Project name in Harvest","Lists the Harvest projects you are assigned to; choose the one for this engagement.")+'</div>'+
       '<div class="row"><button class="btn out sm" type="button" id="btnVerify"'+(mcp?"":" disabled")+'>Check links</button><span class="sub" id="vfNote">'+(mcp?"Checks run as you through your connected Asana, Microsoft 365, Granola and Harvest.":((typeof claude!=="undefined"&&claude&&typeof claude.use==="function")?"Waiting for the Claude viewer to hand this page your connectors…":"Open this page in the Claude viewer to check links. Links can be saved unchecked."))+'</span></div>'+
@@ -1013,7 +1057,7 @@ body.drawer-open .hgrid #evCard{grid-column:2}
     else{d.roles=d.roles||{reviewers:[],members:[]};if(d.owner.email&&d.roles.reviewers.indexOf(d.owner.email)<0)d.roles.reviewers.push(d.owner.email);if(d.owner.email&&d.roles.members.indexOf(d.owner.email)<0)d.roles.members.push(d.owner.email);}
     var a=d.sources.asana,sp=d.sources.sharepoint,g=d.sources.granola,hv=d.sources.harvest;
     var au=$("src-asana").value.trim();if(au!==a.project_url){a.project_url=au;a.project_gid=asanaGid(au);a.project_name="";a.verified=null;}
-    var su=$("src-sharepoint").value.trim();if(su!==sp.status_folder_web_url){sp.status_folder_web_url=su;sp.drive_id="";sp.status_folder_item_id="";sp.label=labelFromUrl(su);sp.verified=null;}
+    var su=$("src-sharepoint").value.trim();if(su!==(sp.engagement_folder_url||"")){sp.engagement_folder_url=su;sp.drive_id="";sp.folder_item_id="";sp.folder_web_url="";sp.status_folder_item_id="";sp.status_folder_web_url="";sp.label=isShareLink(su)?"":labelFromUrl(su);sp.verified=null;}
     var gs=$("src-granola-sel");
     if(gs&&!gs.hidden){var go=gs.options[gs.selectedIndex];if(gs.value){if(g.folder_id!==gs.value){g.folder_id=gs.value;g.folder_name=go.dataset.title||"";g.note_count=go.dataset.n===""?null:+go.dataset.n;g.verified=true;}}else{g.folder_id="";g.folder_name="";g.note_count=null;g.verified=null;}}
     else{var gq=$("src-granola").value.trim();if(gq!==g.folder_name){g.folder_name=gq;g.folder_id="";g.note_count=null;g.verified=null;}}
@@ -1075,8 +1119,8 @@ body.drawer-open .hgrid #evCard{grid-column:2}
     var d=cfgEdit||blankDoc();
     $("cfgMeta").textContent=CFGDOC.source==="document"?("configuration document · saved "+(CFGDOC.at?md(CFGDOC.at):"")+(CFGDOC.by?" by "+CFGDOC.by:"")):"not set up yet";
     $("cfgView").innerHTML=formHtml(d,"config");wireForm("config");refreshConnectors();
-    ["asana","sharepoint","granola","harvest"].forEach(function(k){var v=CFG.verified[k];var s=d.sources[k];var has=k==="asana"?s.project_url:k==="sharepoint"?s.status_folder_web_url:k==="granola"?s.folder_name:s.project;
-      if(!has)return;vf(k,v===true?"ok":v===false?"warn":"",v===true?"Verified"+(k==="asana"&&s.project_name?": "+s.project_name:k==="sharepoint"&&s.label?": "+s.label:k==="granola"?": “"+s.folder_name+"”":k==="harvest"&&s.project_name?": "+s.project_name:"")+".":v===false?"Saved but not matched. Check the link and press Check links.":"Saved, not yet checked.");});
+    ["asana","sharepoint","granola","harvest"].forEach(function(k){var v=CFG.verified[k];var s=d.sources[k];var has=k==="asana"?s.project_url:k==="sharepoint"?(s.engagement_folder_url||s.status_folder_web_url):k==="granola"?s.folder_name:s.project;
+      if(!has)return;vf(k,v===true?"ok":v===false?"warn":"",v===true?"Verified"+(k==="asana"&&s.project_name?": "+s.project_name:k==="sharepoint"&&s.label?": "+s.label+(s.status_folder_item_id?"":" (no status folder found inside)"):k==="granola"?": “"+s.folder_name+"”":k==="harvest"&&s.project_name?": "+s.project_name:"")+".":v===false?"Saved but not matched. Check the link and press Check links.":"Saved, not yet checked.");});
   }
   /* ---------- pilot measures: correction rate, time to approval, adoption, post-approval errors ---------- */
   function measureFor(av){
@@ -1221,7 +1265,7 @@ body.drawer-open .hgrid #evCard{grid-column:2}
     $("btnGenerate").disabled=!ready;
     var info=[{t:"Approved values",s:S.approved?"Version "+S.version+", approved by "+S.approved.approval.reviewer_name:"Not approved yet"},
       {t:"Base deck",s:S.deck?S.deck.name+" when the service can read SharePoint, otherwise the KCG template":"KCG template (no previous deck found)"},
-      {t:"Destination",s:CFG.dest.label||CFG.dest.webUrl||"Not linked. Paste the SharePoint status folder link in Config."}];
+      {t:"Destination",s:CFG.dest.folderId?(CFG.dest.label+" · "+CFG.dest.webUrl.split("/").slice(-2).join(" / ")):(CFG.dest.label?CFG.dest.label+" · no status folder found, the deck is handed to you":"Not linked. Paste the SharePoint engagement folder link in Config.")}];
     $("genInfo").innerHTML=info.map(function(r){return '<div class="sr"><span class="ib"><svg class="ic" viewBox="0 0 20 20"><use href="#i-doc"/></svg></span><span><div class="t">'+esc(r.t)+'</div><div class="s">'+esc(r.s)+'</div></span><span></span></div>';}).join("");
     if(!S.approved)$("genNote").textContent="Approve first. The deck is built by the Karta assembly service and saved to the engagement’s SharePoint folder as you. Nothing is sent.";
     else if(S.editing)$("genNote").textContent="Approve the reopened values before generating.";
@@ -1288,6 +1332,7 @@ body.drawer-open .hgrid #evCard{grid-column:2}
         renderAll();
       }));}
     if(!CFG.client){setSrc("sharepoint","risk","no client name set");}
+    else if(!CFG.spRoot.itemId&&!CFG.dest.folderId){setSrc("sharepoint","warn","engagement folder not linked");}
     else{setSrc("sharepoint","off","Connecting");UNSUB.push(m.watchTool(CFG.m365,"sharepoint_search",{query:"KCG_Status "+CFG.client,limit:10},
       function(ev){
         if(ev.type==="error"){S.deckAt=Date.now();setSrc("sharepoint","warn",ev.error.message);renderGate();return;}
