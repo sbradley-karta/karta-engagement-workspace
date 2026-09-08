@@ -1,13 +1,13 @@
 # Standing up an engagement workspace
 
-**Status:** Gate 6 working process, September 8, 2026. Sean Bradley holds every role during the pilot and delegates later.
+**Status:** Gate 6 working process, revised September 8, 2026 after Sean's direction: setup by links, owner named at stand-up. Sean Bradley holds every role during the pilot and delegates later.
 **Target:** a new engagement live in under one day, each member productive in under one hour.
 
 ## Roles and responsibilities
 
 | Role | Holds during pilot | Responsible for |
 |---|---|---|
-| Engagement owner | Sean | Approves the engagement configuration: stage dates, control points, deliverables, sources, reviewers, capabilities. Confirms dates each week the plan changes. Resolves source gaps. |
+| Initial owner (usually the CSE) | Sean | Named by whoever stands the workspace up. Completes the setup screen, then sets reviewers and members with the team and confirms stage dates. Resolves source gaps. |
 | Product owner | Sean | Publishes and shares the engagement page, sets capability readiness, owns the catalog, decides when a capability may be client-facing. |
 | Foundations owner | Sean | Runs the assembly service, the connector registration, the templates, and the contracts. Owns deploys and secrets. |
 | Capability owner (Weekly Status) | Sean | Owns the drafting prompt, the status rules, corrections, and the readiness tier for Weekly Status. |
@@ -19,14 +19,14 @@ Rule that does not bend: every read runs as the viewer. A member who is not staf
 
 ## The stand-up checklist
 
-Do these in order. Steps 1 to 4 are the engagement owner. Steps 5 to 7 are the product owner. Step 8 is each member.
+Do these in order. Steps 1 to 2 and 6 are the initial owner. Steps 3 to 4 are the owner with the team, then or later. Steps 5 and 7 are the product owner. Step 8 is each member.
 
 1. **Confirm the engagement identifier and names.** `engagement_id` in kebab case (for example `acme-fpa`), client name, project name. Nothing else about the client goes into configuration.
-2. **Locate the sources.** Asana workspace and project gids; the milestone section name or the `milestone` subtype; the SharePoint drive id, the Status and Steer Co folder item id and its web link; the deck filename pattern the team already uses. Use the connector search tools from a Claude session to find the ids; never guess them.
+2. **Collect the links.** The Asana project link, the browser address of the SharePoint Status and Steer Co folder, the Granola folder name, and the Harvest project name or code. No identifiers are typed by hand; the page derives them from the links and verifies them through the owner's connectors.
 3. **Write the seven stages.** Start and end dates for Project Planning, Foundations, Build, Test, Train, Deploy, and Continuous Support. Mark Train as parallel. Mark Continuous Support contracted or not. Record where the dates came from and the date you confirmed them.
 4. **Write the current stage's control point and deliverables.** The next gate with its due date, a named owner, the decision it produces, and the evidence items with their state. The stage's deliverables with Approved, In progress, Draft, Missing, or Not started.
-5. **Create the engagement page.** Copy the console source, change only the configuration block's engagement identifier and source pointers, publish it as a new artifact with the capability manifest (Asana, Microsoft 365, Karta Assembly, sample, db, downloads), and share it with the staffed members only. Never share publicly. Record the artifact URL in the handover.
-6. **Seed the configuration document.** Open the new page's Config area and save the configuration, or write `engagements/<engagement_id>/config` with the Artifact tool. The page reads the document on load and falls back to its built-in block only when no document exists.
+5. **Create the engagement page.** Publish a copy of the blank workspace (`page/engagement-workspace.html`) as a new artifact with the standard capability manifest (Asana, Microsoft 365, Granola, Harvest App, Karta Assembly, sample, db, downloads). Share it with the initial owner only. Never share publicly. Record the artifact URL in the handover.
+6. **Hand the page to the initial owner.** The owner opens it and completes the setup screen: client and project names, their own name and email, and the links to the Asana project, the SharePoint Status and Steer Co folder, the Granola folder, and the Harvest project. The page checks each link through the owner's own connectors and records what it could verify. Stage dates can be entered then or later in Config. After setup the owner adds reviewers and members in Config and shares the page with them.
 7. **Run the access test** (`docs/access-test-plan.md`) with one staffed member and one member who is not staffed. Record the result before anyone uses the page for client work.
 8. **Onboard each member** using `docs/onboarding-runbook.md`.
 

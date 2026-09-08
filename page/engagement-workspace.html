@@ -1,0 +1,1492 @@
+<title>Karta Engagement Workspace</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
+<style>
+:root{
+  --ground:#FAFAF9; --surface:#FFFFFF; --raise:#F5F4F2; --topbar:#FFFFFF;
+  --ink:#113A2A; --text:#22302A; --muted:#6E6961; --faint:#979187;
+  --line:#E4E2DE; --line-strong:#C9C5BE;
+  --accent:#2A654E; --accent-2:#2A654E; --accent-soft:#EAF1ED; --on-accent:#FFFFFF;
+  --chip:#EAF1ED; --chip-ink:#2A654E;
+  --risk:#A63D30; --warn:#9A6B1F;
+  --sans:"Manrope",system-ui,-apple-system,Segoe UI,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --r:10px; --r-lg:14px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]):not([data-mode="light"]){
+  --ground:#111213; --surface:#191B1C; --raise:#1F2122; --topbar:#141516;
+  --ink:#F2F3F2; --text:#E4E7E5; --muted:#A2A7A3; --faint:#7E837F;
+  --line:#2C2F2E; --line-strong:#3C403E;
+  --accent:#2F6B4E; --accent-2:#6FB08D; --accent-soft:#18261F; --on-accent:#F2F3F2;
+  --chip:#1A2620; --chip-ink:#7FBF9C;
+  --risk:#E0705F; --warn:#D6A85B;
+}}
+:root[data-theme="dark"]:not([data-mode="light"]){
+  --ground:#111213; --surface:#191B1C; --raise:#1F2122; --topbar:#141516;
+  --ink:#F2F3F2; --text:#E4E7E5; --muted:#A2A7A3; --faint:#7E837F;
+  --line:#2C2F2E; --line-strong:#3C403E;
+  --accent:#2F6B4E; --accent-2:#6FB08D; --accent-soft:#18261F; --on-accent:#F2F3F2;
+  --chip:#1A2620; --chip-ink:#7FBF9C;
+  --risk:#E0705F; --warn:#D6A85B;
+}
+:root[data-mode="dark"]{
+  --ground:#111213; --surface:#191B1C; --raise:#1F2122; --topbar:#141516;
+  --ink:#F2F3F2; --text:#E4E7E5; --muted:#A2A7A3; --faint:#7E837F;
+  --line:#2C2F2E; --line-strong:#3C403E;
+  --accent:#2F6B4E; --accent-2:#6FB08D; --accent-soft:#18261F; --on-accent:#F2F3F2;
+  --chip:#1A2620; --chip-ink:#7FBF9C;
+  --risk:#E0705F; --warn:#D6A85B;
+}
+:root[data-mode="light"]{
+  --ground:#FAFAF9; --surface:#FFFFFF; --raise:#F5F4F2; --topbar:#FFFFFF;
+  --ink:#113A2A; --text:#22302A; --muted:#6E6961; --faint:#979187;
+  --line:#E4E2DE; --line-strong:#C9C5BE;
+  --accent:#2A654E; --accent-2:#2A654E; --accent-soft:#EAF1ED; --on-accent:#FFFFFF;
+  --chip:#EAF1ED; --chip-ink:#2A654E;
+  --risk:#A63D30; --warn:#9A6B1F;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--ground);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.55}
+h1,h2,h3{margin:0;font-weight:600}
+svg{display:block}
+.ic{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.6;
+  stroke-linecap:round;stroke-linejoin:round}
+
+.top{background:var(--topbar);border-bottom:1px solid var(--line);padding:0 26px;height:56px;
+  display:flex;align-items:center;gap:16px}
+.brand{font-weight:700;font-size:14.5px;letter-spacing:.055em;color:var(--ink);text-transform:uppercase}
+.vr{width:1px;height:22px;background:var(--line-strong)}
+.dept{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-2);font-weight:500}
+.top .r{margin-left:auto;display:flex;align-items:center;gap:14px}
+.ghost{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:13px;
+  font-weight:500;color:var(--text);background:var(--surface);border:1px solid var(--line-strong);
+  border-radius:22px;padding:7px 14px;cursor:pointer}
+.ghost:hover{border-color:var(--muted)}
+.plain{font-size:13px;color:var(--muted);background:none;border:0;cursor:pointer;font-family:var(--sans)}
+.plain:hover{color:var(--ink)}
+.iconbtn{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;
+  border:1px solid var(--line-strong);background:var(--surface);color:var(--muted);cursor:pointer}
+.iconbtn:hover{color:var(--ink);border-color:var(--muted)}
+.av{width:32px;height:32px;border-radius:50%;background:var(--accent);color:var(--on-accent);
+  display:grid;place-items:center;font-size:11.5px;font-weight:600}
+
+.page{max-width:1240px;margin:0 auto;padding:24px 26px 56px;display:flex;flex-direction:column;gap:16px}
+.eh h1{font-weight:800;font-size:35px;line-height:1.05;letter-spacing:-.03em;color:var(--ink)}
+.eh .sub{font-size:14.5px;color:var(--muted);margin-top:2px}
+.metachips{display:flex;gap:9px;flex-wrap:wrap;margin-top:13px}
+.mc{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--muted);
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:6px 11px}
+.mc .ic{width:14px;height:14px}
+.mc.pill{border-radius:20px;color:var(--chip-ink);background:var(--chip);border-color:transparent;font-weight:600}
+
+.hero{margin:12px 0 2px}
+.hero h2{font-weight:800;font-size:30px;line-height:1.12;letter-spacing:-.03em;color:var(--ink)}
+.hero p{margin:7px 0 0;font-size:14.5px;color:var(--muted);max-width:760px}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg)}
+.pad{padding:16px 18px}
+
+.askrow{display:flex;align-items:center;gap:14px;padding:14px 16px}
+.askbox{width:42px;height:42px;border-radius:var(--r);background:var(--raise);color:var(--accent-2);
+  display:grid;place-items:center;flex:none;border:1px solid var(--line)}
+.askbox .ic{width:19px;height:19px}
+.asklbl{font-weight:700;font-size:14.5px;color:var(--ink);flex:none}
+.askin{flex:1;min-width:0;font-family:var(--sans);font-size:13.5px;padding:10px 13px;
+  border:1px solid var(--line);border-radius:8px;background:var(--raise);color:var(--text)}
+.askin::placeholder{color:var(--faint)}
+.btn{font-family:var(--sans);font-size:13.5px;font-weight:600;padding:10px 22px;border-radius:8px;
+  cursor:pointer;border:1px solid var(--accent);background:var(--accent);color:var(--on-accent);flex:none}
+.btn:hover{background:var(--ink);border-color:var(--ink)}
+:root[data-mode="dark"] .btn:hover,:root[data-theme="dark"]:not([data-mode="light"]) .btn:hover{background:var(--accent-2);border-color:var(--accent-2)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]):not([data-mode="light"]) .btn:hover{background:var(--accent-2);border-color:var(--accent-2)}}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.sm{padding:8px 16px}
+.btn.out{background:transparent;color:var(--text);border-color:var(--line-strong)}
+.btn.out:hover{background:transparent;border-color:var(--muted);color:var(--ink)}
+.lbl{font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid var(--accent-2);outline-offset:2px}
+
+.jrny{display:grid;grid-template-columns:repeat(5,1fr);padding:20px 18px 18px}
+.st{position:relative;text-align:center;padding:0 6px}
+.st .bub{width:34px;height:34px;border-radius:50%;margin:0 auto 12px;display:grid;place-items:center;
+  background:var(--surface);border:1.6px solid var(--line-strong);color:var(--faint);
+  font-size:12.5px;font-weight:600;position:relative;z-index:1}
+.st.done .bub,.st.now .bub{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.st .bub .ic{width:16px;height:16px;stroke-width:2.2}
+.st:not(:last-child)::after{content:"";position:absolute;top:17px;left:50%;width:100%;
+  border-top:2px solid var(--line-strong)}
+.st.done::after{border-top-color:var(--accent);border-top-style:solid}
+.st.now::after,.st.next::after{border-top-style:dashed}
+.st .nm{font-size:13.5px;font-weight:600;color:var(--ink)}
+.st .dt{font-size:12.5px;color:var(--muted);margin-top:2px}
+.st .sx{font-size:12.5px;margin-top:3px;color:var(--faint)}
+.st.done .sx,.st.now .sx{color:var(--accent-2);font-weight:500}
+@media (max-width:860px){.jrny{grid-template-columns:1fr 1fr}.st:not(:last-child)::after{display:none}}
+
+.two{display:grid;grid-template-columns:1.65fr 1fr;gap:16px;align-items:start}
+@media (max-width:1000px){.two{grid-template-columns:1fr}}
+.sh{font-weight:700;font-size:16px;letter-spacing:-.015em;color:var(--ink);margin-bottom:13px}
+.recs{display:grid;grid-template-columns:repeat(4,1fr);gap:11px}
+@media (max-width:760px){.recs{grid-template-columns:1fr 1fr}}
+.rec{border:1px solid var(--line);border-radius:var(--r);padding:14px;display:flex;
+  flex-direction:column;gap:8px;background:var(--surface)}
+.rec .ib{width:34px;height:34px;border-radius:8px;background:var(--raise);border:1px solid var(--line);
+  color:var(--accent-2);display:grid;place-items:center}
+.rec .ib .ic{width:17px;height:17px}
+.rec h3{font-size:13.5px;font-weight:600;color:var(--ink);line-height:1.35}
+.rec p{margin:0;font-size:12.5px;color:var(--muted);line-height:1.45;flex:1}
+.tag{font-size:12px;font-weight:600;padding:7px 13px;border-radius:8px;text-align:center;
+  background:var(--chip);color:var(--chip-ink)}
+.tag.mute{background:var(--raise);color:var(--faint);border:1px solid var(--line)}
+
+.ins{display:flex;flex-direction:column}
+.ir{display:grid;grid-template-columns:32px 1fr 14px;gap:12px;align-items:center;
+  padding:12px 2px;border-top:1px solid var(--line);cursor:pointer;text-align:left;
+  background:none;border-left:0;border-right:0;border-bottom:0;font-family:var(--sans);width:100%}
+.ir:first-child{border-top:0}
+.ir:hover .t{color:var(--accent-2)}
+.ir .ib{width:32px;height:32px;border-radius:8px;background:var(--raise);border:1px solid var(--line);
+  color:var(--muted);display:grid;place-items:center}
+.ir .t{font-size:13px;font-weight:600;color:var(--ink);display:flex;align-items:center;gap:7px}
+.ir .t .dot{width:7px;height:7px;border-radius:50%;background:var(--risk);flex:none}
+.ir .s{font-size:12.5px;color:var(--muted);margin-top:1px}
+.ir .chev{color:var(--faint)}
+
+.act .ar{display:grid;grid-template-columns:30px 1fr auto auto 14px;gap:14px;align-items:center;
+  padding:11px 0;border-top:1px solid var(--line)}
+.act .ar:first-of-type{border-top:0}
+.act .ib{width:30px;height:30px;border-radius:7px;background:var(--raise);border:1px solid var(--line);
+  color:var(--muted);display:grid;place-items:center}
+.act .nm{font-size:13.5px;font-weight:500;color:var(--ink)}
+.act .dt{font-size:12.5px;color:var(--muted);white-space:nowrap}
+.act .st2{font-size:11.5px;font-weight:600;padding:4px 10px;border-radius:6px;background:var(--chip);
+  color:var(--chip-ink);white-space:nowrap}
+.viewall{display:flex;justify-content:flex-end}
+.viewall button{display:inline-flex;align-items:center;gap:7px;font-family:var(--sans);font-size:13px;
+  font-weight:500;color:var(--accent-2);background:none;border:0;cursor:pointer}
+.viewall button:hover{color:var(--ink)}
+.calm{font-size:13px;color:var(--muted);font-style:italic}
+.err{color:var(--risk);font-size:12.5px}
+
+/* review gate */
+.back{background:none;border:0;color:var(--muted);font-family:var(--sans);font-size:13px;
+  cursor:pointer;padding:0;align-self:flex-start}
+.back:hover{color:var(--accent-2)}
+.gh{font-weight:800;font-size:26px;color:var(--ink);letter-spacing:-.03em}
+.steps{display:flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden}
+.steps>div{flex:1 1 130px;background:var(--surface);padding:12px 15px;border-right:1px solid var(--line)}
+.steps>div:last-child{border-right:0}
+.steps .on{background:var(--accent-soft)}
+.steps .t{font-size:13px;font-weight:600;margin-top:3px;color:var(--ink)}
+.steps .on .t{color:var(--accent-2)}
+.roll{display:grid;grid-template-columns:1.1fr 1fr 1fr 1fr;gap:1px;background:var(--line);
+  border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden}
+.roll>div{background:var(--surface);padding:13px 15px;display:flex;flex-direction:column;gap:6px}
+.roll .lead{background:var(--raise)}
+@media (max-width:760px){.roll{grid-template-columns:1fr 1fr}}
+.sv{display:inline-flex;align-items:center;gap:7px;font-size:14.5px;font-weight:600;color:var(--ink)}
+.sv .dot{width:9px;height:9px;border-radius:50%;flex:none}
+button.sv{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:4px 10px;
+  font-family:var(--sans);cursor:pointer;align-self:flex-start}
+button.sv:hover{border-color:var(--line-strong)}
+.derived{font-size:11px;color:var(--faint)}
+.phead{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:13px 16px;
+  border-bottom:1px solid var(--line);background:var(--raise)}
+.phead h2{font-weight:700;font-size:15px;letter-spacing:-.01em;color:var(--ink)}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th{text-align:left;font-size:10.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--faint);padding:0 10px 8px 0}
+td{padding:9px 10px 9px 0;border-top:1px solid var(--line);vertical-align:top}
+td:last-child,th:last-child{padding-right:0}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:12.5px;color:var(--muted);white-space:nowrap}
+.prov{font-size:11px;color:var(--faint);margin-top:3px}
+.pill{display:inline-block;font-size:11.5px;font-weight:600;padding:3px 10px;border-radius:20px;
+  border:1px solid transparent;cursor:pointer;font-family:var(--sans)}
+.pill:hover{border-color:var(--line-strong)}
+.p-ok{background:var(--chip);color:var(--chip-ink)}
+.p-warn{background:var(--raise);color:var(--warn)}
+.p-risk{background:var(--raise);color:var(--risk)}
+ul.bul{margin:0;padding-left:17px;display:flex;flex-direction:column;gap:6px;font-size:13.5px}
+ul.bul button{border:0;background:none;color:var(--faint);cursor:pointer;font-size:14px;padding:0 3px}
+ul.bul button:hover{color:var(--risk)}
+.budget{margin-top:12px;padding-top:11px;border-top:1px solid var(--line)}
+.budget .row{display:flex;justify-content:space-between;font-size:11px;color:var(--faint);margin-bottom:6px}
+.meter{height:3px;background:var(--line);border-radius:2px;overflow:hidden}
+.meter i{display:block;height:100%;background:var(--accent-2)}
+.empty{color:var(--muted);font-size:13.5px;font-style:italic}
+.gbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:15px 16px}
+.note{font-size:12.5px;color:var(--muted);margin-left:auto;text-align:right}
+pre.hand{font-family:var(--mono);font-size:11.5px;line-height:1.55;background:var(--raise);
+  border:1px solid var(--line);border-radius:8px;padding:13px;overflow-x:auto;white-space:pre-wrap;
+  color:var(--muted);margin:0}
+.foot{font-size:12px;color:var(--faint);line-height:1.7;border-top:1px solid var(--line);padding-top:14px}
+
+/* weekly status workflow */
+.steps .done .t{color:var(--muted)}
+.steps .done .lbl{color:var(--accent-2)}
+.src{display:flex;flex-direction:column}
+.sr{display:grid;grid-template-columns:32px 1fr auto;gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.sr:first-child{border-top:0}
+.sr .ib{width:32px;height:32px;border-radius:8px;background:var(--raise);border:1px solid var(--line);color:var(--muted);display:grid;place-items:center}
+.sr .t{font-size:13px;font-weight:600;color:var(--ink)}
+.sr .s{font-size:12.5px;color:var(--muted)}
+.sr .fresh{font-family:var(--mono);font-size:11.5px;color:var(--faint);white-space:nowrap}
+li.gap{color:var(--warn)}
+input.in,select.in{font-family:var(--sans);font-size:13px;padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:var(--raise);color:var(--text);min-width:0}
+input.in.date{font-family:var(--mono);font-size:12.5px;width:138px;padding:5px 8px}
+input.in:disabled,select.in:disabled{opacity:.6}
+.p-unk{background:var(--raise);color:var(--muted);border:1px solid var(--line)}
+.rec-note{font-size:11px;color:var(--faint)}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:760px){.form{grid-template-columns:1fr}}
+.field{display:flex;flex-direction:column;gap:5px}
+.field label{font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+.raid{display:grid;grid-template-columns:118px 100px 1.4fr 1.4fr 120px 26px;gap:8px;align-items:center;margin-bottom:8px}
+@media (max-width:900px){.raid{grid-template-columns:1fr 1fr}}
+.addrow{display:flex;gap:8px;margin-top:10px}
+.addrow input{flex:1}
+.job{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:9px 0;border-top:1px solid var(--line)}
+.link{color:var(--accent-2);font-weight:600;text-decoration:none;font-size:13px}
+.link:hover{text-decoration:underline}
+.warnnote{font-size:12.5px;color:var(--warn)}
+.gh+.sub{font-size:13.5px;color:var(--muted);margin-top:4px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* application shell */
+html,body{height:100%}
+body{overflow:hidden}
+.app{height:100vh;display:flex;flex-direction:column;overflow:hidden}
+.top{flex:none}
+.eng{display:flex;align-items:baseline;gap:8px;font-size:13.5px;font-weight:700;color:var(--ink);white-space:nowrap}
+.eng span{font-weight:500;color:var(--muted)}
+.eng{letter-spacing:-.01em}
+.body{flex:1;min-height:0;display:flex}
+.rail{width:124px;flex:none;background:var(--topbar);border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 8px;overflow:hidden}
+.rail button.nv{display:flex;flex-direction:column;align-items:center;gap:4px;padding:7px 4px;border-radius:8px;width:108px;background:none;border:0;cursor:pointer;color:var(--muted);font-family:var(--sans)}
+.rail button.nv .ic{width:18px;height:18px}
+.rail button.nv span{font-size:10px;font-weight:600;text-align:center;line-height:1.15}
+.rail button.nv:hover{color:var(--ink);background:var(--raise)}
+.rail button.nv.on{background:var(--accent-soft);color:var(--accent-2)}
+.rail .spacer{flex:1}
+.rail .srclbl{font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin:6px 0 2px;align-self:flex-start;padding-left:4px}
+.srcs{display:flex;flex-direction:column;gap:3px;width:108px}
+.sch{display:flex;align-items:center;gap:6px;width:100%;font-size:10px;font-weight:600;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:4px 6px;white-space:nowrap;overflow:hidden;cursor:pointer;font-family:var(--sans);text-align:left}
+.sch:hover{border-color:var(--line-strong)}
+.sch .d{width:7px;height:7px;border-radius:50%;flex:none;background:var(--faint)}
+.sch.ok .d{background:var(--accent-2)} .sch.warn .d{background:var(--warn)} .sch.risk .d{background:var(--risk)} .sch.off{border-style:dashed;color:var(--muted)} .sch.risk{border-style:dashed}
+.pop{position:fixed;z-index:20;width:320px;background:var(--surface);border:1px solid var(--line-strong);border-radius:10px;padding:12px 14px;box-shadow:0 10px 28px rgba(17,58,42,.14);font-size:12.5px;color:var(--text)}
+.pop .t{font-weight:700;color:var(--ink);margin-bottom:4px}
+.pop .fix{margin-top:8px;color:var(--muted)}
+.main{flex:1;min-width:0;min-height:0;display:flex;flex-direction:column;overflow:hidden}
+.view{flex:1;min-height:0;display:flex;flex-direction:column;padding:16px 20px;gap:12px}
+.hrow{display:flex;align-items:center;justify-content:space-between;gap:16px;flex:none}
+.hrow h2{font-weight:800;font-size:24px;letter-spacing:-.03em;color:var(--ink)}
+.hrow .meta{font-size:12.5px;color:var(--muted)}
+.strip{display:flex;gap:8px;flex:none}
+.stg{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;padding:9px 12px;border-radius:8px;border:1px solid var(--line-strong);background:var(--surface);color:var(--ink)}
+.stg .n{display:flex;align-items:flex-start;gap:8px;font-size:12.5px;font-weight:600;line-height:1.2}
+.stg .n i{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:700;border:1.5px solid currentColor;flex:none;font-style:normal}
+.stg .n i .ic{width:11px;height:11px;stroke-width:2.4}
+.stg .s{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stg.done{background:var(--accent-soft);color:var(--accent-2);border-color:var(--line)} .stg.done .s{color:var(--accent-2)}
+.stg.now{background:var(--accent);color:var(--on-accent);border-color:var(--accent)} .stg.now .s{color:var(--on-accent);opacity:.9}
+.stg.par{border:1px dashed var(--accent-2)}
+.stg.na{background:transparent;color:var(--faint);border:1px dashed var(--line-strong)} .stg.na .s{color:var(--faint)}
+.hgrid{flex:1;min-height:0;display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:14px}
+body.drawer-open .hgrid{grid-template-columns:1.7fr 1fr}
+body.drawer-open .hgrid #evCard{grid-column:2}
+.hcard{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;min-height:0;overflow:hidden}
+.hcard .ct{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:10px}
+.hcard .ct h3{font-weight:700;font-size:15px;letter-spacing:-.015em;color:var(--ink)}
+.hcard .ct .m{font-size:12px;color:var(--muted)}
+.hcard .list{display:flex;flex-direction:column;overflow:auto;min-height:0}
+.obj{font-size:12.5px;color:var(--muted);margin:-4px 0 10px}
+.cp{display:flex;flex-direction:column;gap:8px;padding:12px 14px;border-radius:10px;background:var(--accent-soft);border:1px solid var(--line)}
+.cp .h{display:flex;align-items:center;gap:8px} .cp .h .lbl{color:var(--accent-2)} .cp .h .ev{margin-left:auto;font-size:12px;font-weight:600;color:var(--warn)}
+.cp .nm{font-weight:700;font-size:15px;color:var(--ink);letter-spacing:-.01em}
+.cp .meta{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+.cp .evs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;font-size:11.5px}
+.cp .evs div{display:flex;align-items:center;gap:6px;padding:6px 8px;border-radius:6px;background:var(--surface);border:1px solid var(--line);color:var(--text);white-space:nowrap;overflow:hidden}
+.cp .evs i{width:7px;height:7px;border-radius:50%;flex:none;display:inline-block}
+.nowgrid{display:grid;grid-template-columns:1fr 1.25fr;gap:18px;margin-top:12px;min-height:0;overflow:hidden}
+.drow{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:7px 0;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink)}
+.tag2{font-size:11px;font-weight:600;padding:3px 9px;border-radius:6px;white-space:nowrap;background:var(--raise);color:var(--faint)}
+.tag2.ok{background:var(--chip);color:var(--chip-ink)} .tag2.warn{color:var(--warn)} .tag2.risk{color:var(--risk)}
+.rrow{display:grid;grid-template-columns:30px 1fr auto;gap:10px;align-items:center;padding:8px 0;border-top:1px solid var(--line)}
+.rrow .ib{width:30px;height:30px;border-radius:7px;background:var(--raise);border:1px solid var(--line);color:var(--accent-2);display:grid;place-items:center}
+.rrow .ib .ic{width:15px;height:15px}
+.rrow .tx{min-width:0} .rrow .tx b{display:block;font-size:12.5px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis} .rrow .tx span{display:block;font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.btn.xs{font-size:12px;padding:6px 12px;border-radius:7px}
+.arow{display:grid;grid-template-columns:28px 1fr 12px;gap:10px;align-items:center;padding:8px 0;border-top:1px solid var(--line);cursor:pointer;background:none;border-left:0;border-right:0;border-bottom:0;width:100%;text-align:left;font-family:var(--sans)}
+.arow:first-child{border-top:0}
+.arow .ib{width:28px;height:28px;border-radius:7px;background:var(--raise);border:1px solid var(--line);color:var(--muted);display:grid;place-items:center} .arow .ib .ic{width:14px;height:14px}
+.arow .tx{min-width:0} .arow .tx b{display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis} .arow .tx span{display:block;font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.arow .dot{width:6px;height:6px;border-radius:50%;background:var(--risk);flex:none}
+.erow{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;padding:8px 0;border-top:1px solid var(--line)}
+.erow:first-child{border-top:0}
+.erow .ib{width:28px;height:28px;border-radius:7px;background:var(--raise);border:1px solid var(--line);color:var(--muted);display:grid;place-items:center} .erow .ib .ic{width:14px;height:14px}
+.erow .tx{min-width:0} .erow .tx b{display:block;font-size:12.5px;font-weight:500;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis} .erow .tx span{display:block;font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.drawer{width:360px;flex:none;background:var(--surface);border-left:1px solid var(--line);padding:14px 16px;display:flex;flex-direction:column;min-height:0}
+.drawer .dh{display:flex;align-items:center;gap:8px;margin-bottom:10px} .drawer .dh b{font-weight:700;font-size:14px;color:var(--ink)}
+.drawer .dh .ib{margin-left:auto;display:flex;gap:6px} .drawer .dh .ib button{width:26px;height:26px;border-radius:6px;border:1px solid var(--line);background:none;color:var(--muted);display:grid;place-items:center;cursor:pointer} .drawer .dh .ib button .ic{width:14px;height:14px}
+.beta{font-size:9.5px;font-weight:700;letter-spacing:.1em;color:var(--chip-ink);background:var(--chip);border-radius:4px;padding:1px 6px}
+.msgs{flex:1;min-height:0;overflow:auto;display:flex;flex-direction:column;gap:10px}
+.msg.q{align-self:flex-end;max-width:85%;font-size:12.5px;padding:8px 12px;border-radius:10px 10px 2px 10px;background:var(--accent);color:var(--on-accent)}
+.msg.a{align-self:flex-start;max-width:92%;display:flex;flex-direction:column;gap:8px;font-size:12.5px;padding:10px 12px;border-radius:10px 10px 10px 2px;background:var(--raise);border:1px solid var(--line);color:var(--text);white-space:pre-wrap}
+.cites{display:flex;gap:6px;flex-wrap:wrap} .cites span{font-size:10.5px;color:var(--accent-2);background:var(--accent-soft);border-radius:4px;padding:2px 6px}
+.sug{display:flex;gap:6px;flex-wrap:wrap} .sug button{font-size:11.5px;color:var(--text);background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:4px 10px;cursor:pointer;font-family:var(--sans);text-align:left} .sug button:hover{border-color:var(--line-strong)}
+.dinput{display:flex;align-items:center;gap:8px;margin-top:10px} .dinput input{flex:1;min-width:0;height:38px;font-family:var(--sans);font-size:12.5px;padding:0 12px;border:1px solid var(--line);border-radius:8px;background:var(--raise);color:var(--text)} .dinput button{width:38px;height:38px;border-radius:8px;background:var(--accent);border:0;color:var(--on-accent);display:grid;place-items:center;cursor:pointer;flex:none}
+.pill{display:none;position:fixed;right:20px;bottom:20px;z-index:6;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--on-accent);background:var(--accent);border:0;border-radius:22px;padding:10px 16px;box-shadow:0 6px 18px rgba(17,58,42,.18);cursor:pointer;font-family:var(--sans)}
+.pill .beta{background:var(--on-accent);color:var(--accent)}
+.tbl{overflow:auto;min-height:0}
+.cfgstack{flex:1;min-height:0;overflow:auto;display:flex;flex-direction:column;gap:12px;padding-right:2px}
+.cfgstack .hcard{flex:none;overflow:visible}
+.cfgstack table td{vertical-align:middle}
+.cfgstack input.in.date{width:132px}
+.cfgstack .row{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-top:10px}
+.cfgstack .row .field{flex:1;min-width:160px}
+.cfgstack textarea.in{font-family:var(--mono);font-size:12px;line-height:1.45;min-height:220px;width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:var(--raise);color:var(--text);resize:vertical}
+.cfgstack .src-note{font-size:12.5px;color:var(--muted);margin-bottom:8px}
+.cfgstack .src-note b{color:var(--ink);font-weight:600}
+.cfgstack .sub{font-size:12px;color:var(--faint);margin-top:6px}
+.cfgstack .vf{font-size:12px;margin-top:4px;color:var(--muted)} .cfgstack .vf.ok{color:var(--accent-2)} .cfgstack .vf.warn{color:var(--warn)} .cfgstack .vf.err{color:var(--risk)}
+.cfgstack .hint{font-size:11.5px;color:var(--faint);margin-top:3px;line-height:1.4}
+.cfgstack details{border-top:1px solid var(--line);margin-top:10px;padding-top:8px} .cfgstack summary{cursor:pointer;font-size:13px;font-weight:600;color:var(--ink)}
+.cfgstack .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px} .cfgstack .grid2 .field{min-width:0}
+.cfgstack input.in{width:100%}
+.cfgstack .lead{font-size:13px;color:var(--muted);margin-bottom:10px;line-height:1.5}
+.cfgstack .dl{display:grid;grid-template-columns:1fr 150px 28px;gap:8px;align-items:center;margin-bottom:6px}
+.tbl table th{position:sticky;top:0;background:var(--surface)}
+.empty2{font-size:13px;color:var(--muted);font-style:italic;padding:8px 0}
+.link{color:var(--accent-2);font-weight:600;text-decoration:none;font-size:13px}
+
+/* comment round, Sep 7 */
+.klogo{width:30px;height:30px;display:grid;place-items:center;flex:none}
+.klogo img{width:26px;height:26px;display:block}
+.klogo .k-dark{display:none}
+:root[data-mode="dark"] .klogo .k-light,:root[data-theme="dark"]:not([data-mode="light"]) .klogo .k-light{display:none}
+:root[data-mode="dark"] .klogo .k-dark,:root[data-theme="dark"]:not([data-mode="light"]) .klogo .k-dark{display:block}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]):not([data-mode="light"]) .klogo .k-light{display:none}:root:not([data-theme="light"]):not([data-mode="light"]) .klogo .k-dark{display:block}}
+.hrow h2 span{font-weight:500;color:var(--muted)}
+.wk{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--chip-ink);background:var(--chip);border-radius:8px;padding:5px 10px;white-space:nowrap}
+.hrow .right{display:flex;align-items:center;gap:12px}
+.cp .evs div{gap:8px}
+.bd{width:16px;height:16px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex:none;border:1.5px solid var(--line-strong);color:var(--faint);background:var(--surface)}
+.bd .ic{width:10px;height:10px;stroke-width:2.6}
+.bd.ok{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.bd.warn{border-color:var(--warn);color:var(--warn)}
+.rrow .tag2,.rrow .btn.xs,.drow .tag2{min-width:96px;height:28px;display:inline-flex;align-items:center;justify-content:center;text-align:center;box-sizing:border-box;padding:0 10px}
+.ghost.primary{background:var(--accent);color:var(--on-accent);border-color:var(--accent);font-weight:600}
+.ghost.primary:hover{background:var(--ink);border-color:var(--ink)}
+.ghost.primary .beta{background:var(--on-accent);color:var(--accent)}
+
+/* weekly status: four viewport-fitting panes */
+#v-status{padding:14px 20px 16px}
+.wsg{flex:1;min-height:0;display:flex;flex-direction:column;gap:10px;padding:0;max-width:none;width:100%;margin:0}
+.wsg .steps{flex:none}
+.wsg .steps>div{cursor:pointer}
+.wsg .steps>div.pick{box-shadow:inset 0 -2px 0 var(--accent-2)}
+.wsg .foot{display:none}
+.wstep{display:none;flex:1;min-height:0}
+.wstep.on{display:grid}
+.wstep[data-step="1"]{grid-template-columns:1.6fr 1fr;gap:12px}
+.wstep[data-step="1"] .card{display:flex;flex-direction:column;min-height:0;overflow:hidden}
+.wstep[data-step="1"] .card .pad{overflow:auto;min-height:0}
+.wsl{display:flex;flex-direction:column;min-height:0}
+.wsr{min-height:0}
+.wsr .two{grid-template-columns:1fr;grid-template-rows:auto 1fr;height:100%;min-height:0}
+.wstep[data-step="2"]{grid-template-rows:auto 1fr auto;gap:10px}
+.ws3{display:grid;grid-template-columns:1fr 1fr 1.2fr;gap:12px;min-height:0}
+.ws3 .two{display:contents}
+.ws3 .card{display:flex;flex-direction:column;min-height:0;overflow:hidden}
+.ws3 .card .pad{overflow:auto;min-height:0;display:flex;flex-direction:column}
+.ws3 .budget{margin-top:auto}
+.wstep[data-step="3"],.wstep[data-step="4"]{grid-template-columns:minmax(0,860px);justify-content:start;align-content:start}
+.wstep[data-step="4"] .card{display:flex;flex-direction:column;min-height:0;max-height:100%;overflow:hidden}
+.wstep[data-step="4"] .card .pad{overflow:auto;min-height:0}
+.wstep .card{align-self:stretch}
+.wsg .gbar{margin:0}
+
+.hrow{min-height:40px}
+.hrow h2{font-size:22px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.hrow .right{flex:none;max-width:52%;justify-content:flex-end}
+.hrow .right .meta{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.wsg>div:first-child .lbl{display:none}
+.wsg>div:first-child{display:flex;align-items:baseline;gap:14px}
+.wsg>div:first-child .gh{font-size:22px}
+.wsg>div:first-child .sub{margin-top:0}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<g id="i-cal"><rect x="3" y="4.5" width="14" height="13" rx="2"/><path d="M3 8.5h14M7 2.5v3M13 2.5v3"/></g>
+<g id="i-sync"><path d="M17 10a7 7 0 0 1-11.9 4.9M3 10a7 7 0 0 1 11.9-4.9"/><path d="M14.5 2.5v3h-3M5.5 17.5v-3h3"/></g>
+<g id="i-chat"><path d="M17 12a2 2 0 0 1-2 2H7l-4 3V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></g>
+<g id="i-check"><path d="M4 10.5l4 4 8-9"/></g>
+<g id="i-doc"><path d="M11 2.5H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7.5z"/><path d="M11 2.5v5h5"/></g>
+<g id="i-img"><rect x="3" y="4.5" width="14" height="11" rx="2"/><path d="M3 12.5l3.5-3 3 2.5 3-3.5 4.5 4.5"/></g>
+<g id="i-clip"><rect x="4.5" y="3.5" width="11" height="14" rx="2"/><path d="M7.5 3.5V2h5v1.5M7.5 9.5l2 2 3.5-4"/></g>
+<g id="i-alert"><circle cx="10" cy="10" r="7.5"/><path d="M10 6.5v4.5M10 13.5h.01"/></g>
+<g id="i-users"><circle cx="8" cy="7.5" r="2.8"/><path d="M3 16.5c0-2.5 2.2-4 5-4s5 1.5 5 4"/><path d="M14 6.2a2.6 2.6 0 0 1 0 5M15.5 16.5c0-1.7-.7-2.9-1.9-3.6"/></g>
+<g id="i-flag"><path d="M5 17V3.5h9l-1.5 3L14 9.5H5"/></g>
+<g id="i-rocket"><path d="M8 12l-3-1 2-3.5C9 4 13 3 16 3c0 3-1 7-4.5 9L8 14z"/><path d="M8 14l-2.5 2.5M5 11.5L3 13"/></g>
+<g id="i-chev"><path d="M7.5 4.5l6 5.5-6 5.5"/></g>
+<g id="i-sun"><circle cx="10" cy="10" r="3.8"/><path d="M10 2v2M10 16v2M2 10h2M16 10h2M4.6 4.6l1.4 1.4M14 14l1.4 1.4M15.4 4.6L14 6M6 14l-1.4 1.4"/></g>
+<g id="i-moon"><path d="M16 11.5A6.5 6.5 0 0 1 8.5 4a6.5 6.5 0 1 0 7.5 7.5z"/></g>
+<g id="i-list"><rect x="3.5" y="4" width="13" height="12" rx="2"/><path d="M6.5 8h7M6.5 11.5h4"/></g>
+<g id="i-home"><path d="M3 9.5L10 3l7 6.5V17H3z"/><path d="M8 17v-5h4v5"/></g>
+<g id="i-gate"><rect x="3" y="4" width="14" height="12" rx="2"/><path d="M7 10h6M10 7v6"/></g>
+<g id="i-book"><path d="M4 3.5h9a2 2 0 0 1 2 2v11H6a2 2 0 0 1-2-2z"/><path d="M4 14.5a2 2 0 0 1 2-2h9"/></g>
+<g id="i-grid"><rect x="3" y="3" width="6" height="6" rx="1.5"/><rect x="11" y="3" width="6" height="6" rx="1.5"/><rect x="3" y="11" width="6" height="6" rx="1.5"/><rect x="11" y="11" width="6" height="6" rx="1.5"/></g>
+<g id="i-min"><path d="M5 10h10"/></g>
+<g id="i-x"><path d="M6 6l8 8M14 6l-8 8"/></g>
+<g id="i-send"><path d="M3 10l14-7-4 14-3-6z"/></g>
+<g id="i-cog"><circle cx="10" cy="10" r="2.8"/><circle cx="10" cy="10" r="6"/><path d="M10 1.8v2.2M10 16v2.2M1.8 10H4M16 10h2.2M4.2 4.2l1.6 1.6M14.2 14.2l1.6 1.6M15.8 4.2l-1.6 1.6M5.8 14.2l-1.6 1.6"/></g>
+<g id="i-info"><circle cx="10" cy="10" r="7.5"/><path d="M10 9v5M10 6.2h.01"/></g>
+</defs></svg>
+
+<div class="app">
+<div class="top">
+  <span class="klogo" aria-label="Karta Consulting Group" role="img"><img class="k-light" alt="" src="data:image/png;base64,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"><img class="k-dark" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAF0AAABgCAYAAAB/lX6wAAAH6UlEQVR42u2dfaikZRnGf/czs6vbmllSWJEZhaEl+YdgoRRhZKAgtJWuH+uuH+WaWWxlqIUhWxoqarSyGRtr225+rWRLGCqtZikUuJUGSVRk4kcsiuxmsjvzXv3x3g/nPWc97nw875l3Zp4HDnM4zMw7c517ruu+n/t67jFJLwFLAdH/6gJtYJuZLZPUMrMuI1yS2mbWkfR14LvAXqBV82UN6AAHAAWwBlgHYGbF3Du3gcXAogEvVgBhiMfXudr+YwsAehdYAvwHuMDMtkkyM9N8L0zDBNac2yathXht8sBrAQ8DK8zs6f194gN5DRPd8VN0E3BSL4DHSM+r/9Vx7HYBq81ssySTFHrRtAx6/3QSk4c/AeeY2ROS2kD3tUQz08twq6gE6ibgxAi4mXXmE80M+nB0EjzKv2xmK8xst/N3Z5C0Kq/e+PufwLlm9oikFlAMWpPkSN9/OtgGfgl8xAFvm1m3HzrJoPeXDgbgajM71cxeGJROMr30Tic7gfPN7BeSgpf03VSlcl770smjXl3+PWYnKS+U6WUmHYzV5Trg43UBniN9Np28AnzRzDZWqssONe3E5eoS/uLV5Y5+q8tML4NVl7cDJ0TA+60uM+i9p4PBI/1rZrbczF5OlQ5mepmfv/8NrDSzXw9bXWbQe0sH73fAn6srO8n0MrvZcI2ZneyAt0YB+DREepeyWfwScKGZbU1dXWbQ96WUFvAYsMrMnqqkgxp1x3xS1xLgDi/n94yKv6cF9Egb683seffChKYAPpGgR+ows+clGfMYfjLo9Ti9bNTcPXUpY1MBz1u7GfQMel4ZdJDUitXkuK/2OGQhpS6WZbvn3EWO9PoAD2YmMyskXS5prf/ezpFe74mKpZTN4nP97380s7ubVNYP8uZ2a/DV8dt7I++moJMYyZI+KGmHX2OPX2+XpKNTXW/q6aWy7dqRdCbwO+BYyo7PIt8XPwi4W9Iby4eMn7iGJmUnLpBB0g3AZuBgZjr28fV2gKOAjfH+mV4G5G+/PVzS9spzF/Ncd6/ffrP6+Ax67/zd8t8/JenZOaDOt4rKfU4dN34PI6YTmVlX0hXAfcDb59AJr3NuM1A2mzdJep8/T8igv3462JX0Fklbge84gEUfZz6jd+UQF9YlgMU99Az6vgVPR9LxlP3LT1eOl/T7elr+2A8BP/KqtZVB3zcllKQvAA8BR1YMQMMUeB3gLElf9X9oO4M+q7dgck4+ENiTqCqOEX+dpE848K0MuntNXEDXA9dTziXoJBqIEN/LFkmHN1lYR/Gi4obVZcCDHundRO+lAN4K3ClpcVOFNYyodxm3ZpcDTzs9FAlp5njglqYKaxhR07gAgpntBD7r3C7STKyIwnq+pIubKKxhhN36rufrvwcu9ohM5S+Mz3WzpBObJqxhxDaJjgO/AbilEqUphNX8+e6QdJhrSci7jOXqehReCjySWFi7wDvc0xiaIqyhIaYgueidATxXg7B+FLjRr9HOke7C6vn7sw58twZh/ZKkVWa2d9TCGhpkg4vC+hvgKzUJ63pJx41aWEPD/IdRWH8A/LgGYV0M3CXp0FEKaxPL5Cisq4E/JBbWDnAEsMW1JIxCWEND3bYysz1eOO2slPip+P2Tkr7nFo5WjvTZwvov4EynhiKxsF4m6YxRVKyhwf7yKKwP+OZYO7GwFsAGSccstLCGhhv7o7BeB/wssbACvIGy1femhfTQjEMjN+6LXwD8uQZhPRK4reK5sakHvXJw6xXgM8DLFY5Pxe+nSfr2QglrGJPzQ1FY/wacU8lmlHCr4CpJpy2EsIYxOrgVhXUbcFVCmql6aH4i6f0OfMjHX2b4vW1mVwM/Tyis0UNzsFesS5k5kDDdoDu/R2FdATyVMOIjzRwDbHBhbeVInwHezGyXC+t/nSJSFk6nS/pGXfwexvRgbqSZJ4HzKg0LEkb8tZJOrgP4MMYnomPhdCdwbeLCKXL8ZklHpBbWcT8iGCP+cuBXNXhoDnVhPSBlqy9MwPn/wsE4i3LcdupW33GUY0ySeWjCBAxeiB6aF11YX62h1bdS0qWp+D1MyMSLSDOPAxfV1Oq7UdLHUuxIhgkaNRKF9Tbg5hpafQbcLumdw5pTJ20gQ9c//muA7TUI62GU5qX2MMIaJnCwTtwIWw48U4OwngB8fxhhDRM40SgK6wvA6Q5UamFdLenCQYU1TOgoqSisjwKX1CSs6yR9eBBhneQZXlFYfwjcWoOwLqI8fPC2fj00kz7ZKHpoLqE8yZfanPouYEv8Z/QqrBMNesVDsxf4HOX3hYbEwnoScH0/wjrxM7wqrb5nKM2p1CCsaySd3auwTsXgtIqwbvccvg5hvVXSsb0I69RMq6sI602U37KYWliXUHpo3sx+PDTTNiIwCuvngR01eGjeC2zan4dmqkCvCOurlDuSL9ZgTj3FB7zN66GZumGYFWH9B3A29ZhTr5S0bD5hncoJpBVhvQ+4IiG/V82pGyUd9VrCOrVjXyvCeg1wl1eYqYRVlAPetko6yIXV8qzd2ebU8yi/Si21h6Y64K2VQZ/todntwrqrBg/NMklXVvl96qdKV/j9r8DKmjw0ayWdEoHPo7xn8/s9wNoaPDQF8FNJ7zGzThgy2sOckw2T4KH5FnCvA69EhZNRDni7R9IhbeexYoivt2kB/5sEfvd5jwasAn4LvNuxCYm+CugDwA3/B67bnUnSORMJAAAAAElFTkSuQmCC"></span>
+  <span class="vr"></span>
+  <div class="eng">Karta AI <span>Engagement Workspace</span></div>
+  <div class="r">
+    <button class="ghost primary" id="btnChat" type="button"><svg class="ic" viewBox="0 0 20 20"><use href="#i-chat"/></svg>Ask Claude <span class="beta">BETA</span></button>
+    <button class="iconbtn" type="button" aria-label="Help" title="Help"><svg class="ic" viewBox="0 0 20 20"><use href="#i-info"/></svg></button>
+    <button class="iconbtn" id="btnTheme" type="button" aria-label="Switch to dark mode" title="Switch theme">
+      <svg class="ic" viewBox="0 0 20 20" id="themeIcon"><use href="#i-moon"/></svg>
+    </button>
+    <span class="av" aria-hidden="true"><svg class="ic" viewBox="0 0 20 20" style="width:15px;height:15px"><use href="#i-users"/></svg></span>
+  </div>
+</div>
+<div class="body">
+  <nav class="rail" id="rail" aria-label="Areas">
+    <button type="button" class="nv on" data-view="home"><svg class="ic" viewBox="0 0 20 20"><use href="#i-home"/></svg><span>Home</span></button>
+    <button type="button" class="nv" data-view="status"><svg class="ic" viewBox="0 0 20 20"><use href="#i-doc"/></svg><span>Weekly status</span></button>
+    <button type="button" class="nv" data-view="milestones"><svg class="ic" viewBox="0 0 20 20"><use href="#i-flag"/></svg><span>Milestones</span></button>
+    <button type="button" class="nv" data-view="raid"><svg class="ic" viewBox="0 0 20 20"><use href="#i-alert"/></svg><span>RAID</span></button>
+    <button type="button" class="nv" data-view="decisions"><svg class="ic" viewBox="0 0 20 20"><use href="#i-gate"/></svg><span>Decisions</span></button>
+    <button type="button" class="nv" data-view="artifacts"><svg class="ic" viewBox="0 0 20 20"><use href="#i-book"/></svg><span>Artifacts</span></button>
+    <button type="button" class="nv" data-view="catalog"><svg class="ic" viewBox="0 0 20 20"><use href="#i-grid"/></svg><span>Catalog</span></button>
+    <div class="spacer"></div>
+    <div class="srclbl">Sources</div>
+    <div class="srcs" id="chips"></div>
+    <button type="button" class="nv" data-view="settings" aria-label="Engagement configuration" style="margin-top:6px"><svg class="ic" viewBox="0 0 20 20"><use href="#i-cog"/></svg><span>Config</span></button>
+  </nav>
+  <main class="main">
+    <section class="view" id="v-home">
+      <div class="hrow"><h2 id="hTitle">Engagement workspace</h2><div class="right"><span class="wk" id="wkFocus"></span><div class="meta" id="hMeta">Reading the project…</div></div></div>
+      <div class="strip" id="jrny"></div>
+      <div class="hgrid">
+        <div class="hcard" id="nowCard">
+          <div class="ct"><h3 id="nowTitle">Now</h3><div class="m" id="nowMeta"></div></div>
+          <div class="obj" id="nowObj"></div>
+          <div id="cpBox"></div>
+          <div class="nowgrid">
+            <div><span class="lbl">Stage deliverables</span><div id="delivList"></div></div>
+            <div><span class="lbl">Recommended now</span><div id="recList"></div></div>
+          </div>
+        </div>
+        <div class="hcard" id="attCard"><div class="ct"><h3>Needs attention</h3><span class="tag2 risk" id="attCount" hidden></span></div><div class="list" id="ins"><div class="calm">Reading the project…</div></div></div>
+        <div class="hcard" id="evCard"><div class="ct"><h3>Evidence and decisions</h3><button class="plain" type="button" data-view="catalog" style="color:var(--accent-2);font-weight:500;font-size:12px">Capability catalog</button></div><div class="list" id="act"><div class="calm">Reading the project…</div></div></div>
+      </div>
+    </section>
+    <section class="view" id="v-setup" hidden><div class="hrow"><h2>Set up this engagement workspace</h2><div class="meta">one engagement per workspace · about ten minutes</div></div><div class="cfgstack" id="setupView"></div></section>
+    <section class="view scroll" id="v-status" hidden><div class="page wsg" id="gate"><div><span class="lbl">Weekly status</span><h2 class="gh" style="margin-top:2px">Weekly status</h2>
+    <div class="sub" id="gateSub">Reading the status period…</div></div><div class="steps" id="stepbar">
+    <div data-step="1"><span class="lbl">1 · Review sources</span><div class="t" id="st1">Reading…</div></div>
+    <div data-step="2"><span class="lbl">2 · Draft narrative</span><div class="t" id="st2">Not drafted</div></div>
+    <div data-step="3"><span class="lbl">3 · Approve</span><div class="t" id="st3">Not approved</div></div>
+    <div data-step="4"><span class="lbl">4 · Generate deck</span><div class="t" id="st4">Waiting for approval</div></div>
+  </div><div class="wstep on" data-step="1"><div class="wsl"><div class="card">
+    <div class="phead"><h2>Milestones</h2><span class="lbl" id="msCount">—</span></div>
+    <div class="pad" style="overflow-x:auto">
+      <table><thead><tr><th style="width:40%">Milestone</th><th>Orig. date</th><th>New date</th><th>Variance</th><th>Status</th></tr></thead>
+        <tbody id="msBody"><tr><td colspan="5" class="empty">Reading the Asana project…</td></tr></tbody></table>
+      <div class="prov" style="margin-top:10px">Status is derived in code from completion and dates. To change a status, enter the approved New Date. Past date with no New Date reads Off Track. No date at all reads Unknown.</div>
+    </div>
+  </div></div><div class="wsr"><div class="two">
+    <div class="card">
+      <div class="phead"><h2>Sources</h2><span class="lbl" id="asOf">as of —</span></div>
+      <div class="pad"><div class="src" id="srcList"><div class="calm">Connecting…</div></div></div>
+    </div>
+    <div class="card">
+      <div class="phead"><h2>Source gaps</h2><span class="lbl">recorded with the deck</span></div>
+      <div class="pad"><ul class="bul" id="gapList"><li class="empty" style="list-style:none;margin-left:-17px">None recorded.</li></ul></div>
+    </div>
+  </div></div></div><div class="wstep" data-step="2"><div class="roll" id="roll">
+    <div class="lead"><span class="lbl">Overall status</span>
+      <span class="sv"><span class="dot" id="dOverall"></span><span id="tOverall">—</span></span>
+      <span class="derived">worst of the three · never Green with a gap</span></div>
+    <div><span class="lbl">Scope &amp; schedule</span>
+      <button class="sv" data-sub="scope" type="button"><span class="dot"></span><span>—</span></button>
+      <span class="rec-note" id="recScope">&nbsp;</span>
+      <input class="in" data-rat="scope" type="text" placeholder="Why, in one line" aria-label="Scope and schedule rationale"></div>
+    <div><span class="lbl">Resources</span>
+      <button class="sv" data-sub="resources" type="button"><span class="dot"></span><span>—</span></button>
+      <span class="rec-note" id="recResources">&nbsp;</span>
+      <input class="in" data-rat="resources" type="text" placeholder="Why, in one line" aria-label="Resources rationale"></div>
+    <div><span class="lbl">Data</span>
+      <button class="sv" data-sub="data" type="button"><span class="dot"></span><span>—</span></button>
+      <span class="rec-note" id="recData">&nbsp;</span>
+      <input class="in" data-rat="data" type="text" placeholder="Why, in one line" aria-label="Data rationale"></div>
+  </div><div class="ws3"><div class="two">
+    <div class="card">
+      <div class="phead"><h2>Activities completed</h2><span class="lbl" id="narrSrc">not drafted</span></div>
+      <div class="pad">
+        <ul class="bul" id="accList"><li class="empty" style="list-style:none;margin-left:-17px">Draft to populate.</li></ul>
+        <div class="addrow"><input class="in" id="addAcc" type="text" placeholder="Add an accomplishment" aria-label="Add an accomplishment"><button class="btn out sm" data-add="acc" type="button">Add</button></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="phead"><h2>Planned activities</h2><span class="lbl" id="budTxt">0 of 14 lines</span></div>
+      <div class="pad">
+        <ul class="bul" id="plnList"><li class="empty" style="list-style:none;margin-left:-17px">Draft to populate.</li></ul>
+        <div class="addrow"><input class="in" id="addPln" type="text" placeholder="Add a planned activity" aria-label="Add a planned activity"><button class="btn out sm" data-add="pln" type="button">Add</button></div>
+        <div class="budget"><div class="row"><span>wrapped-line budget across both lists</span><span id="budTxt2">0 of 14</span></div>
+          <div class="meter"><i id="budFill" style="width:0%"></i></div></div>
+      </div>
+    </div>
+  </div><div class="card">
+    <div class="phead"><h2>Key risks &amp; issues</h2><span class="lbl">RAID · up to three on the slide</span></div>
+    <div class="pad">
+      <div id="raidBox" class="empty">Draft to populate.</div>
+      <div class="addrow" style="margin-top:12px"><button class="btn out sm" id="btnAddRaid" type="button">Add a risk or issue</button></div>
+    </div>
+  </div></div><div class="card gbar">
+    <button class="btn" id="btnDraft" type="button" disabled>Draft this week’s status</button>
+    <span class="note" id="barNote">Connecting…</span>
+  </div></div><div class="wstep" data-step="3"><div class="card">
+    <div class="phead"><h2>Approve</h2><span class="lbl" id="apprState">step 3</span></div>
+    <div class="pad" id="apprPanel">
+      <div class="form">
+        <div class="field"><label for="revName">Reviewer name</label><input class="in" id="revName" type="text" autocomplete="name"></div>
+        <div class="field"><label for="revEmail">Reviewer email</label><input class="in" id="revEmail" type="email" autocomplete="email" placeholder="name@kartacg.com"></div>
+        <div class="field" style="grid-column:1/-1"><label for="revNotes">Notes for the record (optional)</label><input class="in" id="revNotes" type="text"></div>
+      </div>
+      <div class="gbar" style="padding:14px 0 0">
+        <button class="btn" id="btnApprove" type="button" disabled>Approve as named reviewer</button>
+        <button class="btn out" id="btnReopen" type="button" hidden>Reopen for changes</button>
+        <span class="note" id="apprNote">Draft and review first. Approving records your name, the time, every value, and which values you changed.</span>
+      </div>
+    </div>
+  </div></div><div class="wstep" data-step="4"><div class="card">
+    <div class="phead"><h2>Generate deck</h2><span class="lbl" id="genState">step 4</span></div>
+    <div class="pad">
+      <div class="src" id="genInfo"></div>
+      <div class="gbar" style="padding:14px 0 0">
+        <button class="btn" id="btnGenerate" type="button" disabled>Generate deck</button>
+        <span class="note" id="genNote">Approve first. The deck is built by the Karta assembly service and saved to the engagement’s SharePoint folder as you. Nothing is sent.</span>
+      </div>
+      <div id="jobOut" style="margin-top:14px"></div>
+      <div id="jobHist" style="margin-top:6px"></div>
+    </div>
+  </div></div></div></section>
+    <section class="view" id="v-milestones" hidden><div class="hrow"><h2>Milestones</h2><div class="meta" id="msMeta"></div></div><div class="hcard tbl" id="msView"></div></section>
+    <section class="view" id="v-raid" hidden><div class="hrow"><h2>Risks, assumptions, issues, dependencies</h2><div class="meta">from the latest approved status and the working draft</div></div><div class="hcard tbl" id="raidView"></div></section>
+    <section class="view" id="v-decisions" hidden><div class="hrow"><h2>Decisions</h2><div class="meta">what changed, why, when, who approved</div></div><div class="hcard tbl" id="decView"></div></section>
+    <section class="view" id="v-artifacts" hidden><div class="hrow"><h2>Artifacts</h2><div class="meta">approved records and generated decks</div></div><div class="hcard tbl" id="artView"></div></section>
+    <section class="view" id="v-catalog" hidden><div class="hrow"><h2>Capability catalog</h2><div class="meta">by lifecycle stage and readiness</div></div><div class="hcard tbl" id="catView"></div></section>
+    <section class="view" id="v-settings" hidden><div class="hrow"><h2>Engagement configuration</h2><div class="meta" id="cfgMeta">links, dates and people · no client facts</div></div><div class="cfgstack" id="cfgView"></div></section>
+  </main>
+  <aside class="drawer" id="drawer" hidden>
+    <div class="dh"><svg class="ic" viewBox="0 0 20 20" style="color:var(--accent-2)"><use href="#i-chat"/></svg><b>Ask Claude</b><span class="beta">BETA</span><div class="ib"><button type="button" id="btnMin" aria-label="Minimize"><svg class="ic" viewBox="0 0 20 20"><use href="#i-min"/></svg></button><button type="button" id="btnClose" aria-label="Close"><svg class="ic" viewBox="0 0 20 20"><use href="#i-x"/></svg></button></div></div>
+    <div class="msgs" id="msgs"></div>
+    <div class="sug" id="sug" style="margin-top:8px"></div>
+    <div class="dinput"><input id="ask" type="text" placeholder="Ask about requirements, decisions, milestones, meetings, or risks" aria-label="Ask this project"><button type="button" id="btnAsk" aria-label="Send"><svg class="ic" viewBox="0 0 20 20"><use href="#i-send"/></svg></button></div>
+  </aside>
+</div>
+</div>
+
+<script>
+(function(){
+  var STAGE_DEF=[
+    {id:"planning",nm:"Project Planning",kind:"stage"},{id:"foundations",nm:"Foundations",kind:"stage"},{id:"build",nm:"Build",kind:"stage"},
+    {id:"test",nm:"Test",kind:"stage"},{id:"train",nm:"Train",kind:"parallel"},{id:"deploy",nm:"Deploy",kind:"stage"},{id:"support",nm:"Continuous Support",kind:"stage"}];
+  /* Blank engagement configuration. Everything engagement-specific arrives from the configuration document saved at setup. Karta methodology text is not engagement data. */
+  var CFG={
+    configured:false,
+    client:"", engagementId:"", projectName:"", engagement:"",
+    asana:"Asana", m365:"Microsoft 365", assembly:"Karta Assembly", granola:"Granola", harvest:"Harvest App",
+    projectGid:"", projectUrl:"", projectNameAsana:"", milestoneSection:"Project Milestones", milestoneSubtype:"milestone",
+    dest:{driveId:"",folderId:"",label:"",webUrl:""},
+    granolaFolder:{name:"",id:"",noteCount:null},
+    harvestProject:{query:"",id:null,name:"",client:"",code:""},
+    verified:{asana:null,sharepoint:null,granola:null,harvest:null},
+    docRoot:"engagements/this",
+    stages:STAGE_DEF.map(function(s){return {id:s.id,nm:s.nm,from:null,to:null,kind:s.kind,contracted:s.id==="support"?false:true}}),
+    stagesConfirmedAt:null,
+    objectives:{planning:"Transfer commercial and client context into delivery and establish a controlled engagement with clear scope, logistics, roles, sources and milestones.",
+      foundations:"Convert business intent and workshop evidence into an approved solution foundation that stays deliverable within scope, window, budget and capacity.",
+      build:"Configure the solution through a disciplined, traceable build and obtain documented initial business acceptance at each sprint review.",
+      test:"Demonstrate that the solution meets approved requirements through a deliberate UAT operating model and is ready for formal acceptance.",
+      train:"Prepare each in-scope audience to adopt, operate, administer or teach the solution.",
+      deploy:"Move the solution into production, complete the implementation responsibly and stabilize it.",
+      support:"Transfer operational ownership to Continuous Support and turn recurring evidence into improvements."},
+    controlPoints:[],
+    deliverables:{},
+    capabilities:[
+      {id:"status",nm:"Create weekly status",p:"Review this week’s evidence and prepare the client deck",ic:"i-doc",stages:["planning","foundations","build","test","train","deploy"],ready:"Piloted",live:true,owner:"Product owner"},
+      {id:"sprint",nm:"Prepare sprint review",p:"What will be shown, requirements covered, evidence",ic:"i-clip",stages:["build"],ready:"Experimental",live:false,owner:"Unassigned"},
+      {id:"mockup",nm:"Generate a mockup",p:"Turn requirements or an idea into an editable visual",ic:"i-img",stages:["foundations","build"],ready:"Piloted",live:true,owner:"Product owner"},
+      {id:"meeting",nm:"Capture meeting outcomes",p:"Turn workshop notes into actions and decisions",ic:"i-chat",stages:["planning","foundations","build"],ready:"Experimental",live:false,owner:"Unassigned"},
+      {id:"uat",nm:"Prepare for UAT",p:"Turn approved requirements into test scripts",ic:"i-clip",stages:["test"],ready:"Experimental",live:false,owner:"Unassigned"},
+      {id:"onboard",nm:"Onboarding brief",p:"Bring a new team member up to speed from the approved record",ic:"i-book",stages:["planning","foundations","build","test","train","deploy","support"],ready:"Experimental",live:false,owner:"Unassigned"}
+    ],
+    owner:{name:"",email:""},
+    roles:{reviewers:[],members:[]},
+    support:{route:"Message the engagement owner"}
+  };
+  var SUB=["Green","Yellow","Red","Unknown","Not assessed"];
+  var TONE={Green:"--accent-2",Yellow:"--warn",Red:"--risk",Unknown:"--faint","Not assessed":"--faint"};
+  var MSC={Complete:"p-ok","On Track":"p-ok","At Risk":"p-warn","Off Track":"p-risk",Unknown:"p-unk"};
+  var RANK={Red:4,Yellow:3,Unknown:2,"Not assessed":2,Green:1};
+  var SUBKEY={scope:"scope_schedule",resources:"resources",data:"data"};
+  var DAY=864e5;
+  var S={tasks:null,tasksAt:null,deck:null,deckAt:null,asOf:todayIso(),
+         ms:[],carry:{},sub:{scope:"Not assessed",resources:"Not assessed",data:"Not assessed"},
+         rat:{scope:"",resources:"",data:""},rec:null,acc:[],pln:[],raid:[],
+         drafted:false,draftedAt:null,draftedFields:[],changed:{},
+         approved:null,version:0,editing:true,jobs:[],assembly:null,busy:false};
+  var db=null,sample=null,mcp=null,downloads=null;
+  var CFGDOC={source:"built-in",at:null,by:null};
+  var MEAS=[];
+  var SRC={asana:{st:"off",d:"Not set up"},sharepoint:{st:"off",d:"Not set up"},assembly:{st:"off",d:"Checking"},granola:{st:"off",d:"Not set up"},harvest:{st:"off",d:"Not set up"},raid:{st:"risk",d:"Missing · risks are entered by the reviewer"}};
+  var CHAT=[];
+  var CLIENT_ID=(crypto.randomUUID?crypto.randomUUID():String(Math.random()));
+  var dirty=false;
+  var $=function(i){return document.getElementById(i)};
+  var esc=function(s){var d=document.createElement("div");d.textContent=s==null?"":String(s);return d.innerHTML};
+
+  /* ---------- theme toggle ---------- */
+  function setMode(m,persist){
+    var r=document.documentElement;r.setAttribute("data-mode",m);
+    $("themeIcon").innerHTML='<use href="#'+(m==="dark"?"i-sun":"i-moon")+'"/>';
+    $("btnTheme").setAttribute("aria-label",m==="dark"?"Switch to light mode":"Switch to dark mode");
+    if(persist){try{localStorage.setItem("kcg-mode",m)}catch(e){}}
+  }
+  (function initMode(){
+    var saved=null;try{saved=localStorage.getItem("kcg-mode")}catch(e){}
+    if(saved==="dark"||saved==="light"){setMode(saved,false);return;}
+    var r=document.documentElement,stamped=r.getAttribute("data-theme");
+    var dark=stamped==="dark"||(!stamped&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches);
+    $("themeIcon").innerHTML='<use href="#'+(dark?"i-sun":"i-moon")+'"/>';
+    $("btnTheme").setAttribute("aria-label",dark?"Switch to light mode":"Switch to dark mode");
+  })();
+  $("btnTheme").addEventListener("click",function(){
+    var cur=document.documentElement.getAttribute("data-mode");
+    if(!cur){var st=document.documentElement.getAttribute("data-theme");
+      var dark=st==="dark"||(!st&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches);
+      cur=dark?"dark":"light";}
+    setMode(cur==="dark"?"light":"dark",true);
+  });
+
+  /* ---------- deterministic rules (mirror of karta_assembler.status) ---------- */
+  function todayIso(){var d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+  function isoAddDays(iso,n){var d=new Date(iso+"T12:00:00");d.setDate(d.getDate()+n);
+    return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+  function statusPeriod(asOf){var d=new Date(asOf+"T12:00:00"),wd=(d.getDay()+6)%7;
+    var start=isoAddDays(asOf,-wd),end=isoAddDays(start,4),sd=new Date(start+"T12:00:00"),ed=new Date(end+"T12:00:00");
+    var M=function(x){return x.toLocaleDateString("en-US",{month:"long"})};
+    var label=sd.getMonth()===ed.getMonth()?M(sd)+" "+sd.getDate()+" to "+ed.getDate()+", "+ed.getFullYear()
+      :M(sd)+" "+sd.getDate()+" to "+M(ed)+" "+ed.getDate()+", "+ed.getFullYear();
+    return {start:start,end:end,label:label};}
+  function varianceDays(o,n){if(!o||!n)return null;return Math.round((new Date(n+"T12:00:00")-new Date(o+"T12:00:00"))/DAY);}
+  function deriveMs(completed,o,n,asOf){
+    if(completed)return"Complete";var g=n||o||null;if(!g)return"Unknown";
+    if(g<asOf)return"Off Track";var v=varianceDays(o,n);if(v!==null&&v>0)return"At Risk";return"On Track";}
+  function rollup(list){if(!list.length)return"Not assessed";
+    var w=list.reduce(function(a,c){return RANK[c]>RANK[a]?c:a},"Green");
+    return (w==="Unknown"||w==="Not assessed")?"Unknown":w;}
+  function overall(){return rollup([S.sub.scope,S.sub.resources,S.sub.data]);}
+  function stripBuild(n){n=String(n||"").trim();return /^build:/i.test(n)?n.slice(6).trim():n;}
+  function md(iso){if(!iso)return"—";return new Date(iso.slice(0,10)+"T12:00:00").toLocaleDateString(undefined,{month:"short",day:"numeric"});}
+  function fmtDate(iso){if(!iso)return"—";var p=iso.split("-");return (+p[1])+"/"+(+p[2]);}
+  function daysPast(iso){return Math.floor((Date.now()-new Date(iso+"T23:59:59").getTime())/DAY);}
+  function lines(a){var n=0;a.forEach(function(t){n+=Math.max(1,Math.ceil(t.length/48))});return n;}
+  function secOf(t){return(((t.memberships||[])[0]||{}).section||{}).name||"—";}
+  function isMilestone(t){return secOf(t)===CFG.milestoneSection||t.resource_subtype===CFG.milestoneSubtype;}
+  function pastDue(){return(S.tasks||[]).filter(function(t){return !t.completed&&t.due_on&&daysPast(t.due_on)>0});}
+  function fresh(ms){if(!ms)return"";var m=Math.round((Date.now()-ms)/60000);return m<1?"just now":m<60?m+" min ago":Math.round(m/60)+" h ago";}
+  function stable(o){if(Array.isArray(o))return"["+o.map(stable).join(",")+"]";
+    if(o&&typeof o==="object")return"{"+Object.keys(o).sort().map(function(k){return JSON.stringify(k)+":"+stable(o[k])}).join(",")+"}";
+    return JSON.stringify(o);}
+  async function sha256(str){var u=new TextEncoder().encode(str);var h=await crypto.subtle.digest("SHA-256",u);
+    return Array.from(new Uint8Array(h)).map(function(b){return b.toString(16).padStart(2,"0")}).join("");}
+  function markChanged(f){S.changed[f]=true;}
+
+  var PER=statusPeriod(S.asOf);
+  $("gateSub").textContent="Status period "+PER.label+" · as of "+md(S.asOf);
+  $("asOf").textContent="as of "+md(S.asOf);
+
+  /* ---------- shell: navigation, sources, journey, home ---------- */
+  function showView(v){
+    if(!$("v-"+v))v="home";
+    if(!CFG.configured&&v!=="settings"&&v!=="setup"){v="setup";}
+    if(CFG.configured&&v==="setup")v="home";
+    if(v==="setup")renderSetupView();
+    document.querySelectorAll(".view").forEach(function(s){s.hidden=s.id!=="v-"+v;});
+    document.querySelectorAll("#rail button[data-view]").forEach(function(b){b.classList.toggle("on",b.dataset.view===v);});
+    try{localStorage.setItem("kcg-view",v)}catch(e){}
+    if(v==="milestones")renderMsView();if(v==="raid")renderRaidView();if(v==="decisions")renderDecView();if(v==="artifacts")renderArtView();if(v==="catalog")renderCatView();if(v==="settings")renderCfgView();
+  }
+  function setSrc(k,st,d,at){SRC[k]={st:st,d:d,at:at||null};renderChips();renderInsights();}
+  var SRCNM={asana:"Asana",sharepoint:"SharePoint",assembly:"Assembly Server",granola:"Granola",harvest:"Harvest",raid:"RAID log"};
+  var SRCFIX={asana:"Connect Asana under Customize, Connectors, and confirm you are staffed on the project.",sharepoint:"Connect Microsoft 365 under Customize, Connectors.",assembly:"Add the Karta Assembly connector under Customize, Connectors, then reload.",granola:"Name the Granola folder for this engagement in Config. Meeting evidence reads arrive in a later gate.",harvest:"Name the Harvest project for this engagement in Config. Capacity and PTO signals arrive in a later gate.",raid:"Until a RAID log source is connected, risks are entered by the reviewer and the deck records the gap."};
+  function renderChips(){
+    var box=$("chips");if(!box)return;box.innerHTML="";
+    Object.keys(SRC).forEach(function(k){var s=SRC[k];var b=document.createElement("button");b.type="button";b.className="sch "+s.st;b.dataset.src=k;b.title=SRCNM[k]+" · "+s.d+(s.at?" · "+fresh(s.at):"");
+      b.innerHTML='<span class="d"></span><span>'+esc(SRCNM[k])+'</span>';box.appendChild(b);});
+  }
+  function togglePop(k){
+    var old=document.querySelector(".pop");if(old){var same=old.dataset.src===k;old.remove();if(same)return;}
+    var s=SRC[k],p=document.createElement("div");p.className="pop";p.dataset.src=k;
+    var b=document.querySelector('[data-src="'+k+'"]'),r=b.getBoundingClientRect();
+    p.style.left=(r.right+10)+"px";p.style.top=Math.max(8,Math.min(window.innerHeight-160,r.top-8))+"px";
+    p.innerHTML='<div class="t">'+esc(SRCNM[k])+' · '+esc(s.st==="ok"?"reading as you":s.st==="warn"?"attention":s.st==="risk"?"missing evidence":"not connected")+'</div><div>'+esc(s.d)+(s.at?" · last read "+fresh(s.at):"")+'</div>'+(s.st!=="ok"?'<div class="fix">'+esc(SRCFIX[k])+'</div>':'<div class="fix">Every read uses your own credentials. Nothing is cached beyond this view.</div>');
+    document.body.appendChild(p);
+  }
+  function stageState(p){if(!p.from)return p.contracted===false?"na":"unset";var now=Date.now(),start=new Date(p.from+"T00:00:00").getTime(),end=p.to?new Date(p.to+"T23:59:59").getTime():Infinity;
+    if(p.contracted===false)return"na";if(end<now)return"done";if(start<=now)return p.kind==="parallel"?"par":"now";return p.kind==="parallel"?"par":"next";}
+  function currentStage(){return CFG.stages.filter(function(p){return p.kind==="stage"&&stageState(p)==="now"})[0]||CFG.stages.filter(function(p){return stageState(p)==="next"})[0]||CFG.stages[0];}
+  function renderJourney(){
+    var box=$("jrny");box.innerHTML="";
+    CFG.stages.forEach(function(p,i){var st=stageState(p),d=document.createElement("div");d.className="stg "+st;
+      var sub=st==="unset"?"dates not set":(p.to?md(p.from)+" – "+md(p.to):"from "+md(p.from))+" · "+(st==="done"?"complete":st==="now"?"current":st==="par"?(new Date(p.from+"T00:00:00")<=Date.now()?"parallel, in progress":"parallel, not started"):st==="na"?"not contracted":"upcoming");
+      d.innerHTML='<div class="n"><i>'+(st==="done"?'<svg class="ic" viewBox="0 0 20 20"><use href="#i-check"/></svg>':(i+1))+'</i>'+esc(p.nm)+'</div><div class="s" title="'+esc(sub)+'">'+esc(sub)+'</div>';box.appendChild(d);});
+  }
+  function weekOf(p){if(!p.from)return"dates not set";var a=new Date(p.from+"T00:00:00"),b=p.to?new Date(p.to+"T00:00:00"):null;var w=Math.floor((Date.now()-a)/(7*DAY))+1,n=b?Math.round((b-a)/(7*DAY))+1:null;return n?"week "+Math.max(1,Math.min(w,n))+" of "+n:"week "+Math.max(1,w);}
+  function renderNow(){
+    var cur=currentStage();$("nowTitle").textContent="Now in "+cur.nm;$("nowMeta").textContent=!cur.from?"stage dates not set":(cur.to?md(cur.from)+" to "+md(cur.to):"from "+md(cur.from))+" · "+weekOf(cur);
+    $("nowObj").textContent=CFG.objectives[cur.id]||"";
+    var cps=(CFG.controlPoints||[]).filter(function(c){return c.stage===cur.id&&c.due>=S.asOf}).sort(function(a,b){return a.due<b.due?-1:1});var cp=cps[0];
+    if(cp){var ready=cp.evidence.filter(function(e){return e.s==="ok"}).length;
+      $("cpBox").innerHTML='<div class="cp"><div class="h"><svg class="ic" viewBox="0 0 20 20" style="color:var(--accent-2)"><use href="#i-gate"/></svg><span class="lbl">Next control point</span><span class="ev">Evidence '+ready+' of '+cp.evidence.length+' ready</span></div><div class="nm">'+esc(cp.nm)+'</div><div class="meta"><span>Due '+md(cp.due)+'</span><span>Owner: '+esc(cp.owner)+'</span><span>Decision: '+esc(cp.decision)+'</span></div><div class="evs">'+cp.evidence.map(function(e){return '<div><span class="bd '+(e.s==="ok"?"ok":e.s==="warn"?"warn":"")+'">'+(e.s==="ok"?'<svg class="ic" viewBox="0 0 20 20"><use href="#i-check"/></svg>':'')+'</span>'+esc(e.t)+'</div>'}).join("")+'</div></div>';}
+    else $("cpBox").innerHTML='<div class="cp"><div class="h"><span class="lbl">Next control point</span></div><div style="font-size:12.5px;color:var(--muted)">No control point configured for this stage. Add one in the engagement configuration.</div></div>';
+    var dl=CFG.deliverables[cur.id]||[];$("delivList").innerHTML=dl.length?dl.map(function(d){return '<div class="drow"><span>'+esc(d.n)+'</span><span class="tag2 '+d.k+'">'+esc(d.s)+'</span></div>'}).join(""):'<div class="empty2">No deliverables configured.</div>';
+    var recs=CFG.capabilities.filter(function(c){return c.stages.indexOf(cur.id)>=0}).slice(0,document.body.classList.contains("drawer-open")?2:3);
+    $("recList").innerHTML=recs.map(function(c){return '<div class="rrow"><span class="ib"><svg class="ic" viewBox="0 0 20 20"><use href="#'+c.ic+'"/></svg></span><span class="tx"><b>'+esc(c.nm)+'</b><span>'+esc(c.p)+'</span></span>'+(c.id==="status"?'<button class="btn xs" type="button" data-view="status">Start</button>':'<span class="tag2 '+(c.live?"ok":"")+'">'+esc(c.ready)+'</span>')+'</div>'}).join("");
+  }
+  function renderHero(){
+    $("hTitle").innerHTML=CFG.configured?esc(CFG.client)+' <span>· '+esc(CFG.projectName)+'</span>':"Engagement workspace";
+    $("wkFocus").textContent="Week in focus · "+PER.label;
+    var late=S.ms.filter(function(m){return m.status==="Off Track"}).length;
+    $("hMeta").textContent=S.approved?"Overall status "+S.approved.overall.status+" · approved "+md(S.approved.approval.approved_at)+" by "+S.approved.approval.reviewer_name:(S.tasks===null?"Reading the project…":(late?late+" milestone"+(late>1?"s":"")+" past date with no approved new date":"No milestone past its date"));
+  }
+  function attRow(icon,title,sub,dot,view){return '<button class="arow" type="button"'+(view?' data-view="'+view+'"':'')+'><span class="ib"><svg class="ic" viewBox="0 0 20 20"><use href="#'+icon+'"/></svg></span><span class="tx"><b>'+(dot?'<span class="dot"></span>':'')+esc(title)+'</b><span>'+esc(sub)+'</span></span><svg class="ic" viewBox="0 0 20 20" style="width:12px;height:12px;color:var(--faint)"><use href="#i-chev"/></svg></button>';}
+  function renderInsights(){
+    if(S.tasks===null)return;var h="",urgent=0;
+    var late=S.ms.filter(function(m){return m.status==="Off Track"});
+    if(late.length){urgent++;h+=attRow("i-alert",late.length+" milestone"+(late.length>1?"s":"")+" past date, no new date approved",late.map(function(m){return m.name}).join(" · "),true,"milestones");}
+    var raid=(S.approved&&S.approved.raid)||S.raid||[];var high=raid.filter(function(r){return r.priority==="High"});
+    if(high.length){urgent++;var since=S.approved?Math.floor((Date.now()-new Date(S.approved.approval.approved_at))/DAY):0;h+=attRow("i-flag",high.length+" High "+(high.length>1?"items":"item")+(since?" open "+since+" day"+(since>1?"s":"")+" since approval":""),high[0].description,true,"raid");}
+    Object.keys(SRC).forEach(function(k){var s=SRC[k];if(s.st==="risk"||s.st==="warn")h+=attRow("i-sync","Source gap: "+SRCNM[k],s.d,false,null);});
+    if(CFG.stagesConfirmedAt&&(Date.now()-new Date(CFG.stagesConfirmedAt+"T00:00:00").getTime())>30*DAY)h+=attRow("i-cog","Confirm stage dates","Last confirmed "+md(CFG.stagesConfirmedAt)+" by the engagement owner",false,"settings");
+    var cp=(CFG.controlPoints||[]).filter(function(c){return c.due>=S.asOf})[0];if(cp&&/^\[/.test(cp.owner))h+=attRow("i-gate","Owner needed: "+cp.nm.split(" · ")[0],"Control point due "+md(cp.due)+" has no named owner",false,"decisions");
+    if(!CFG.projectGid)h+=attRow("i-cog","Asana project not linked","Paste the project link in Config",false,"settings");
+    if(!CFG.dest.webUrl)h+=attRow("i-cog","SharePoint status folder not linked","Paste the folder link in Config",false,"settings");
+    if(!CFG.stages[0].from)h+=attRow("i-cal","Stage dates not set","Enter the seven stage dates in Config",false,"settings");
+    h+=attRow("i-users","Capacity not assessed","No PTO or capacity source connected",false,null);
+    $("ins").innerHTML=h;$("attCount").textContent=urgent?urgent+" urgent":"";$("attCount").hidden=!urgent;
+  }
+  function evRow(icon,a,b,tag,view){return '<div class="erow"'+(view?' data-view="'+view+'" style="cursor:pointer"':'')+'><span class="ib"><svg class="ic" viewBox="0 0 20 20"><use href="#'+icon+'"/></svg></span><span class="tx"><b>'+esc(a)+'</b><span>'+esc(b)+'</span></span><span class="tag2 ok">'+esc(tag)+'</span></div>';}
+  function renderActivity(){
+    if(S.tasks===null)return;var h="";
+    if(S.approved)h+=evRow("i-doc","Weekly status v"+S.version+" approved",md(S.approved.approval.approved_at)+" · "+S.approved.approval.reviewer_name+" · "+S.approved.overall.status+" overall","Approved","artifacts");
+    var built=S.jobs.filter(function(j){return j.state==="Built"})[0];if(built&&built.deck)h+=evRow("i-doc",built.deck.filename,"Built "+md(built.updated_at)+(built.delivery==="download"?(built.deck.saved_by_member?" · saved by member":" · not saved"):" · in SharePoint"),"Deck","artifacts");
+    (S.approved?S.approved.milestones:[]).filter(function(m){return m.new_date}).slice(0,2).forEach(function(m){h+=evRow("i-gate",m.name+" moved to "+md(m.new_date),"Approved new date · "+(m.variance_days>0?"+":"")+m.variance_days+" day variance","Decision","decisions");});
+    (S.tasks||[]).filter(function(t){return t.completed&&t.completed_at}).sort(function(a,b){return a.completed_at<b.completed_at?1:-1}).slice(0,2).forEach(function(t){h+=evRow("i-check",t.name,"Completed "+md(t.completed_at)+" · Asana","Complete",null);});
+    $("act").innerHTML=h||'<div class="calm">No approved records yet.</div>';
+  }
+  function renderHome(){renderHero();renderJourney();renderNow();renderInsights();renderActivity();renderChips();}
+  renderJourney();renderChips();renderNow();$("wkFocus").textContent="Week in focus · "+PER.label;
+
+  /* ---------- area views ---------- */
+  function table(cols,rows,empty){if(!rows.length)return '<div class="empty2">'+esc(empty)+'</div>';return '<table><thead><tr>'+cols.map(function(c){return "<th>"+esc(c)+"</th>"}).join("")+'</tr></thead><tbody>'+rows.map(function(r){return "<tr>"+r.map(function(c){return "<td>"+c+"</td>"}).join("")+"</tr>"}).join("")+'</tbody></table>';}
+  function renderMsView(){$("msMeta").textContent=S.ms.length+" milestones · Asana "+CFG.projectGid+(S.tasksAt?" · read "+fresh(S.tasksAt):"");
+    $("msView").innerHTML=table(["Milestone","Orig. date","New date","Variance","Status","Source"],S.ms.map(function(m){return [esc(m.name),'<span class="mono">'+fmtDate(m.original_date)+'</span>','<span class="mono">'+fmtDate(m.new_date)+'</span>','<span class="mono">'+(m.variance_days===null?"—":(m.variance_days>0?"+":"")+m.variance_days+" d")+'</span>','<span class="pill '+MSC[m.status]+'">'+esc(m.status)+'</span>','<span class="mono">'+esc(m.source.id)+'</span>']}),"Reading the Asana project…");}
+  function renderRaidView(){var raid=(S.approved&&S.approved.raid)||S.raid||[];
+    $("raidView").innerHTML=table(["Type","Priority","Description","Mitigation","Status","Recorded"],raid.map(function(r){return [esc(r.type||"Risk"),esc(r.priority||"—"),esc(r.description||""),esc(r.mitigation||"—"),esc(r.status||"Open"),S.approved?"Approved v"+S.version:"Working draft"]}),"No RAID items recorded. Draft or add them in Weekly status.");}
+  function renderDecView(){var rows=[];
+    if(S.approved){rows.push(["Weekly status approved","Version "+S.version+" · overall "+S.approved.overall.status,esc(S.approved.approval.reviewer_name),'<span class="mono">'+md(S.approved.approval.approved_at)+'</span>']);
+      S.approved.milestones.filter(function(m){return m.new_date}).forEach(function(m){rows.push([esc(m.name)+" re-planned","New date "+fmtDate(m.new_date)+" replaces "+fmtDate(m.original_date)+" · "+(m.variance_days>0?"+":"")+m.variance_days+" days",esc(S.approved.approval.reviewer_name),'<span class="mono">'+md(S.approved.approval.approved_at)+'</span>']);});}
+    $("decView").innerHTML=table(["Decision","Detail","Approved by","When"],rows,"No decisions recorded yet. Approvals and New Dates appear here.");}
+  function renderArtView(){var rows=[];
+    if(S.approved)rows.push(["Approved status record","Version "+S.version,esc(S.approved.approval.reviewer_name),'<span class="mono">'+md(S.approved.approval.approved_at)+'</span>','<span class="tag2 ok">Approved</span>']);
+    S.jobs.forEach(function(j){var d=j.deck||{};rows.push([esc(d.filename||"Deck job"),"Approved v"+j.approved_values.version+(d.size_bytes?" · "+Math.round(d.size_bytes/1024)+" KB":""),esc(j.requested_by||""),'<span class="mono">'+md(j.updated_at)+'</span>',j.state==="Built"?(d.sharepoint_web_url?'<a class="link" href="'+esc(d.sharepoint_web_url)+'" target="_blank" rel="noopener">Open in SharePoint</a>':'<span class="tag2 '+(d.saved_by_member?"ok":"")+'">'+(d.saved_by_member?"Saved by member":"Built, not saved")+'</span>'):'<span class="tag2 risk">'+esc(j.state)+(j.error?" · "+esc(j.error.message):"")+'</span>']);});
+    $("artView").innerHTML=table(["Artifact","Detail","By","When","State"],rows,"No artifacts yet.");}
+  function renderCatView(){var rows=[];CFG.stages.forEach(function(p){CFG.capabilities.filter(function(c){return c.stages.indexOf(p.id)>=0}).forEach(function(c){rows.push([esc(p.nm),esc(c.nm),esc(c.p),'<span class="tag2 '+(c.live?"ok":"")+'">'+esc(c.ready)+'</span>',esc(c.owner)]);});});
+    $("catView").innerHTML=table(["Stage","Capability","What it does","Readiness","Owner"],rows,"");}
+  /* ---------- engagement configuration document (contract engagement-config v1.2) ---------- */
+  var STAGE_IDS=STAGE_DEF.map(function(s){return s.id});
+  var DELIV_K={"Approved":"ok","In progress":"warn","Draft":"mute","Missing":"risk","Not started":"mute"};
+  var DELIV_STATES=["Not started","Draft","In progress","Approved","Missing"];
+  var CAP_IC={status:"i-doc",sprint:"i-clip",mockup:"i-img",meeting:"i-chat",uat:"i-clip",onboard:"i-book"};
+  var CFG_DOC=CFG.docRoot+"/config/current";
+  function slug(s){return String(s||"").toLowerCase().replace(/&/g,"and").replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,60);}
+  function cfgToDoc(){
+    return {schema_version:"1.2",engagement_id:CFG.engagementId,client:CFG.client,project_name:CFG.projectName,
+      owner:{name:CFG.owner.name,email:CFG.owner.email},roles:{reviewers:(CFG.roles.reviewers||[]).slice(),members:(CFG.roles.members||[]).slice()},
+      sources:{asana:{project_url:CFG.projectUrl,project_gid:CFG.projectGid,project_name:CFG.projectNameAsana,verified:CFG.verified.asana,milestone_section_names:[CFG.milestoneSection],milestone_resource_subtype:CFG.milestoneSubtype},
+               sharepoint:{status_folder_web_url:CFG.dest.webUrl,drive_id:CFG.dest.driveId,status_folder_item_id:CFG.dest.folderId,label:CFG.dest.label,verified:CFG.verified.sharepoint},
+               granola:{folder_name:CFG.granolaFolder.name,folder_id:CFG.granolaFolder.id,note_count:CFG.granolaFolder.noteCount,verified:CFG.verified.granola},
+               harvest:{project:CFG.harvestProject.query,project_id:CFG.harvestProject.id,project_name:CFG.harvestProject.name,client_name:CFG.harvestProject.client,code:CFG.harvestProject.code,verified:CFG.verified.harvest}},
+      stages:CFG.stages.map(function(p){return {id:p.id,name:p.nm,start:p.from||null,end:p.to||null,kind:p.kind,contracted:p.contracted!==false}}),
+      stages_confirmed_at:CFG.stagesConfirmedAt||null,
+      control_points:(CFG.controlPoints||[]).map(function(c){return {stage:c.stage,name:c.nm,due:c.due,owner:c.owner,decision:c.decision,evidence:(c.evidence||[]).map(function(e){return {item:e.t,state:e.s}})}}),
+      deliverables:Object.keys(CFG.deliverables||{}).reduce(function(o,k){o[k]=CFG.deliverables[k].map(function(d){return {name:d.n,state:d.s}});return o;},{}),
+      objectives:Object.assign({},CFG.objectives),
+      capabilities:CFG.capabilities.map(function(c){return {id:c.id,name:c.nm,description:c.p,readiness:c.ready,owner:c.owner,live:!!c.live,stages:c.stages.slice()}}),
+      support:Object.assign({},CFG.support),templates:{status_deck_template_version:"KCG_Status Template, optimized 2026-09-05"}};
+  }
+  function validateDoc(d){
+    if(!d||typeof d!=="object")throw new Error("The configuration is not an object.");
+    if(!d.client||!String(d.client).trim())throw new Error("Enter the client name.");
+    if(!d.project_name||!String(d.project_name).trim())throw new Error("Enter the project name.");
+    if(!d.owner||!d.owner.name||!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(d.owner.email||""))throw new Error("Name the engagement owner with a valid email.");
+    if(!Array.isArray(d.stages)||d.stages.length!==7)throw new Error("The configuration must list the seven Karta stages.");
+    d.stages.forEach(function(s){if(STAGE_IDS.indexOf(s.id)<0)throw new Error("Unknown stage “"+s.id+"”.");
+      if(s.start&&!/^\d{4}-\d{2}-\d{2}$/.test(s.start))throw new Error("Stage “"+s.id+"” has an invalid start date.");
+      if(s.end&&!/^\d{4}-\d{2}-\d{2}$/.test(s.end))throw new Error("Stage “"+s.id+"” has an invalid end date.");
+      if(s.start&&s.end&&s.end<s.start)throw new Error("Stage “"+s.id+"” ends before it starts.");});
+  }
+  function docToCfg(d){
+    validateDoc(d);var n={};
+    n.client=String(d.client).trim();n.projectName=String(d.project_name).trim();n.engagement=n.projectName;n.engagementId=d.engagement_id||slug(n.client+"-"+n.projectName);
+    n.owner={name:(d.owner.name||"").trim(),email:(d.owner.email||"").trim()};
+    n.roles={reviewers:((d.roles||{}).reviewers||[]).slice(),members:((d.roles||{}).members||[]).slice()};
+    var src=d.sources||{},a=src.asana||{},sp=src.sharepoint||{},g=src.granola||{},hv=src.harvest||{};
+    n.projectUrl=a.project_url||"";n.projectGid=a.project_gid||asanaGid(a.project_url||"")||"";n.projectNameAsana=a.project_name||"";
+    if(a.milestone_section_names&&a.milestone_section_names[0])n.milestoneSection=a.milestone_section_names[0];if(a.milestone_resource_subtype)n.milestoneSubtype=a.milestone_resource_subtype;
+    n.dest={driveId:sp.drive_id||"",folderId:sp.status_folder_item_id||"",webUrl:sp.status_folder_web_url||"",label:sp.label||labelFromUrl(sp.status_folder_web_url||"")};
+    n.granolaFolder={name:g.folder_name||"",id:g.folder_id||"",noteCount:g.note_count==null?null:g.note_count};
+    n.harvestProject={query:hv.project||"",id:hv.project_id||null,name:hv.project_name||"",client:hv.client_name||"",code:hv.code||""};
+    n.verified={asana:a.verified==null?null:!!a.verified,sharepoint:sp.verified==null?null:!!sp.verified,granola:g.verified==null?null:!!g.verified,harvest:hv.verified==null?null:!!hv.verified};
+    n.stages=STAGE_DEF.map(function(sd){var s=d.stages.filter(function(x){return x.id===sd.id})[0]||{};return {id:sd.id,nm:sd.nm,from:s.start||null,to:s.end||null,kind:s.kind||sd.kind,contracted:s.contracted===false?false:true};});
+    n.stagesConfirmedAt=d.stages_confirmed_at||null;
+    if(d.objectives)n.objectives=Object.assign({},CFG.objectives,d.objectives);
+    n.controlPoints=(d.control_points||[]).map(function(c){return {stage:c.stage,nm:c.name,due:c.due,owner:c.owner||"",decision:c.decision||"",evidence:(c.evidence||[]).map(function(e){return {t:e.item,s:e.state||"off"}})}});
+    n.deliverables=Object.keys(d.deliverables||{}).reduce(function(o,k){o[k]=(d.deliverables[k]||[]).map(function(x){return {n:x.name,s:x.state,k:DELIV_K[x.state]||"mute"}});return o;},{});
+    if(Array.isArray(d.capabilities)&&d.capabilities.length)n.capabilities=d.capabilities.map(function(c){return {id:c.id,nm:c.name,p:c.description||"",ic:CAP_IC[c.id]||"i-doc",stages:(c.stages||[]).slice(),ready:c.readiness||"Experimental",live:!!c.live,owner:c.owner||"Unassigned"}});
+    n.support=Object.assign({route:"Message the engagement owner"},d.support||{});if(!d.support||!d.support.route)n.support.route="Message "+n.owner.name+" in Teams";
+    return n;
+  }
+  function applyConfig(d){var n=docToCfg(d);Object.keys(n).forEach(function(k){CFG[k]=n[k];});CFG.configured=true;CFGDOC={source:"document",at:d.updated_at||null,by:d.updated_by||null};}
+  function asanaGid(u){u=String(u||"").trim();if(/^\d{6,}$/.test(u))return u;var m=u.match(/\/project\/(\d+)/)||u.match(/app\.asana\.com\/0\/(\d+)/);return m?m[1]:"";}
+  function normUrl(u){try{u=decodeURIComponent(u)}catch(e){}return String(u||"").split("?")[0].replace(/\/+$/,"").toLowerCase();}
+  function labelFromUrl(u){if(!u)return"";var parts=normUrl(u).split("/").filter(Boolean);var i=parts.indexOf("_client projects");var tail=i>=0?parts.slice(i+1):parts.slice(-3);try{tail=decodeURIComponent(u).split("?")[0].replace(/\/+$/,"").split("/").filter(Boolean).slice(-tail.length);}catch(e){}return tail.join(" / ");}
+  function isShareLink(u){return /\/:[a-z]:\//i.test(u||"");}
+
+  /* ---- link verification through the viewer's own connectors ---- */
+  function vf(k,cls,text){var el=$("vf-"+k);if(el){el.className="vf "+cls;el.textContent=text;}}
+  async function verifyAsana(d){var a=d.sources.asana;var gid=asanaGid(a.project_url);if(!a.project_url){vf("asana","","Optional now. Milestones and tasks come from this project.");a.verified=null;return;}
+    if(!gid){vf("asana","err","This does not look like an Asana project link. Open the project in Asana and copy the address bar.");a.verified=false;return;}
+    a.project_gid=gid;if(!mcp){vf("asana","warn","Link saved. It will be checked when Asana is connected.");a.verified=null;return;}
+    vf("asana","","Checking with Asana…");
+    try{var r=await mcp.callTool(CFG.asana,"asana_get_project",{project_id:gid,opt_fields:"name,permalink_url,workspace.gid"},{cache:false});
+      var o=objectsFrom(r).map(function(x){return x.data||x}).filter(function(x){return x&&x.gid})[0];
+      if(o){a.project_name=o.name||"";a.verified=true;vf("asana","ok","Verified: "+(o.name||gid)+".");}else{a.verified=false;vf("asana","warn","Asana answered but did not return this project. Check that you are a member of it.");}}
+    catch(e){a.verified=false;vf("asana","warn","Could not check with Asana: "+((e&&e.message)||"call failed")+". The link is saved.");}}
+  async function verifySharePoint(d){var s=d.sources.sharepoint;var u=(s.status_folder_web_url||"").trim();if(!u){vf("sharepoint","","Optional now. Decks are uploaded here and the previous deck is read from here.");s.verified=null;return;}
+    if(!/^https:\/\/[^\/]+\.sharepoint\.com\//i.test(u)){vf("sharepoint","err","This is not a SharePoint link.");s.verified=false;return;}
+    if(isShareLink(u)){s.verified=false;s.label=s.label||"";vf("sharepoint","warn","This is a sharing link, which cannot be matched to a folder. Open the folder in the browser and copy the address bar instead. The link is saved.");return;}
+    s.label=labelFromUrl(u);var name=s.label.split(" / ").pop();
+    if(!mcp){vf("sharepoint","warn","Link saved. It will be matched to the folder when Microsoft 365 is connected.");s.verified=null;return;}
+    vf("sharepoint","","Checking with Microsoft 365…");
+    try{var target=normUrl(u),found=null,offset=0;
+      for(var page=0;page<4&&!found;page++){var r=await mcp.callTool(CFG.m365,"sharepoint_folder_search",{name:name,limit:50,offset:offset},{cache:false});
+        var items=objectsFrom(r);found=items.filter(function(x){return x&&x.webUrl&&x.driveId&&x.id&&normUrl(x.webUrl)===target})[0]||null;
+        var more=items.filter(function(x){return x&&x.moreResults&&x.nextOffset!=null})[0];if(!more)break;offset=more.nextOffset;}
+      if(found){s.drive_id=found.driveId;s.status_folder_item_id=found.id;s.verified=true;vf("sharepoint","ok","Verified: "+s.label+".");}
+      else{s.verified=false;vf("sharepoint","warn","No folder you can open matches this link. Check the link and that you have access. The link is saved.");}}
+    catch(e){s.verified=false;vf("sharepoint","warn","Could not check with Microsoft 365: "+((e&&e.message)||"call failed")+". The link is saved.");}}
+  async function verifyGranola(d){var g=d.sources.granola;var q=(g.folder_name||"").trim();if(!q){vf("granola","","Optional. The Granola folder that holds this engagement’s meeting notes.");g.verified=null;return;}
+    if(!mcp){vf("granola","warn","Saved. It will be checked when Granola is connected.");g.verified=null;return;}
+    vf("granola","","Checking with Granola…");
+    try{var r=await mcp.callTool(CFG.granola,"list_meeting_folders",{},{cache:false});var all=[];objectsFrom(r).forEach(function(x){if(Array.isArray(x.folders))all=all.concat(x.folders);else if(x.title&&x.id)all.push(x);});
+      var hit=all.filter(function(f){return String(f.title||"").toLowerCase()===q.toLowerCase()})[0]||all.filter(function(f){return String(f.title||"").toLowerCase().indexOf(q.toLowerCase())>=0})[0];
+      if(hit){g.folder_id=hit.id;g.folder_name=hit.title;g.note_count=hit.note_count==null?null:hit.note_count;g.verified=true;vf("granola","ok","Verified: “"+hit.title+"”"+(hit.note_count!=null?" · "+hit.note_count+" notes":"")+".");}
+      else{g.verified=false;vf("granola","warn","No Granola folder named “"+q+"” in your account. Saved as typed.");}}
+    catch(e){g.verified=false;vf("granola","warn","Could not check with Granola: "+((e&&e.message)||"call failed")+". Saved as typed.");}}
+  async function verifyHarvest(d){var hv=d.sources.harvest;var q=(hv.project||"").trim();if(!q){vf("harvest","","Optional. The Harvest project name or code for this engagement.");hv.verified=null;return;}
+    if(!mcp){vf("harvest","warn","Saved. It will be checked when Harvest is connected.");hv.verified=null;return;}
+    vf("harvest","","Checking with Harvest…");
+    try{var r=await mcp.callTool(CFG.harvest,"list_projects",{search:q,is_active:true},{cache:false});var all=[];objectsFrom(r).forEach(function(x){if(Array.isArray(x.projects))all=all.concat(x.projects);else if(x.name&&x.id)all.push(x);});
+      var lq=q.toLowerCase();var hit=all.filter(function(p){return String(p.code||"").toLowerCase()===lq})[0]||all.filter(function(p){return String(p.name||"").toLowerCase()===lq})[0]||(all.length===1?all[0]:null);
+      if(hit){hv.project_id=hit.id;hv.project_name=hit.name;hv.client_name=hit.client_name||"";hv.code=hit.code||"";hv.verified=true;vf("harvest","ok","Verified: "+(hit.client_name?hit.client_name+" · ":"")+hit.name+(hit.code?" ("+hit.code+")":"")+".");}
+      else if(all.length>1){hv.verified=false;vf("harvest","warn",all.length+" Harvest projects match “"+q+"”. Type the exact project name or code.");}
+      else{hv.verified=false;vf("harvest","warn","No Harvest project you can see matches “"+q+"”. Saved as typed.");}}
+    catch(e){hv.verified=false;vf("harvest","warn","Could not check with Harvest: "+((e&&e.message)||"call failed")+". Saved as typed.");}}
+  async function verifyAll(d){await Promise.all([verifyAsana(d),verifySharePoint(d),verifyGranola(d),verifyHarvest(d)]);}
+
+  /* ---- shared form for setup and Config ---- */
+  var cfgEdit=null;
+  function blankDoc(){return cfgToDoc();}
+  function fld(id,label,val,ph,type,hint){return '<div class="field"><label for="'+id+'">'+esc(label)+'</label><input class="in'+(type==="date"?" date":"")+'" id="'+id+'" type="'+(type||"text")+'" value="'+esc(val||"")+'"'+(ph?' placeholder="'+esc(ph)+'"':'')+'>'+(hint?'<div class="hint">'+hint+'</div>':'')+'</div>';}
+  function srcRow(k,label,val,ph,hint){return '<div class="field"><label for="src-'+k+'">'+esc(label)+'</label><input class="in" id="src-'+k+'" type="text" value="'+esc(val||"")+'" placeholder="'+esc(ph)+'"><div class="vf" id="vf-'+k+'"></div>'+(hint?'<div class="hint">'+hint+'</div>':'')+'</div>';}
+  function formHtml(d,mode){
+    var setup=mode==="setup",h='';
+    if(setup)h+='<div class="hcard"><div class="lead">Each workspace serves one engagement. Give it the client and project names, name the engagement owner, and paste the links to the systems the team already uses. Every read runs as the person viewing the page, so only people staffed on the engagement in Asana and SharePoint will see its data. Nothing here is a client fact.</div></div>';
+    h+='<div class="hcard"><div class="ct"><h3>Engagement</h3><span class="m">names and owner</span></div><div class="grid2">'+
+      fld("f-client","Client",d.client,"Client name")+fld("f-project","Project",d.project_name,"Project name as it appears on the status deck")+
+      fld("f-owner","Engagement owner",d.owner.name,"Full name","text","Usually the client success executive. The owner sets reviewers and members with the team.")+fld("f-owneremail","Owner email",d.owner.email,"name@kartacg.com","email")+'</div>';
+    if(!setup)h+='<div class="grid2" style="margin-top:10px">'+fld("f-reviewers","Reviewers (emails, comma separated)",(d.roles.reviewers||[]).join(", "),"who may approve client-facing values")+fld("f-members","Members (emails, comma separated)",(d.roles.members||[]).join(", "),"who is staffed and should be shared this page")+'</div>';
+    h+='</div>';
+    h+='<div class="hcard"><div class="ct"><h3>Sources</h3><span class="m">paste links · checked with your own connectors</span></div><div class="grid2">'+
+      srcRow("asana","Asana project link",d.sources.asana.project_url,"https://app.asana.com/…/project/…","Open the project in Asana and copy the address bar.")+
+      srcRow("sharepoint","SharePoint status folder link",d.sources.sharepoint.status_folder_web_url,"https://kartaconsultinggroup.sharepoint.com/sites/…/Status & Steer Co","Open the Status &amp; Steer Co folder in the browser and copy the address bar, not a Share link.")+
+      srcRow("granola","Granola folder",d.sources.granola.folder_name,"Folder name in Granola","")+
+      srcRow("harvest","Harvest project",d.sources.harvest.project,"Project name or code in Harvest","")+'</div>'+
+      '<div class="row"><button class="btn out sm" type="button" id="btnVerify"'+(mcp?"":" disabled")+'>Check links</button><span class="sub" id="vfNote">'+(mcp?"Checks run as you through your connected Asana, Microsoft 365, Granola and Harvest.":"Connect your sources in claude.ai to check links. Links can be saved unchecked.")+'</span></div></div>';
+    h+='<div class="hcard"><details'+(setup?"":" open")+'><summary>Stage dates'+(setup?" (optional now, set them any time in Config)":"")+'</summary>'+
+      '<table style="margin-top:8px"><thead><tr><th>Stage</th><th>Start</th><th>End</th><th>Kind</th><th>In scope</th></tr></thead><tbody>'+d.stages.map(function(s,i){
+        return '<tr><td>'+esc(s.name)+'</td><td><input class="in date" type="date" data-st="'+i+'" data-f="start" value="'+esc(s.start||"")+'"></td><td><input class="in date" type="date" data-st="'+i+'" data-f="end" value="'+esc(s.end||"")+'"></td><td><span class="mono">'+esc(s.kind)+'</span></td><td><input type="checkbox" data-st="'+i+'" data-f="contracted"'+(s.contracted===false?"":" checked")+' aria-label="In scope"></td></tr>';}).join("")+'</tbody></table>'+
+      '<div class="row">'+fld("f-confirmed","Dates confirmed on",d.stages_confirmed_at,"","date")+'</div></details></div>';
+    if(!setup){
+      var cp=d.control_points&&d.control_points[0]?d.control_points[0]:{stage:"build",name:"",due:"",owner:"",decision:"",evidence:[]};
+      h+='<div class="hcard"><div class="ct"><h3>Next control point</h3><span class="m">the gate the team is working toward</span></div><div class="row">'+
+        '<div class="field" style="flex:2"><label>Name</label><input class="in" id="cpName" value="'+esc(cp.name||"")+'" placeholder="Sprint review · initial business acceptance"></div>'+
+        '<div class="field"><label>Stage</label><select class="in" id="cpStage">'+STAGE_DEF.map(function(s){return '<option value="'+s.id+'"'+(cp.stage===s.id?" selected":"")+'>'+esc(s.nm)+'</option>'}).join("")+'</select></div>'+
+        '<div class="field"><label>Due</label><input class="in date" type="date" id="cpDue" value="'+esc(cp.due||"")+'"></div>'+
+        '<div class="field"><label>Owner</label><input class="in" id="cpOwner" value="'+esc(cp.owner||"")+'" placeholder="Named person"></div>'+
+        '<div class="field"><label>Decision</label><input class="in" id="cpDec" value="'+esc(cp.decision||"")+'" placeholder="accept, follow up, or change"></div></div></div>';
+      var cur=currentStage(),dl=(d.deliverables||{})[cur.id]||[];
+      h+='<div class="hcard"><div class="ct"><h3>Deliverables · '+esc(cur.nm)+'</h3><span class="m">shown on Home for the current stage</span></div><div id="dlList">'+dl.map(function(x,i){
+        return '<div class="dl"><input class="in" data-dl="'+i+'" data-f="name" value="'+esc(x.name)+'" placeholder="Deliverable"><select class="in" data-dl="'+i+'" data-f="state">'+DELIV_STATES.map(function(s){return '<option'+(s===x.state?" selected":"")+'>'+s+'</option>'}).join("")+'</select><button class="plain" type="button" data-dlrm="'+i+'" aria-label="Remove">×</button></div>';}).join("")+'</div>'+
+        '<div class="addrow"><button class="btn out sm" type="button" id="btnDlAdd">Add a deliverable</button></div></div>';
+      h+='<div class="hcard"><div class="ct"><h3>Pilot measures</h3><span class="m">recorded automatically at approval and generation</span></div>'+renderMeasures()+'</div>';
+    }
+    h+='<div class="hcard"><div class="row"><div class="field"><label>Your name</label><input class="in" id="cfgBy" placeholder="Recorded with this change"></div>'+
+      '<button class="btn sm" type="button" id="btnCfgSave"'+(db?"":" disabled")+'>'+(setup?"Set up this workspace":"Save configuration")+'</button></div>'+
+      '<div class="sub" id="cfgNote">'+(db?(setup?"Saving creates the engagement configuration document. Links are checked first; anything that cannot be checked is saved as typed and shown on Home as needing attention.":"Saving writes the engagement configuration document that every viewer of this page reads."):"Open this page in the Claude viewer to save configuration.")+'</div></div>';
+    if(!setup)h+='<div class="hcard"><details><summary>Advanced · full document (contract engagement-config v1.2)</summary><textarea class="in" id="cfgJson" spellcheck="false" style="margin-top:8px">'+esc(JSON.stringify(d,null,2))+'</textarea>'+
+      '<div class="row"><button class="btn out sm" type="button" id="btnCfgApply">Apply JSON to the form</button><button class="btn out sm" type="button" id="btnCfgExport"'+(downloads?"":" disabled")+'>Save a copy</button><span class="sub" id="cfgJsonNote">For the product owner: objectives, capabilities and identifiers.</span></div></details></div>';
+    return h;
+  }
+  function readForm(d,mode){
+    d.client=$("f-client").value.trim();d.project_name=$("f-project").value.trim();d.engagement_id=d.engagement_id||slug(d.client+"-"+d.project_name);
+    d.owner={name:$("f-owner").value.trim(),email:$("f-owneremail").value.trim()};
+    if(mode!=="setup"){var split=function(v){return v.split(/[,;\s]+/).map(function(x){return x.trim()}).filter(Boolean)};d.roles={reviewers:split($("f-reviewers").value),members:split($("f-members").value)};}
+    else{d.roles=d.roles||{reviewers:[],members:[]};if(d.owner.email&&d.roles.reviewers.indexOf(d.owner.email)<0)d.roles.reviewers.push(d.owner.email);if(d.owner.email&&d.roles.members.indexOf(d.owner.email)<0)d.roles.members.push(d.owner.email);}
+    var a=d.sources.asana,sp=d.sources.sharepoint,g=d.sources.granola,hv=d.sources.harvest;
+    var au=$("src-asana").value.trim();if(au!==a.project_url){a.project_url=au;a.project_gid=asanaGid(au);a.project_name="";a.verified=null;}
+    var su=$("src-sharepoint").value.trim();if(su!==sp.status_folder_web_url){sp.status_folder_web_url=su;sp.drive_id="";sp.status_folder_item_id="";sp.label=labelFromUrl(su);sp.verified=null;}
+    var gq=$("src-granola").value.trim();if(gq!==g.folder_name){g.folder_name=gq;g.folder_id="";g.note_count=null;g.verified=null;}
+    var hq=$("src-harvest").value.trim();if(hq!==hv.project){hv.project=hq;hv.project_id=null;hv.project_name="";hv.client_name="";hv.code="";hv.verified=null;}
+    document.querySelectorAll('input[data-st]').forEach(function(inp){var s=d.stages[+inp.dataset.st];if(inp.dataset.f==="contracted")s.contracted=inp.checked;else s[inp.dataset.f]=inp.value||null;});
+    d.stages_confirmed_at=$("f-confirmed").value||d.stages_confirmed_at||null;
+    if(mode!=="setup"){
+      var c={stage:$("cpStage").value,name:$("cpName").value.trim(),due:$("cpDue").value,owner:$("cpOwner").value.trim(),decision:$("cpDec").value.trim(),evidence:(d.control_points&&d.control_points[0]&&d.control_points[0].evidence)||[]};
+      d.control_points=c.name?[c].concat((d.control_points||[]).slice(1)):(d.control_points||[]).slice(1);
+      var cur=currentStage(),rows=[];document.querySelectorAll('#dlList .dl').forEach(function(row){var n=row.querySelector('[data-f="name"]').value.trim(),s=row.querySelector('[data-f="state"]').value;if(n)rows.push({name:n,state:s});});
+      d.deliverables=d.deliverables||{};d.deliverables[cur.id]=rows;}
+    return d;
+  }
+  function wireForm(mode){
+    var root=$(mode==="setup"?"setupView":"cfgView");
+    function working(){if(!cfgEdit)cfgEdit=blankDoc();return cfgEdit;}
+    root.querySelectorAll("input,select").forEach(function(el){el.addEventListener("change",function(){try{readForm(working(),mode);}catch(e){}});});
+    $("btnVerify").addEventListener("click",async function(){var d=readForm(working(),mode);$("btnVerify").disabled=true;$("vfNote").textContent="Checking…";await verifyAll(d);$("vfNote").textContent="Checked. Save to keep the results.";$("btnVerify").disabled=!mcp;});
+    $("btnCfgSave").addEventListener("click",async function(){var d=readForm(working(),mode);await saveConfig(d,$("cfgBy").value.trim(),mode);});
+    var add=$("btnDlAdd");if(add)add.addEventListener("click",function(){var d=readForm(working(),mode);var cur=currentStage();d.deliverables[cur.id]=(d.deliverables[cur.id]||[]).concat([{name:"",state:"Not started"}]);renderCfgView();});
+    root.querySelectorAll("[data-dlrm]").forEach(function(b){b.addEventListener("click",function(){var d=readForm(working(),mode);var cur=currentStage();d.deliverables[cur.id].splice(+b.dataset.dlrm,1);renderCfgView();});});
+    var ap=$("btnCfgApply");if(ap)ap.addEventListener("click",function(){try{var d=JSON.parse($("cfgJson").value);validateDoc(d);cfgEdit=d;renderCfgView();$("cfgJsonNote").textContent="Applied. Review the form, enter your name, and save.";}catch(e){$("cfgJsonNote").innerHTML='<span class="err">'+esc(e.message)+'</span>';}});
+    var ex=$("btnCfgExport");if(ex)ex.addEventListener("click",async function(){if(!downloads)return;try{var s=JSON.stringify(cfgEdit||blankDoc(),null,2);await downloads.save({filename:(CFG.engagementId||"engagement")+".config.json",data:new TextEncoder().encode(s)});$("cfgJsonNote").textContent="Copy saved.";}catch(e){$("cfgJsonNote").innerHTML='<span class="err">'+esc((e&&e.message)||"save failed")+'</span>';}});
+    root.querySelectorAll("button[data-err]").forEach(function(b){b.addEventListener("click",function(){notePostApprovalError(b.dataset.err);});});
+  }
+  function cfgSaveNote(html){var n=$("cfgNote");if(n)n.innerHTML=html;}
+  async function saveConfig(doc,by,mode){
+    if(!db){cfgSaveNote('<span class="err">Configuration can be saved only inside the Claude viewer.</span>');return;}
+    if(!by){cfgSaveNote('<span class="err">Enter your name. Configuration changes are recorded under a named person.</span>');return;}
+    try{validateDoc(doc);}catch(e){cfgSaveNote('<span class="err">'+esc(e.message)+'</span>');return;}
+    $("btnCfgSave").disabled=true;cfgSaveNote("Checking links…");
+    try{await verifyAll(doc);}catch(e){}
+    doc.engagement_id=doc.engagement_id||slug(doc.client+"-"+doc.project_name);
+    doc.updated_at=new Date().toISOString();doc.updated_by=by;doc.client_id=CLIENT_ID;if(!doc.created_at)doc.created_at=doc.updated_at;
+    try{await db.doc(CFG_DOC).set(doc);applyConfig(doc);cfgEdit=null;startWatches();renderAll();
+      if(mode==="setup"){showView("home");$("hMeta").textContent="Workspace set up by "+by+". Reading the project…";}
+      else{renderCfgView();cfgSaveNote('Saved '+md(doc.updated_at)+' by '+esc(by)+'.');}}
+    catch(e){$("btnCfgSave").disabled=false;cfgSaveNote('<span class="err">Could not save: '+esc((e&&e.message)||"write failed")+'</span>');}
+  }
+  function renderSetupView(){var d=cfgEdit||blankDoc();$("setupView").innerHTML=formHtml(d,"setup");wireForm("setup");}
+  function renderCfgView(){
+    var d=cfgEdit||blankDoc();
+    $("cfgMeta").textContent=CFGDOC.source==="document"?("configuration document · saved "+(CFGDOC.at?md(CFGDOC.at):"")+(CFGDOC.by?" by "+CFGDOC.by:"")):"not set up yet";
+    $("cfgView").innerHTML=formHtml(d,"config");wireForm("config");
+    ["asana","sharepoint","granola","harvest"].forEach(function(k){var v=CFG.verified[k];var s=d.sources[k];var has=k==="asana"?s.project_url:k==="sharepoint"?s.status_folder_web_url:k==="granola"?s.folder_name:s.project;
+      if(!has)return;vf(k,v===true?"ok":v===false?"warn":"",v===true?"Verified"+(k==="asana"&&s.project_name?": "+s.project_name:k==="sharepoint"&&s.label?": "+s.label:k==="granola"?": “"+s.folder_name+"”":k==="harvest"&&s.project_name?": "+s.project_name:"")+".":v===false?"Saved but not matched. Check the link and press Check links.":"Saved, not yet checked.");});
+  }
+  /* ---------- pilot measures: correction rate, time to approval, adoption, post-approval errors ---------- */
+  function measureFor(av){
+    var drafted=av.correction_capture&&av.correction_capture.model_drafted_fields||[],changed=av.correction_capture&&av.correction_capture.reviewer_changed_fields||[];
+    var rec=(av.correction_capture||{}).model_recommended_assessments||{},asm=av.assessments||{};
+    var recChanged=["scope_schedule","resources","data"].filter(function(k){return rec[k]&&asm[k]&&rec[k]!==asm[k].status}).length;
+    var dAt=S.draftedAt?new Date(S.draftedAt).getTime():null,aAt=new Date(av.approval.approved_at).getTime();
+    return {schema_version:"1.0",version:av.approval.version,engagement_id:CFG.engagementId,approved_by:av.approval.reviewer_email,approved_at:av.approval.approved_at,drafted_at:S.draftedAt||null,
+      minutes_to_approval:dAt?Math.round((aAt-dAt)/60000):null,drafted_fields:drafted.length,changed_fields:changed.length,
+      correction_rate:drafted.length?Math.round(100*changed.length/drafted.length)/100:null,assessments_overridden:recChanged,
+      reviewer_added_items:((S.addedAcc||[]).length+(S.addedPln||[]).length),source_gaps:(av.source_gaps||[]).length,deck_state:null,deck_delivery:null,post_approval_errors:0};
+  }
+  async function saveMeasure(m){if(!db)return;try{await db.doc(CFG.docRoot+"/measures/v"+m.version).set(m);}catch(e){}}
+  async function updateMeasure(version,patch){if(!db)return;try{var ref=db.doc(CFG.docRoot+"/measures/v"+version);var s=await ref.get();var cur=snapData(s)||{version:version};Object.keys(patch).forEach(function(k){cur[k]=patch[k]});await ref.set(cur);}catch(e){}}
+  async function notePostApprovalError(version){var m=MEAS.filter(function(x){return String(x.version)===String(version)})[0];var n=((m&&m.post_approval_errors)||0)+1;await updateMeasure(version,{post_approval_errors:n,last_error_noted_at:new Date().toISOString()});if(m)m.post_approval_errors=n;renderCfgView();}
+  function renderMeasures(){
+    if(!MEAS.length)return '<div class="empty2">No approvals yet. After the first approved status this shows, per version: who approved, minutes from draft to approval, how many drafted fields the reviewer corrected, model assessments overridden, the deck outcome, and errors found after approval.</div>';
+    var rows=MEAS.slice().sort(function(a,b){return b.version-a.version}).map(function(m){
+      return ['<span class="mono">v'+m.version+'</span>',esc(m.approved_by||"—"),'<span class="mono">'+(m.minutes_to_approval==null?"—":m.minutes_to_approval+" min")+'</span>',
+        '<span class="mono">'+(m.correction_rate==null?"—":Math.round(m.correction_rate*100)+"% ("+m.changed_fields+"/"+m.drafted_fields+")")+'</span>','<span class="mono">'+(m.assessments_overridden||0)+'</span>',
+        m.deck_state?'<span class="tag2 '+(m.deck_state==="Built"?"ok":"risk")+'">'+esc(m.deck_state)+(m.deck_delivery?" · "+esc(m.deck_delivery):"")+'</span>':'<span class="tag2">not generated</span>',
+        '<span class="mono">'+(m.post_approval_errors||0)+'</span> <button class="btn out xs" type="button" data-err="'+m.version+'"'+(db?"":" disabled")+'>+1</button>'];});
+    var approvers={};MEAS.forEach(function(m){if(m.approved_by)approvers[m.approved_by]=1});
+    return table(["Version","Approved by","Time to approval","Fields corrected","Assessments overridden","Deck","Errors after approval"],rows,"")+
+      '<div class="sub">Adoption: '+MEAS.length+' approved status'+(MEAS.length===1?"":"es")+' by '+Object.keys(approvers).length+' reviewer'+(Object.keys(approvers).length===1?"":"s")+'. Press +1 when a client or reviewer finds an error after approval.</div>';
+  }
+
+  /* ---------- milestones ---------- */
+  function buildMs(tasks){
+    var ms=tasks.filter(isMilestone).map(function(t){
+      var nd=S.carry[String(t.gid)]||null;
+      return {name:stripBuild(t.name),completed:!!t.completed,completed_at:t.completed_at||null,
+        original_date:t.due_on||t.start_on||null,new_date:nd,status:"",variance_days:null,
+        source:{system:"asana",id:String(t.gid||"")}};
+    }).sort(function(a,b){return (a.original_date||"9999")<(b.original_date||"9999")?-1:1});
+    ms.forEach(recompute);return ms;
+  }
+  function recompute(m){m.status=deriveMs(m.completed,m.original_date,m.new_date,S.asOf);m.variance_days=varianceDays(m.original_date,m.new_date);}
+
+  /* ---------- gate rendering ---------- */
+  function locked(){return !!S.approved&&!S.editing;}
+  function renderSteps(){
+    var srcOk=S.tasks!==null;
+    $("st1").textContent=S.tasks===null?"Reading…":(S.tasks.length+" Asana tasks · "+(S.deck?"last deck found":"no deck found"));
+    $("st2").textContent=S.drafted?(S.draftedAt?"Drafted "+md(S.draftedAt):"Drafted"):"Not drafted";
+    $("st3").textContent=S.approved?"Approved v"+S.version+" by "+S.approved.approval.reviewer_name:"Not approved";
+    var lastJob=S.jobs[0];
+    $("st4").textContent=!S.approved?"Waiting for approval":(lastJob?lastJob.state+(lastJob.deck&&lastJob.deck.filename?" · "+lastJob.deck.filename:""):"Ready to generate");
+    var cur=S.step||(!srcOk?1:(!S.drafted?2:(!S.approved||S.editing?3:4)));
+    document.querySelectorAll(".wstep").forEach(function(p){p.classList.toggle("on",+p.dataset.step===cur);});
+    document.querySelectorAll("#stepbar > div").forEach(function(d){d.classList.toggle("pick",+d.dataset.step===cur);});
+    document.querySelectorAll("#stepbar > div").forEach(function(d){var n=+d.dataset.step;d.className=n<cur?"done":(n===cur?"on":"");});
+  }
+  function renderSources(){
+    var rows=[];
+    rows.push({ic:"i-list",t:"Asana · "+CFG.projectGid,s:S.tasks===null?"Reading…":S.tasks.length+" tasks, "+S.ms.length+" milestones",f:S.tasksAt?fresh(S.tasksAt):""});
+    rows.push({ic:"i-doc",t:"SharePoint · last status deck",s:S.deck?S.deck.name+" · modified "+md(S.deck.lastModifiedDateTime):"No KCG_Status deck found for "+CFG.client,f:S.deckAt?fresh(S.deckAt):""});
+    rows.push({ic:"i-sync",t:"Karta Assembly service",s:S.assembly===null?"Checking…":S.assembly?"Connected. Decks are built and saved as you.":"Not connected. Add Karta Assembly under Customize, Connectors, then reload.",f:""});
+    rows.push({ic:"i-alert",t:"RAID log and meeting notes",s:"Not connected in this pilot. Risks come from the reviewer and task signals.",f:""});
+    $("srcList").innerHTML=rows.map(function(r){return '<div class="sr"><span class="ib"><svg class="ic" viewBox="0 0 20 20"><use href="#'+r.ic+'"/></svg></span><span><div class="t">'+esc(r.t)+'</div><div class="s">'+esc(r.s)+'</div></span><span class="fresh">'+esc(r.f)+'</span></div>';}).join("");
+    var gaps=sourceGaps(),ul=$("gapList");ul.innerHTML="";
+    if(!gaps.length){ul.innerHTML='<li class="empty" style="list-style:none;margin-left:-17px">None recorded.</li>';return;}
+    gaps.forEach(function(g){var li=document.createElement("li");li.className="gap";li.textContent=g.source+": "+g.description;ul.appendChild(li);});
+  }
+  function sourceGaps(){
+    var g=[{source:"raid_log",description:"RAID log not connected; risks entered by the reviewer."}];
+    if(S.tasks!==null&&!S.ms.length)g.push({source:"asana",description:"No milestones found in the Asana project."});
+    if(S.tasks!==null&&!S.deck)g.push({source:"sharepoint",description:"No previous status deck found; a base deck is required to generate."});
+    S.ms.forEach(function(m){if(m.status==="Unknown")g.push({source:"asana",description:"Milestone '"+m.name+"' has no date."});});
+    return g;
+  }
+  function renderRoll(){
+    var lk=locked();
+    document.querySelectorAll("[data-sub]").forEach(function(b){var v=S.sub[b.dataset.sub];
+      b.querySelector("span:last-child").textContent=v;b.querySelector(".dot").style.background="var("+TONE[v]+")";b.disabled=lk;});
+    document.querySelectorAll("[data-rat]").forEach(function(i){i.value=S.rat[i.dataset.rat]||"";i.disabled=lk;});
+    var recs={scope:"recScope",resources:"recResources",data:"recData"};
+    Object.keys(recs).forEach(function(k){var r=S.rec&&S.rec[k];$(recs[k]).textContent=r?"Claude suggested "+r+(r!==S.sub[k]?" · changed by reviewer":""):" ";});
+    var w=overall();$("tOverall").textContent=w;$("dOverall").style.background="var("+TONE[w]+")";
+  }
+  function renderMs(){
+    var b=$("msBody"),lk=locked();
+    if(!S.ms.length){b.innerHTML='<tr><td colspan="5" class="empty">'+(S.tasks===null?"Reading the Asana project…":"No Asana milestones available.")+'</td></tr>';$("msCount").textContent="—";return;}
+    b.innerHTML="";
+    S.ms.forEach(function(m,i){
+      var tr=document.createElement("tr");
+      var t1=document.createElement("td");t1.textContent=m.name;
+      var p=document.createElement("div");p.className="prov";p.textContent="Asana "+m.source.id;t1.appendChild(p);
+      var t2=document.createElement("td");t2.className="mono";t2.textContent=fmtDate(m.original_date);
+      var t3=document.createElement("td");var inp=document.createElement("input");inp.type="date";inp.className="in date";inp.value=m.new_date||"";inp.dataset.nd=i;inp.disabled=lk||m.completed;inp.setAttribute("aria-label","New date for "+m.name);t3.appendChild(inp);
+      var t4=document.createElement("td");t4.className="mono";t4.textContent=m.variance_days===null?"—":(m.variance_days>0?"+":"")+m.variance_days+" d";
+      var t5=document.createElement("td");var pl=document.createElement("span");pl.className="pill "+MSC[m.status];pl.textContent=m.status;t5.appendChild(pl);
+      tr.appendChild(t1);tr.appendChild(t2);tr.appendChild(t3);tr.appendChild(t4);tr.appendChild(t5);b.appendChild(tr);});
+    $("msCount").textContent=S.ms.length+" tracked";
+  }
+  function renderList(id,arr,key){
+    var ul=$(id),lk=locked();ul.innerHTML="";
+    var box=$(id==="accList"?"addAcc":"addPln").parentNode;box.hidden=lk;
+    if(!arr.length){var li=document.createElement("li");li.className="empty";li.style.listStyle="none";li.style.marginLeft="-17px";li.textContent=lk?"Nothing this period. Approved values are locked; reopen to edit.":(S.drafted?"Nothing this period. Add one below.":"Draft to populate.");ul.appendChild(li);return;}
+    arr.forEach(function(t,i){var li=document.createElement("li"),sp=document.createElement("span");sp.textContent=t;li.appendChild(sp);
+      if(!lk){var x=document.createElement("button");x.type="button";x.setAttribute("aria-label","Remove");x.textContent="×";x.dataset.rm=key;x.dataset.i=i;li.appendChild(x);}
+      ul.appendChild(li);});
+  }
+  function renderBudget(){var n=lines(S.acc)+lines(S.pln);$("budTxt").textContent=n+" of 14 lines";$("budTxt2").textContent=n+" of 14";
+    var f=$("budFill");f.style.width=Math.min(100,Math.round(n/14*100))+"%";f.style.background=n>14?"var(--risk)":"var(--accent-2)";}
+  function renderRaid(){
+    var box=$("raidBox"),lk=locked();
+    if(!S.drafted&&!S.raid.length){box.className="empty";box.textContent="Draft to populate.";return;}
+    if(!S.raid.length){box.className="";box.textContent="No open risks or issues outstanding.";return;}
+    box.className="";box.innerHTML="";
+    S.raid.forEach(function(r,i){
+      var row=document.createElement("div");row.className="raid";
+      var sel=function(name,opts,val){var s=document.createElement("select");s.className="in";s.dataset.rf=name;s.dataset.i=i;s.disabled=lk;
+        opts.forEach(function(o){var op=document.createElement("option");op.value=o;op.textContent=o||"—";if(o===val)op.selected=true;s.appendChild(op);});return s;};
+      var inp=function(name,val,ph){var x=document.createElement("input");x.className="in";x.type="text";x.value=val||"";x.placeholder=ph;x.dataset.rf=name;x.dataset.i=i;x.disabled=lk;x.setAttribute("aria-label",ph);return x;};
+      row.appendChild(sel("type",["Risk","Issue","Assumption","Dependency"],r.type||"Risk"));
+      row.appendChild(sel("priority",["","High","Medium","Low"],r.priority||""));
+      row.appendChild(inp("description",r.description,"Description"));
+      row.appendChild(inp("mitigation",r.mitigation,"Mitigation plan"));
+      row.appendChild(inp("status",r.status,"Status"));
+      var x=document.createElement("button");x.type="button";x.className="plain";x.textContent="×";x.setAttribute("aria-label","Remove");x.dataset.rmraid=i;x.disabled=lk;row.appendChild(x);
+      box.appendChild(row);});
+  }
+  function renderApprove(){
+    var lk=locked();
+    $("apprState").textContent=S.approved?"approved v"+S.version:"step 3";
+    $("btnApprove").disabled=!S.drafted||lk||S.busy;
+    $("btnApprove").textContent=S.approved&&S.editing?"Approve as version "+(S.version+1):"Approve as named reviewer";
+    $("btnReopen").hidden=!lk;
+    ["revName","revEmail","revNotes"].forEach(function(id){$(id).disabled=lk;});
+    if(S.approved){var a=S.approved.approval;$("revName").value=a.reviewer_name;$("revEmail").value=a.reviewer_email;
+      $("apprNote").textContent=lk?"Approved by "+a.reviewer_name+" on "+new Date(a.approved_at).toLocaleString()+". Values are locked; reopen to change them.":"Reopened. Approve again to record a new version.";}
+    else $("apprNote").textContent=S.drafted?"Check every value, then approve. Your name and the time go on the record.":"Draft and review first. Approving records your name, the time, every value, and which values you changed.";
+    $("btnDraft").disabled=!sample||lk||S.busy;
+    $("btnAddRaid").disabled=lk;document.querySelectorAll("[data-add]").forEach(function(b){b.disabled=lk;});
+    $("addAcc").disabled=lk;$("addPln").disabled=lk;
+    $("narrSrc").textContent=S.approved&&!S.editing?"approved · locked, reopen to edit":(S.drafted?"draft, under review":"not drafted");
+  }
+  function renderGenerate(){
+    var ready=!!S.approved&&!S.editing&&S.assembly===true&&!S.busy;
+    $("genState").textContent=S.approved?(S.jobs[0]?S.jobs[0].state:"ready"):"step 4";
+    $("btnGenerate").disabled=!ready;
+    var info=[{t:"Approved values",s:S.approved?"Version "+S.version+", approved by "+S.approved.approval.reviewer_name:"Not approved yet"},
+      {t:"Base deck",s:S.deck?S.deck.name+" when the service can read SharePoint, otherwise the KCG template":"KCG template (no previous deck found)"},
+      {t:"Destination",s:CFG.dest.label||CFG.dest.webUrl||"Not linked. Paste the SharePoint status folder link in Config."}];
+    $("genInfo").innerHTML=info.map(function(r){return '<div class="sr"><span class="ib"><svg class="ic" viewBox="0 0 20 20"><use href="#i-doc"/></svg></span><span><div class="t">'+esc(r.t)+'</div><div class="s">'+esc(r.s)+'</div></span><span></span></div>';}).join("");
+    if(!S.approved)$("genNote").textContent="Approve first. The deck is built by the Karta assembly service and saved to the engagement’s SharePoint folder as you. Nothing is sent.";
+    else if(S.editing)$("genNote").textContent="Approve the reopened values before generating.";
+    else if(S.assembly===false)$("genNote").textContent="Add the Karta Assembly connector under Customize, Connectors, sign in with your Karta Microsoft account, then reload.";
+    else if(!S.busy)$("genNote").textContent="Builds the deck from the approved values. Saved to SharePoint as you when the service can sign you in; otherwise handed to you to save.";
+    renderJobs();
+  }
+  function renderJobs(){
+    var h=$("jobHist");if(!S.jobs.length){h.innerHTML="";return;}
+    h.innerHTML='<div class="lbl" style="margin:10px 0 4px">Deck history</div>'+S.jobs.slice(0,5).map(function(j){
+      var d=j.deck||{};var link=d.sharepoint_web_url?'<a class="link" href="'+esc(d.sharepoint_web_url)+'" target="_blank" rel="noopener">Open in SharePoint</a>':(j.delivery==="download"?'<span class="s" style="font-size:12px;color:var(--muted)">'+(d.saved_by_member?"saved by member":"not saved")+'</span>':'');
+      return '<div class="job"><span class="st2">'+esc(j.state)+'</span><span><div class="nm" style="font-size:13px">'+esc(d.filename||("Job "+j.job_id.slice(0,8)))+'</div><div class="s" style="font-size:12px;color:var(--muted)">'+esc(new Date(j.updated_at).toLocaleString())+(d.written_as?" · written as "+esc(d.written_as):"")+(j.error?" · "+esc(j.error.message):"")+'</div></span>'+link+'</div>';}).join("");
+  }
+  function renderGate(){renderSteps();renderSources();renderRoll();renderMs();renderList("accList",S.acc,"acc");renderList("plnList",S.pln,"pln");renderBudget();renderRaid();renderApprove();renderGenerate();}
+  function renderAll(){renderHome();renderGate();}
+  renderGate();
+
+  /* ---------- connectors ---------- */
+  function objectsFrom(result){
+    var out=[];function push(v){if(Array.isArray(v))v.forEach(push);else if(v&&typeof v==="object")out.push(v);}
+    function scan(s){var depth=0,start=-1,inStr=false,escp=false;for(var i=0;i<s.length;i++){var ch=s[i];
+      if(inStr){if(escp)escp=false;else if(ch==="\\")escp=true;else if(ch==='"')inStr=false;continue;}
+      if(ch==='"')inStr=true;else if(ch==="{"){if(depth===0)start=i;depth++;}else if(ch==="}"){depth--;if(depth===0&&start>=0){try{out.push(JSON.parse(s.slice(start,i+1)))}catch(e){}start=-1;}}}}
+    (result.content||[]).forEach(function(b){if(b.type==="text")scan(b.text||"");});
+    if(!out.length){var p=result.payload;if(typeof p==="string")scan(p);else push(p);}
+    return out;
+  }
+  function tasksFrom(result){var p=result.payload;var d=p&&p.data?p.data:(Array.isArray(p)?p:null);
+    if(Array.isArray(d))return d;var objs=objectsFrom(result);var withData=objs.filter(function(o){return Array.isArray(o.data)});
+    return withData.length?withData[0].data:objs.filter(function(o){return o.gid});}
+  var UNSUB=[];
+  function wireMcp(m){
+    mcp=m;
+    m.listTools().then(function(lt){S.assembly=(lt.servers||[]).some(function(s){return s.server===CFG.assembly});setSrc("assembly",S.assembly?"ok":"risk",S.assembly?"connected":"not connected");renderGate();})
+      .catch(function(){S.assembly=false;setSrc("assembly","risk","not connected");renderGate();});
+    startWatches();
+  }
+  function startWatches(){
+    var m=mcp;if(!m||!CFG.configured)return;
+    UNSUB.forEach(function(u){try{u()}catch(e){}});UNSUB=[];
+    if(!CFG.projectGid){S.tasks=[];setSrc("asana","risk","no Asana project linked");renderAll();}
+    else{setSrc("asana","off","Connecting");UNSUB.push(m.watchTool(CFG.asana,"asana_search_tasks",
+      {projects_any:CFG.projectGid,limit:100,sort_by:"due_date",sort_ascending:true,
+       opt_fields:"name,start_on,due_on,completed,completed_at,assignee.name,resource_subtype,memberships.section.name"},
+      function(ev){
+        if(ev.type==="error"){setSrc("asana",ev.error.code==="needs_reauth"||ev.error.code==="server_not_connected"?"risk":"warn",ev.error.message);if(S.tasks===null){S.tasks=[];renderAll();}
+          $("barNote").innerHTML='<span class="err">Asana: '+esc(ev.error.message)+'</span>';return;}
+        S.tasks=tasksFrom(ev.result);S.tasksAt=(ev.result.cache&&ev.result.cache.storedAt)||Date.now();
+        if(!locked())S.ms=buildMs(S.tasks);
+        setSrc("asana","ok",S.tasks.length+" tasks",S.tasksAt);
+        if(sample&&!S.drafted)$("barNote").textContent="Ready to draft.";
+        renderAll();
+      }));}
+    if(!CFG.client){setSrc("sharepoint","risk","no client name set");}
+    else{setSrc("sharepoint","off","Connecting");UNSUB.push(m.watchTool(CFG.m365,"sharepoint_search",{query:"KCG_Status "+CFG.client,limit:10},
+      function(ev){
+        if(ev.type==="error"){S.deckAt=Date.now();setSrc("sharepoint","warn",ev.error.message);renderGate();return;}
+        var named=objectsFrom(ev.result).filter(function(x){return x&&x.name&&x.driveId&&x.id&&/\.pptx$/i.test(x.name)});
+        S.deckAt=(ev.result.cache&&ev.result.cache.storedAt)||Date.now();
+        if(named.length){named.sort(function(a,b){return (b.lastModifiedDateTime||"")<(a.lastModifiedDateTime||"")?-1:1});S.deck=named[0];}
+        setSrc("sharepoint",named.length?"ok":"warn",named.length?"last deck "+md(S.deck.lastModifiedDateTime):"no status deck found",S.deckAt);
+        renderAll();
+      }));}
+    setSrc("granola","off",CFG.granolaFolder.name?"folder “"+CFG.granolaFolder.name+"”"+(CFG.granolaFolder.noteCount!=null?" · "+CFG.granolaFolder.noteCount+" notes":"")+" · reads arrive in a later gate":"no Granola folder named");
+    setSrc("harvest","off",CFG.harvestProject.name?"project “"+CFG.harvestProject.name+"” · reads arrive in a later gate":"no Harvest project named");
+  }
+
+  /* ---------- drafting ---------- */
+  function draftPrompt(){
+    var done=(S.tasks||[]).filter(function(t){return t.completed&&t.completed_at&&(Date.now()-new Date(t.completed_at).getTime())<21*DAY});
+    var open=(S.tasks||[]).filter(function(t){return !t.completed});
+    var line=function(t){return "- "+t.name+" | due "+(t.due_on||"none")+(t.completed_at?" | completed "+t.completed_at.slice(0,10):"")+" | section "+secOf(t);};
+    var msl=S.ms.map(function(m){return "- "+m.name+" | orig "+(m.original_date||"none")+" | new "+(m.new_date||"none")+" | "+m.status}).join("\n");
+    return "You are drafting the weekly status narrative for a Karta Consulting Group client status deck.\n"+
+      "Client: "+CFG.client+" — "+CFG.projectName+"\nStatus period: "+PER.label+"\nAs of: "+S.asOf+"\n\n"+
+      "Milestones with derived status (do not re-derive):\n"+(msl||"(none)")+"\n\n"+
+      "Recently completed Asana tasks:\n"+(done.map(line).join("\n")||"(none)")+"\n\n"+
+      "Open Asana tasks:\n"+(open.slice(0,40).map(line).join("\n")||"(none)")+"\n\n"+
+      "Rules:\n- Accomplishments look backward, planned activities look forward.\n"+
+      "- Only genuine milestone-type events: sign-offs, reviews, completions, resolved risks. No routine chatter.\n"+
+      "- Combined budget is about 14 wrapped lines at ~48 characters per line across both lists. Stay under it.\n"+
+      "- Client-facing tone, plain and specific. Sentence case. No hype adjectives.\n"+
+      "- Risks come from real signals in the data; an empty list is normal and correct. At most three.\n"+
+      "- Recommend scope_schedule, resources and data as Green, Yellow, Red, or Unknown when the evidence is missing. Give a one-line rationale for each.\n\n"+
+      "Return JSON only: {\"accomplishments\":[string],\"planned\":[string],"+
+      "\"risks\":[{\"type\":\"Risk|Issue|Assumption|Dependency\",\"priority\":\"High|Medium|Low\",\"description\":string,\"mitigation\":string}],"+
+      "\"assessments\":{\"scope_schedule\":{\"status\":\"Green|Yellow|Red|Unknown\",\"rationale\":string},\"resources\":{...},\"data\":{...}}}";
+  }
+  async function doDraft(){
+    if(!sample)return;S.busy=true;renderApprove();
+    var b=$("btnDraft");b.textContent="Drafting…";$("barNote").textContent="Asking Claude — this runs on your seat.";
+    try{
+      var o=await sample.json(draftPrompt(),{modelTier:"complex"});
+      var keptRaid=S.raid.filter(function(r){return r.origin==="reviewer"&&r.description&&r.description.trim()});
+      var keptAcc=S.acc.filter(function(x){return (S.addedAcc||[]).indexOf(x)>=0}),keptPln=S.pln.filter(function(x){return (S.addedPln||[]).indexOf(x)>=0});
+      S.acc=(o.accomplishments||[]).map(String).concat(keptAcc);S.pln=(o.planned||[]).map(String).concat(keptPln);
+      var drafted=(o.risks||[]).slice(0,6).map(function(r){return typeof r==="string"?{type:"Risk",description:r,origin:"model"}:{type:r.type||"Risk",priority:["High","Medium","Low"].indexOf(r.priority)>=0?r.priority:"",description:String(r.description||""),mitigation:String(r.mitigation||""),status:"",origin:"model"}});
+      S.raid=drafted.concat(keptRaid);
+      S.rec={};var a=o.assessments||{};var prevChanged=S.changed||{};
+      Object.keys(SUBKEY).forEach(function(k){var v=a[SUBKEY[k]]||{};var st=SUB.indexOf(v.status)>=0?v.status:"Unknown";S.rec[k]=st;
+        if(!prevChanged["assessments."+SUBKEY[k]]){S.sub[k]=st;S.rat[k]=String(v.rationale||"");}});
+      S.drafted=true;S.draftedAt=new Date().toISOString();S.step=2;
+      var keep={};Object.keys(prevChanged).forEach(function(f){if(f.indexOf("assessments.")===0||f==="milestones.new_date")keep[f]=true;});S.changed=keep;
+      if(keptRaid.length)S.changed.raid=true;if(keptAcc.length)S.changed.accomplishments=true;if(keptPln.length)S.changed.planned_activities=true;
+      S.draftedFields=["accomplishments","planned_activities","raid","assessments.scope_schedule","assessments.resources","assessments.data"];
+      $("barNote").textContent="Draft ready — correct anything wrong, then approve.";
+      await saveDraft();
+    }catch(e){
+      var c=e&&e.code;
+      if(c==="not_granted"){b.hidden=true;$("barNote").innerHTML='<span class="err">Drafting needs your permission. Reload and allow to enable it.</span>';}
+      else if(c==="rate_limited"){$("barNote").innerHTML='<span class="err">You are at your Claude usage limit. Try again later.</span>';}
+      else{$("barNote").innerHTML='<span class="err">Draft failed: '+esc((e&&e.message)||"unknown")+'</span>';}
+    }finally{S.busy=false;if(!b.hidden){b.textContent=S.drafted?"Redraft (keeps your additions and changed assessments)":"Draft this week’s status";}renderGate();}
+  }
+  function draftDoc(){return {acc:S.acc,pln:S.pln,raid:S.raid,addedAcc:S.addedAcc||[],addedPln:S.addedPln||[],sub:S.sub,rat:S.rat,rec:S.rec,newDates:S.ms.reduce(function(o,m){if(m.new_date)o[m.source.id]=m.new_date;return o;},{}),
+    drafted:S.drafted,draftedAt:S.draftedAt,draftedFields:S.draftedFields,changed:Object.keys(S.changed),asOf:S.asOf,updatedAt:new Date().toISOString(),clientId:CLIENT_ID};}
+  var saveTimer=null;
+  function saveDraftSoon(){dirty=true;if(!db||locked())return;clearTimeout(saveTimer);saveTimer=setTimeout(saveDraft,900);}
+  async function saveDraft(){if(!db||locked())return;try{await db.doc(CFG.docRoot+"/status/draft").set(draftDoc());dirty=false;}catch(e){$("barNote").innerHTML='<span class="err">Draft kept here but not shared: '+esc((e&&e.message)||"write failed")+'</span>';}}
+  function applyDraft(v){
+    if(!v)return;S.acc=(v.acc||[]).slice();S.pln=(v.pln||[]).slice();S.raid=(v.raid||[]).map(function(r){return Object.assign({},r)});
+    S.sub=Object.assign({},S.sub,v.sub||{});S.rat=Object.assign({},S.rat,v.rat||{});S.rec=v.rec?Object.assign({},v.rec):null;
+    S.addedAcc=(v.addedAcc||[]).slice();S.addedPln=(v.addedPln||[]).slice();
+    S.drafted=!!v.drafted;S.draftedAt=v.draftedAt||null;S.draftedFields=v.draftedFields||[];S.changed={};(v.changed||[]).forEach(function(f){S.changed[f]=true;});
+    S.carry=Object.assign({},S.carry,v.newDates||{});if(S.tasks)S.ms=buildMs(S.tasks);
+  }
+
+  /* ---------- approval ---------- */
+  function approvedValues(name,email,notes,version){
+    var av={schema_version:"1.0",
+      engagement:{engagement_id:CFG.engagementId,client:CFG.client,project_name:CFG.projectName},
+      period:{start:PER.start,end:PER.end,label:PER.label},as_of:S.asOf,project_managers:[],
+      milestones:S.ms.map(function(m){return {name:m.name,completed:m.completed,completed_at:m.completed_at,original_date:m.original_date,new_date:m.new_date,status:m.status,variance_days:m.variance_days,source:{system:"asana",id:m.source.id}}}),
+      assessments:{scope_schedule:{status:S.sub.scope,rationale:S.rat.scope||""},resources:{status:S.sub.resources,rationale:S.rat.resources||""},data:{status:S.sub.data,rationale:S.rat.data||""}},
+      overall:{status:overall(),derivation:"worst_of"},
+      accomplishments:S.acc.slice(),planned_activities:S.pln.slice(),
+      raid:S.raid.filter(function(r){return r.description&&r.description.trim()}).map(function(r){var o={type:r.type||"Risk",description:r.description.trim()};if(r.priority)o.priority=r.priority;if(r.mitigation)o.mitigation=r.mitigation;if(r.status)o.status=r.status;return o;}),
+      source_gaps:sourceGaps(),
+      sources:[{system:"asana",retrieved_at:new Date(S.tasksAt||Date.now()).toISOString(),locator:CFG.projectGid}],
+      approval:{reviewer_name:name,reviewer_email:email,approved_at:new Date().toISOString(),version:version},
+      correction_capture:{model_drafted_fields:S.draftedFields.slice(),reviewer_changed_fields:Object.keys(S.changed),
+        model_recommended_assessments:S.rec?{scope_schedule:S.rec.scope,resources:S.rec.resources,data:S.rec.data}:{}}};
+    if(S.deck)av.sources.push({system:"sharepoint",retrieved_at:new Date(S.deckAt||Date.now()).toISOString(),locator:S.deck.name});
+    if(notes)av.approval.notes=notes;
+    return av;
+  }
+  async function doApprove(){
+    var name=$("revName").value.trim(),email=$("revEmail").value.trim(),notes=$("revNotes").value.trim();
+    if(!name||!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){$("apprNote").innerHTML='<span class="err">Enter your name and a valid email. Approval is recorded under a named person.</span>';return;}
+    var av=approvedValues(name,email,notes,S.version+1);
+    var raw=JSON.stringify(av);if(raw.length>524288){$("apprNote").innerHTML='<span class="err">The record is too large to send. Shorten the narrative.</span>';return;}
+    S.busy=true;renderApprove();
+    try{
+      if(db){await db.doc(CFG.docRoot+"/approved/v"+av.approval.version).set(av);
+        await db.doc(CFG.docRoot).set({latestApprovedVersion:av.approval.version,latestApprovedAt:av.approval.approved_at,latestApprovedBy:name,updatedAt:av.approval.approved_at});}
+      S.approved=av;S.version=av.approval.version;S.editing=false;S.step=4;
+      var meas=measureFor(av);MEAS=[meas].concat(MEAS.filter(function(x){return x.version!==meas.version}));saveMeasure(meas);
+    }catch(e){$("apprNote").innerHTML='<span class="err">Could not save the approval: '+esc((e&&e.message)||"write failed")+'</span>';}
+    finally{S.busy=false;renderGate();}
+  }
+  function applyApproved(av){
+    if(!av||!av.approval)return;S.approved=av;S.version=av.approval.version;S.editing=false;
+    S.ms=(av.milestones||[]).map(function(m){return Object.assign({},m,{source:Object.assign({system:"asana",id:""},m.source||{})})});
+    S.carry=S.ms.reduce(function(o,m){if(m.new_date)o[m.source.id]=m.new_date;return o;},{});
+    S.sub={scope:av.assessments.scope_schedule.status,resources:av.assessments.resources.status,data:av.assessments.data.status};
+    S.rat={scope:av.assessments.scope_schedule.rationale,resources:av.assessments.resources.rationale,data:av.assessments.data.rationale};
+    S.acc=(av.accomplishments||[]).slice();S.pln=(av.planned_activities||[]).slice();S.raid=(av.raid||[]).map(function(r){return Object.assign({priority:"",mitigation:"",status:""},r)});
+    var cc=av.correction_capture||{};S.rec=cc.model_recommended_assessments?{scope:cc.model_recommended_assessments.scope_schedule,resources:cc.model_recommended_assessments.resources,data:cc.model_recommended_assessments.data}:S.rec;
+    S.drafted=true;S.draftedAt=S.draftedAt||av.approval.approved_at;
+  }
+
+  /* ---------- generate ---------- */
+  function fixCopy(code){switch(code){
+    case "server_not_connected":return "Add the Karta Assembly connector under Customize, Connectors, then reload.";
+    case "needs_reauth":return "Reconnect Karta Assembly in claude.ai Settings, Connectors, then try again.";
+    case "not_in_manifest":return "This page does not declare the assembly tool. Ask the page owner to republish.";
+    case "approval_required":return "Your organization requires approval for this tool, which pages cannot request yet.";
+    case "blocked_by_policy":return "Your organization blocks this tool for your account.";
+    case "server_unavailable":return "The assembly service did not answer. Try once more in a minute.";
+    case "tool_error":return "The assembly service reported a problem. See the message.";
+    default:return "";}}
+  async function doGenerate(){
+    if(!mcp||!S.approved||S.editing)return;
+    S.busy=true;renderGenerate();$("genNote").textContent="Building the deck…";
+    var now=new Date().toISOString(),jobId=(crypto.randomUUID?crypto.randomUUID():String(Date.now()));
+    var job={schema_version:"1.0",job_id:jobId,engagement_id:CFG.engagementId,approved_values:{version:S.version,sha256:await sha256(stable(S.approved))},
+      state:"Requested",requested_by:S.approved.approval.reviewer_email,requested_at:now,updated_at:now,delivery:"sharepoint"};
+    async function save(){job.updated_at=new Date().toISOString();S.jobs=[job].concat(S.jobs.filter(function(j){return j.job_id!==jobId}));renderJobs();
+      if(db){try{await db.doc(CFG.docRoot+"/jobs/"+jobId).set(job);}catch(e){}}}
+    await save();job.state="Building";await save();
+    try{
+      var args={approved_values:S.approved,delivery:"sharepoint"};if(CFG.dest.driveId&&CFG.dest.folderId)args.destination={drive_id:CFG.dest.driveId,folder_item_id:CFG.dest.folderId};
+      if(S.deck)args.base_deck={drive_id:S.deck.driveId,item_id:S.deck.id};
+      var r=await mcp.callTool(CFG.assembly,"assemble_status_deck",args,{cache:false});
+      var p=r.payload||{};
+      if(p.state==="Built"&&p.deck){
+        job.warnings=p.warnings||[];job.service_version=p.service_version;job.delivery=p.delivery||"sharepoint";
+        var d=Object.assign({},p.deck);var b64=d.content_base64;delete d.content_base64;job.deck=d;
+        if(job.delivery==="download"&&b64){
+          job.state="Built";
+          if(!downloads){$("genNote").innerHTML='<span class="err">The deck was built but this view cannot save files. Open the page in the Claude viewer and generate again.</span>';}
+          else{
+            try{var bin=atob(b64),u=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);
+              await downloads.save({filename:d.filename,data:u});job.deck.saved_by_member=true;
+              $("genNote").innerHTML='Deck saved to your computer. '+(CFG.dest.webUrl?'Upload it to the <a class="link" href="'+esc(CFG.dest.webUrl)+'" target="_blank" rel="noopener">status folder</a> in SharePoint.':'Upload it to the engagement’s status folder in SharePoint.')+(job.warnings.length?'<span class="warnnote"> · '+esc(job.warnings.join(" "))+'</span>':'');}
+            catch(de){var dc=de&&de.code;job.deck.saved_by_member=false;
+              $("genNote").innerHTML='<span class="err">'+(dc==="declined"?"Save cancelled. Generate again when ready.":dc==="rate_limited"?"A save prompt is already open. Answer it, then try again.":"The deck was built but could not be saved here: "+esc((de&&de.message)||dc||"unknown"))+'</span>';}
+          }
+        } else {
+          job.state="Built";
+          $("genNote").innerHTML='Saved to SharePoint as '+esc(d.written_as||"you")+'. <a class="link" href="'+esc(d.sharepoint_web_url||"#")+'" target="_blank" rel="noopener">Open in PowerPoint</a>'+(job.warnings.length?'<span class="warnnote"> · '+esc(job.warnings.join(" "))+'</span>':'');
+        }}
+      else{job.state="Failed";job.error=p.error||{code:"unexpected",message:"The service returned an unexpected result.",owner:"Karta AI strategy"};
+        $("genNote").innerHTML='<span class="err">'+esc(job.error.message)+(job.error.owner?" Owner: "+esc(job.error.owner)+".":"")+'</span>';}
+    }catch(e){
+      var code=(e&&e.code)||"upstream_error",msg=(e&&e.message)||"call failed";
+      var shown=code==="tool_error"?("The assembly service reported: "+msg):(fixCopy(code)||msg);
+      job.state="Failed";job.error={code:code,message:shown,detail:msg,owner:"Karta AI strategy",support_route:(CFG.support||{}).route||"Message the engagement owner"};
+      $("genNote").innerHTML='<span class="err">'+esc(shown)+'</span>';
+    }
+    await save();S.busy=false;renderGate();
+    updateMeasure(S.version,{deck_state:job.state,deck_delivery:job.delivery||null,deck_at:job.updated_at});
+  }
+
+  /* ---------- ask this project: drawer ---------- */
+  var SUGS=["What changed since last week’s status?","Which milestones have no approved new date?","What is the next control point and is its evidence ready?","Which risks are open and who owns them?"];
+  function openDrawer(open){$("drawer").hidden=!open;document.body.classList.toggle("drawer-open",open);try{localStorage.setItem("kcg-drawer",open?"1":"0")}catch(e){}renderNow();if(open)renderChat();}
+  function renderChat(){
+    var box=$("msgs");box.innerHTML="";
+    if(!CHAT.length){var w=document.createElement("div");w.className="msg a";w.textContent="Ask about this engagement. Answers come from the Asana project and the approved status record, cite what they used, and say plainly when the evidence is missing. Nothing is saved unless you choose to.";box.appendChild(w);}
+    CHAT.forEach(function(m){var d=document.createElement("div");d.className="msg "+(m.role==="q"?"q":"a");d.textContent=m.text;
+      if(m.cites&&m.cites.length){var c=document.createElement("div");c.className="cites";m.cites.forEach(function(x){var s=document.createElement("span");s.textContent=x;c.appendChild(s)});d.appendChild(c);}
+      box.appendChild(d);});
+    box.scrollTop=box.scrollHeight;
+    $("sug").innerHTML=SUGS.map(function(q){return '<button type="button" data-q="'+esc(q)+'">'+esc(q)+'</button>'}).join("");
+  }
+  function chatContext(){
+    var lines=(S.tasks||[]).slice(0,80).map(function(t){return "- "+t.name+" | "+(t.completed?"complete":"open")+" | due "+(t.due_on||"none")+" | section "+secOf(t);});
+    var rec=S.approved?"\n\nApproved weekly status v"+S.version+" ("+S.approved.approval.approved_at.slice(0,10)+", "+S.approved.approval.reviewer_name+"): overall "+S.approved.overall.status+"; scope "+S.approved.assessments.scope_schedule.status+"; resources "+S.approved.assessments.resources.status+"; data "+S.approved.assessments.data.status+".\nMilestones: "+S.approved.milestones.map(function(m){return m.name+" ("+m.status+(m.new_date?", new date "+m.new_date:"")+")"}).join("; ")+".\nAccomplishments: "+S.approved.accomplishments.join(" | ")+".\nPlanned: "+S.approved.planned_activities.join(" | ")+".\nRAID: "+(S.approved.raid.map(function(r){return r.type+(r.priority?" ("+r.priority+")":"")+": "+r.description}).join(" | ")||"none")+".":"\n\nNo approved weekly status record yet.";
+    return "Asana tasks (read "+(S.tasksAt?fresh(S.tasksAt):"just now")+"):\n"+(lines.join("\n")||"(none)")+rec;
+  }
+  async function doAsk(qText){
+    var q=(qText||$("ask").value).trim();if(!q)return;$("ask").value="";
+    if(!sample){CHAT.push({role:"q",text:q},{role:"a",text:"Asking needs the Claude viewer."});renderChat();return;}
+    CHAT.push({role:"q",text:q},{role:"a",text:"Thinking…"});renderChat();
+    try{
+      var r=await sample("You answer questions about the "+CFG.client+" "+CFG.projectName+" engagement strictly from the evidence below. If the evidence does not contain the answer, say so plainly rather than guessing. Do not invent status. Three sentences at most. Client-facing Karta tone.\n\nEvidence:\n"+chatContext()+"\n\nQuestion: "+q);
+      var cites=["Asana tasks · read "+(S.tasksAt?fresh(S.tasksAt):"now")];if(S.approved)cites.push("Approved status v"+S.version);Object.keys(SRC).forEach(function(k){if(SRC[k].st==="risk")cites.push("Gap: "+SRCNM[k])});
+      CHAT[CHAT.length-1]={role:"a",text:r.text,cites:cites};
+    }catch(e){CHAT[CHAT.length-1]={role:"a",text:(e&&e.code==="not_granted")?"Asking needs your permission. Reload and allow to enable it.":((e&&e.message)||"Ask failed.")};}
+    renderChat();
+  }
+
+  /* ---------- events ---------- */
+  document.addEventListener("click",function(e){
+    if(!e.target.closest(".pop")&&!e.target.closest("[data-src]")){var pp=document.querySelector(".pop");if(pp)pp.remove();}
+    var er=e.target.closest(".erow[data-view]");if(er){showView(er.dataset.view);return;}
+    var st=e.target.closest("#stepbar > div[data-step]");if(st){S.step=+st.dataset.step;renderSteps();return;}
+    var b=e.target.closest("button");if(!b)return;
+    if(b.dataset.view){showView(b.dataset.view);return;}
+    if(b.id==="btnChat"){openDrawer(true);return;}
+    if(b.id==="btnMin"||b.id==="btnClose"){openDrawer(false);return;}
+    if(b.dataset.src){togglePop(b.dataset.src);return;}
+    if(b.dataset.q){doAsk(b.dataset.q);return;}
+    if(b.id==="btnAsk"){doAsk();return;}
+    if(locked()&&b.id!=="btnReopen"&&b.id!=="btnGenerate")return;
+    if(b.dataset.sub){var k=b.dataset.sub;S.sub[k]=SUB[(SUB.indexOf(S.sub[k])+1)%SUB.length];markChanged("assessments."+SUBKEY[k]);renderRoll();saveDraftSoon();return;}
+    if(b.dataset.rm){var a=b.dataset.rm==="acc"?S.acc:S.pln;a.splice(+b.dataset.i,1);markChanged(b.dataset.rm==="acc"?"accomplishments":"planned_activities");renderList(b.dataset.rm==="acc"?"accList":"plnList",a,b.dataset.rm);renderBudget();saveDraftSoon();return;}
+    if(b.dataset.add){var inp=$(b.dataset.add==="acc"?"addAcc":"addPln"),v=inp.value.trim();if(!v)return;(b.dataset.add==="acc"?S.acc:S.pln).push(v);
+      if(b.dataset.add==="acc"){S.addedAcc=(S.addedAcc||[]).concat([v]);}else{S.addedPln=(S.addedPln||[]).concat([v]);}inp.value="";markChanged(b.dataset.add==="acc"?"accomplishments":"planned_activities");renderList(b.dataset.add==="acc"?"accList":"plnList",b.dataset.add==="acc"?S.acc:S.pln,b.dataset.add);renderBudget();saveDraftSoon();return;}
+    if(b.dataset.rmraid!==undefined){S.raid.splice(+b.dataset.rmraid,1);markChanged("raid");renderRaid();saveDraftSoon();return;}
+    if(b.id==="btnAddRaid"){S.raid.push({type:"Risk",priority:"",description:"",mitigation:"",status:"",origin:"reviewer"});S.drafted=S.drafted||S.raid.length>0;markChanged("raid");renderRaid();return;}
+    if(b.id==="btnDraft"){doDraft();return;}
+    if(b.id==="btnApprove"){doApprove();return;}
+    if(b.id==="btnReopen"){S.editing=true;renderGate();return;}
+    if(b.id==="btnGenerate"){doGenerate();return;}
+  });
+  document.addEventListener("change",function(e){
+    var t=e.target;if(locked())return;
+    if(t.dataset&&t.dataset.nd!==undefined){var m=S.ms[+t.dataset.nd];m.new_date=t.value||null;S.carry[m.source.id]=m.new_date;recompute(m);markChanged("milestones.new_date");renderMs();renderRoll();renderSources();renderHome();saveDraftSoon();return;}
+    if(t.dataset&&t.dataset.rf!==undefined){var r=S.raid[+t.dataset.i];if(r){r[t.dataset.rf]=t.value;markChanged("raid");saveDraftSoon();}return;}
+    if(t.dataset&&t.dataset.rat){S.rat[t.dataset.rat]=t.value;markChanged("assessments."+SUBKEY[t.dataset.rat]);saveDraftSoon();return;}
+  });
+  $("ask").addEventListener("keydown",function(e){if(e.key==="Enter")doAsk();});
+  window.addEventListener("resize",function(){renderNow();});
+  ["addAcc","addPln"].forEach(function(id){$(id).addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();document.querySelector('[data-add="'+(id==="addAcc"?"acc":"pln")+'"]').click();}});});
+
+  /* ---------- runtime ---------- */
+  (function restore(){var d="0";try{d=localStorage.getItem("kcg-drawer")||"0"}catch(e){}$("hMeta").textContent="Loading the engagement…";document.querySelectorAll(".view").forEach(function(s){s.hidden=s.id!=="v-home";});openDrawer(d==="1");})();
+  var C=(typeof claude!=="undefined"&&claude&&typeof claude.use==="function")?claude:null;
+  if(!C){
+    S.tasks=[];$("btnDraft").hidden=true;
+    Object.keys(SRC).forEach(function(k){SRC[k]={st:"off",d:"unavailable outside the Claude viewer"}});renderChips();
+    $("hMeta").textContent="Opened outside the Claude viewer. Live data, drafting and deck generation are unavailable here.";
+    $("ins").innerHTML='<div class="calm">Live data unavailable in this view.</div>';$("act").innerHTML='<div class="calm">Live data unavailable in this view.</div>';
+    $("barNote").textContent="Live data unavailable in this view.";S.assembly=false;renderGate();if(!CFG.configured)showView("setup");return;
+  }
+  function snapData(d){return d&&typeof d.data==="function"?d.data():d;}
+  function snapDocs(s){var arr=s&&s.docs?s.docs:(Array.isArray(s)?s:[]);return arr.map(snapData).filter(Boolean);}
+  C.use("db").then(function(d){
+    if(!d){showView("setup");return;}db=d;
+    var firstCfg=true;
+    d.doc(CFG_DOC).onSnapshot(function(doc){
+      var v=snapData(doc);
+      if(!v){if(firstCfg){firstCfg=false;showView("setup");}return;}
+      firstCfg=false;if(v.client_id===CLIENT_ID&&CFGDOC.source==="document")return;
+      try{applyConfig(v);startWatches();renderAll();if(!$("v-setup").hidden)showView("home");if(!$("v-settings").hidden){cfgEdit=null;renderCfgView();}}
+      catch(e){$("hMeta").textContent="The saved configuration could not be read: "+((e&&e.message)||"invalid");}
+    });
+    try{d.collection(CFG.docRoot+"/measures").onSnapshot(function(s){MEAS=snapDocs(s);if(!$("v-settings").hidden)renderCfgView();});}catch(e){}
+    d.doc(CFG.docRoot).onSnapshot(function(doc){
+      var v=snapData(doc);if(!v||!v.latestApprovedVersion)return;
+      if(S.approved&&S.version>=v.latestApprovedVersion)return;
+      d.doc(CFG.docRoot+"/approved/v"+v.latestApprovedVersion).get().then(function(s){var av=snapData(s);if(av&&av.approval){applyApproved(av);$("barNote").textContent="Showing approved version "+S.version+". Nothing was regenerated.";renderAll();}}).catch(function(){});
+    });
+    d.doc(CFG.docRoot+"/status/draft").onSnapshot(function(doc){
+      var v=snapData(doc);if(!v||S.approved||S.busy)return;
+      if(v.clientId===CLIENT_ID)return;          /* our own write echoed back */
+      if(dirty)return;                           /* never overwrite unsaved local edits */
+      if(S.drafted&&!v.drafted)return;           /* never regress a drafted page to a pre-draft doc */
+      if(v.updatedAt&&S.draftedAt&&v.updatedAt<S.draftedAt)return;
+      applyDraft(v);$("barNote").textContent="Showing the shared draft. Redraft only if the evidence changed.";renderAll();
+    });
+    try{d.collection(CFG.docRoot+"/jobs").orderBy("requested_at","desc").limit(8).onSnapshot(function(s){var docs=snapDocs(s);if(docs.length){S.jobs=docs;renderGate();}});}catch(e){}
+  }).catch(function(){});
+  C.use("mcp").then(function(m){if(!m){S.tasks=[];S.assembly=false;Object.keys(SRC).forEach(function(k){if(k!=="raid")SRC[k]={st:"risk",d:"connectors unavailable in this view"}});renderChips();renderAll();return;}wireMcp(m);}).catch(function(){});
+  C.use("downloads").then(function(d){downloads=d||null;}).catch(function(){});
+  C.use("sample").then(function(s){if(!s){$("btnDraft").hidden=true;$("barNote").textContent="Drafting is unavailable in this view.";return;}sample=s;renderApprove();if(!S.drafted)$("barNote").textContent="Ready to draft.";}).catch(function(){});
+})();
+</script>

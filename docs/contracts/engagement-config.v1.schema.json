@@ -1,26 +1,24 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://karta.example/contracts/engagement-config.v1.schema.json",
-  "title": "Karta engagement configuration, version 1.1",
-  "description": "Resolves the engagement boundary for one site: identifiers, source locations, methodology phases with dates, templates, capabilities with readiness, and roles. Client facts never appear here beyond names and identifiers.",
+  "title": "Karta engagement configuration, version 1.2",
+  "description": "One document per engagement workspace, stored in the page database at engagements/this/config/current. Written by the setup screen and the Config area; read by every viewer of the page. Identifiers, links, dates and people only, never client facts.",
   "type": "object",
   "additionalProperties": false,
   "required": [
     "schema_version",
-    "engagement_id",
     "client",
     "project_name",
+    "owner",
     "stages",
-    "sources",
-    "templates",
-    "capabilities",
-    "roles"
+    "sources"
   ],
   "properties": {
     "schema_version": {
       "enum": [
         "1.0",
-        "1.1"
+        "1.1",
+        "1.2"
       ]
     },
     "engagement_id": {
@@ -45,78 +43,112 @@
       "properties": {
         "asana": {
           "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "workspace_gid",
-            "project_gid",
-            "milestone_section_names"
-          ],
+          "additionalProperties": true,
           "properties": {
-            "workspace_gid": {
-              "type": "string"
+            "project_url": {
+              "type": "string",
+              "description": "The link the owner pasted. The page derives project_gid from it."
             },
             "project_gid": {
               "type": "string"
             },
+            "project_name": {
+              "type": "string"
+            },
+            "verified": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
             "milestone_section_names": {
               "type": "array",
-              "minItems": 1,
               "items": {
                 "type": "string"
               }
             },
             "milestone_resource_subtype": {
-              "type": "string",
-              "description": "Optional. Filter on Asana resource_subtype, e.g. milestone."
+              "type": "string"
             }
           }
         },
         "sharepoint": {
           "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "drive_id",
-            "status_folder_item_id",
-            "status_folder_web_url",
-            "deck_filename_pattern"
-          ],
+          "additionalProperties": true,
           "properties": {
+            "status_folder_web_url": {
+              "type": "string",
+              "description": "Browser address of the Status and Steer Co folder, not a sharing link."
+            },
             "drive_id": {
               "type": "string"
             },
             "status_folder_item_id": {
               "type": "string"
             },
-            "status_folder_web_url": {
+            "label": {
               "type": "string"
             },
-            "deck_filename_pattern": {
-              "type": "string",
-              "description": "Python format string, e.g. KCG_Status {client} {m}-{d}-{yyyy}.pptx"
-            },
-            "raid_log_item_id": {
-              "type": "string"
-            },
-            "design_document_item_id": {
-              "type": "string"
+            "verified": {
+              "type": [
+                "boolean",
+                "null"
+              ]
             }
           }
         },
         "granola": {
           "type": "object",
-          "additionalProperties": false,
+          "additionalProperties": true,
           "properties": {
-            "folder": {
+            "folder_name": {
               "type": "string"
+            },
+            "folder_id": {
+              "type": "string"
+            },
+            "note_count": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "verified": {
+              "type": [
+                "boolean",
+                "null"
+              ]
             }
           }
         },
         "harvest": {
           "type": "object",
-          "additionalProperties": false,
+          "additionalProperties": true,
           "properties": {
+            "project": {
+              "type": "string",
+              "description": "Project name or code as typed by the owner."
+            },
             "project_id": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "project_name": {
               "type": "string"
+            },
+            "client_name": {
+              "type": "string"
+            },
+            "code": {
+              "type": "string"
+            },
+            "verified": {
+              "type": [
+                "boolean",
+                "null"
+              ]
             }
           }
         }
@@ -193,29 +225,21 @@
     "roles": {
       "type": "object",
       "additionalProperties": false,
-      "required": [
-        "reviewers",
-        "members"
-      ],
       "properties": {
+        "engagement_lead": {
+          "type": "string"
+        },
         "reviewers": {
           "type": "array",
-          "minItems": 1,
           "items": {
-            "type": "string",
-            "format": "email"
+            "type": "string"
           }
         },
         "members": {
           "type": "array",
           "items": {
-            "type": "string",
-            "format": "email"
+            "type": "string"
           }
-        },
-        "engagement_lead": {
-          "type": "string",
-          "format": "email"
         }
       }
     },
@@ -257,8 +281,6 @@
         "required": [
           "id",
           "name",
-          "start",
-          "end",
           "kind"
         ],
         "properties": {
@@ -285,8 +307,12 @@
             ]
           },
           "start": {
-            "type": "string",
-            "format": "date"
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date",
+            "description": "Null until the owner sets dates."
           },
           "end": {
             "type": [
@@ -423,6 +449,35 @@
           }
         }
       }
+    },
+    "owner": {
+      "type": "object",
+      "required": [
+        "name",
+        "email"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        }
+      },
+      "description": "The initial engagement owner named at setup, usually the client success executive. The owner sets reviewers and members with the team."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_by": {
+      "type": "string"
     }
   }
 }

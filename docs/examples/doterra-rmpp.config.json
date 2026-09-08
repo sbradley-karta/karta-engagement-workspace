@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.1",
+  "schema_version": "1.2",
   "engagement_id": "doterra-rmpp",
   "client": "doTERRA",
   "project_name": "Raw Materials & Production Planning",
@@ -128,8 +128,10 @@
   },
   "sources": {
     "asana": {
-      "workspace_gid": "1207382895863198",
+      "project_url": "https://app.asana.com/1/1207382895863198/project/1215722811960554",
       "project_gid": "1215722811960554",
+      "project_name": "doTERRA Raw Materials & Production Planning",
+      "verified": true,
       "milestone_section_names": [
         "Project Milestones"
       ],
@@ -139,7 +141,23 @@
       "drive_id": "b!Iz0EH_LY40q5fxSIIqX6dUwmpS7DAARPnOZ1DlTZ2QS7kycWN8VATLM5YHSC_qsZ",
       "status_folder_item_id": "01FIBLTRS2JTME2G3L7VBIYVITYLUBCQ7V",
       "status_folder_web_url": "https://kartaconsultinggroup.sharepoint.com/sites/KartaConsultingGroupDocuments/Documents/Firmwide - General & Delivery/Delivery/_Client Projects/doTERRA/03_Raw Materials Planning/00 - Project Management/Status & Steer Co",
-      "deck_filename_pattern": "KCG_Status {client} {m}-{d}-{yyyy}.pptx"
+      "deck_filename_pattern": "KCG_Status {client} {m}-{d}-{yyyy}.pptx",
+      "verified": true,
+      "label": "doTERRA / 03_Raw Materials Planning / 00 - Project Management / Status & Steer Co"
+    },
+    "granola": {
+      "folder_name": "doTERRA",
+      "folder_id": "",
+      "note_count": null,
+      "verified": null
+    },
+    "harvest": {
+      "project": "",
+      "project_id": null,
+      "project_name": "",
+      "client_name": "",
+      "code": "",
+      "verified": null
     }
   },
   "templates": {
@@ -228,16 +246,19 @@
     }
   ],
   "roles": {
-    "engagement_lead": "sbradley@kartacg.com",
     "reviewers": [
-      "sbradley@kartacg.com"
+      "owner@kartacg.com"
     ],
     "members": [
-      "sbradley@kartacg.com"
+      "owner@kartacg.com"
     ]
   },
   "support": {
     "route": "Message Sean Bradley in Teams",
     "owner": "sbradley@kartacg.com"
+  },
+  "owner": {
+    "name": "[Engagement owner]",
+    "email": "owner@kartacg.com"
   }
 }
