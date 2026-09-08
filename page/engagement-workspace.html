@@ -600,6 +600,8 @@ body.drawer-open .hgrid #evCard{grid-column:2}
 
 <script>
 (function(){
+  /* Snapshot of this page's own markup, taken before any script has changed the DOM, so the page can republish itself with a new title after setup. */
+  var SRC_HTML=(function(){try{var d=document.documentElement.cloneNode(true);d.querySelectorAll("script").forEach(function(s){if(!/var STAGE_DEF=/.test(s.textContent))s.remove();});return "<!doctype html>\n"+d.outerHTML;}catch(e){return null;}})();
   var STAGE_DEF=[
     {id:"planning",nm:"Project Planning",kind:"stage"},{id:"foundations",nm:"Foundations",kind:"stage"},{id:"build",nm:"Build",kind:"stage"},
     {id:"test",nm:"Test",kind:"stage"},{id:"train",nm:"Train",kind:"parallel"},{id:"deploy",nm:"Deploy",kind:"stage"},{id:"support",nm:"Continuous Support",kind:"stage"}];
@@ -995,6 +997,18 @@ body.drawer-open .hgrid #evCard{grid-column:2}
     root.querySelectorAll("button[data-err]").forEach(function(b){b.addEventListener("click",function(){notePostApprovalError(b.dataset.err);});});
   }
   function cfgSaveNote(html){var n=$("cfgNote");if(n)n.innerHTML=html;}
+  /* ---- rename the artifact after setup: the page publishes itself with a new <title> ---- */
+  var RENAME_OFF=false;
+  async function renameArtifact(title){
+    document.title=title;
+    if(RENAME_OFF||!SRC_HTML||!C)return "skipped";
+    if(/<title>[\s\S]*?<\/title>/.test(SRC_HTML)&&SRC_HTML.match(/<title>([\s\S]*?)<\/title>/)[1]===esc(title))return "same";
+    var art=null;try{art=await C.use("artifact");}catch(e){}
+    if(!art){RENAME_OFF=true;return "unavailable";}
+    var html=SRC_HTML.replace(/<title>[\s\S]*?<\/title>/,"<title>"+esc(title)+"</title>");
+    try{await art.publish(html);return "published";}
+    catch(e){var c=(e&&e.code)||"upstream_error";if(c==="not_writer"||c==="not_granted"||c==="not_declared"||c==="capability_disabled"||c==="capability_removed")RENAME_OFF=true;return c;}
+  }
   async function saveConfig(doc,by,mode){
     if(!db){cfgSaveNote('<span class="err">Configuration can be saved only inside the Claude viewer.</span>');return;}
     if(!by){cfgSaveNote('<span class="err">Enter your name. Configuration changes are recorded under a named person.</span>');return;}
@@ -1005,7 +1019,10 @@ body.drawer-open .hgrid #evCard{grid-column:2}
     doc.updated_at=new Date().toISOString();doc.updated_by=by;doc.client_id=CLIENT_ID;if(!doc.created_at)doc.created_at=doc.updated_at;
     try{await db.doc(CFG_DOC).set(doc);applyConfig(doc);cfgEdit=null;startWatches();renderAll();
       if(mode==="setup"){showView("home");$("hMeta").textContent="Workspace set up by "+by+". Reading the project…";}
-      else{renderCfgView();cfgSaveNote('Saved '+md(doc.updated_at)+' by '+esc(by)+'.');}}
+      else{renderCfgView();cfgSaveNote('Saved '+md(doc.updated_at)+' by '+esc(by)+'.');}
+      var title=CFG.client+" · "+CFG.projectName;
+      renameArtifact(title).then(function(r){if(r==="published"){if(mode!=="setup")cfgSaveNote('Saved '+md(doc.updated_at)+' by '+esc(by)+'. The workspace is now titled “'+esc(title)+'”; open views reload.');}
+        else if(r==="not_writer"||r==="not_granted"){if(mode!=="setup")cfgSaveNote('Saved '+md(doc.updated_at)+' by '+esc(by)+'. The workspace title stays as published because you can view but not edit this page.');}});}
     catch(e){$("btnCfgSave").disabled=false;cfgSaveNote('<span class="err">Could not save: '+esc((e&&e.message)||"write failed")+'</span>');}
   }
   function renderSetupView(){var d=cfgEdit||blankDoc();$("setupView").innerHTML=formHtml(d,"setup");wireForm("setup");}
