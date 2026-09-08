@@ -1,0 +1,243 @@
+{
+  "schema_version": "1.1",
+  "engagement_id": "doterra-rmpp",
+  "client": "doTERRA",
+  "project_name": "Raw Materials & Production Planning",
+  "stages": [
+    {
+      "id": "planning",
+      "name": "Project Planning",
+      "start": "2026-06-01",
+      "end": "2026-06-12",
+      "kind": "stage",
+      "source": "engagement plan (sample)",
+      "source_updated_at": "2026-09-05T00:00:00Z"
+    },
+    {
+      "id": "foundations",
+      "name": "Foundations",
+      "start": "2026-06-15",
+      "end": "2026-07-03",
+      "kind": "stage",
+      "source": "engagement plan (sample)",
+      "source_updated_at": "2026-09-05T00:00:00Z"
+    },
+    {
+      "id": "build",
+      "name": "Build",
+      "start": "2026-07-06",
+      "end": "2026-09-18",
+      "kind": "stage",
+      "source": "engagement plan (sample)",
+      "source_updated_at": "2026-09-05T00:00:00Z"
+    },
+    {
+      "id": "test",
+      "name": "Test",
+      "start": "2026-09-21",
+      "end": "2026-10-02",
+      "kind": "stage",
+      "source": "engagement plan (sample)",
+      "source_updated_at": "2026-09-05T00:00:00Z"
+    },
+    {
+      "id": "train",
+      "name": "Train",
+      "start": "2026-09-14",
+      "end": "2026-10-09",
+      "kind": "parallel",
+      "source": "illustrative",
+      "source_updated_at": "2026-09-05T00:00:00Z"
+    },
+    {
+      "id": "deploy",
+      "name": "Deploy",
+      "start": "2026-10-05",
+      "end": "2026-10-16",
+      "kind": "stage",
+      "source": "illustrative",
+      "source_updated_at": "2026-09-05T00:00:00Z"
+    },
+    {
+      "id": "support",
+      "name": "Continuous Support",
+      "start": "2026-10-19",
+      "end": null,
+      "kind": "stage",
+      "contracted": false,
+      "source": "illustrative",
+      "source_updated_at": "2026-09-05T00:00:00Z"
+    }
+  ],
+  "stages_confirmed_at": "2026-09-05",
+  "objectives": {
+    "planning": "Transfer commercial and client context into delivery and establish a controlled engagement with clear scope, logistics, roles, sources and milestones.",
+    "foundations": "Convert business intent and workshop evidence into an approved solution foundation that stays deliverable within scope, window, budget and capacity.",
+    "build": "Configure the solution through a disciplined, traceable build and obtain documented initial business acceptance at each sprint review.",
+    "test": "Demonstrate that the solution meets approved requirements through a deliberate UAT operating model and is ready for formal acceptance.",
+    "train": "Prepare each in-scope audience to adopt, operate, administer or teach the solution.",
+    "deploy": "Move the solution into production, complete the implementation responsibly and stabilize it.",
+    "support": "Transfer operational ownership to Continuous Support and turn recurring evidence into improvements."
+  },
+  "control_points": [
+    {
+      "stage": "build",
+      "name": "Sprint 3 Review \u00b7 initial business acceptance",
+      "due": "2026-09-11",
+      "owner": "[Business reviewer]",
+      "decision": "accept, follow up, or change",
+      "evidence": [
+        {
+          "item": "Demo items listed",
+          "state": "ok"
+        },
+        {
+          "item": "Requirements mapped",
+          "state": "ok"
+        },
+        {
+          "item": "Sprint 2 follow-ups",
+          "state": "warn"
+        },
+        {
+          "item": "Attendance confirmed",
+          "state": "off"
+        }
+      ]
+    }
+  ],
+  "deliverables": {
+    "build": [
+      {
+        "name": "Project build plan",
+        "state": "Approved"
+      },
+      {
+        "name": "Data Hub",
+        "state": "In progress"
+      },
+      {
+        "name": "Configured dashboards",
+        "state": "Draft"
+      },
+      {
+        "name": "Model documentation",
+        "state": "Missing"
+      }
+    ]
+  },
+  "sources": {
+    "asana": {
+      "workspace_gid": "1207382895863198",
+      "project_gid": "1215722811960554",
+      "milestone_section_names": [
+        "Project Milestones"
+      ],
+      "milestone_resource_subtype": "milestone"
+    },
+    "sharepoint": {
+      "drive_id": "b!Iz0EH_LY40q5fxSIIqX6dUwmpS7DAARPnOZ1DlTZ2QS7kycWN8VATLM5YHSC_qsZ",
+      "status_folder_item_id": "01FIBLTRS2JTME2G3L7VBIYVITYLUBCQ7V",
+      "status_folder_web_url": "https://kartaconsultinggroup.sharepoint.com/sites/KartaConsultingGroupDocuments/Documents/Firmwide - General & Delivery/Delivery/_Client Projects/doTERRA/03_Raw Materials Planning/00 - Project Management/Status & Steer Co",
+      "deck_filename_pattern": "KCG_Status {client} {m}-{d}-{yyyy}.pptx"
+    }
+  },
+  "templates": {
+    "status_deck_template_version": "KCG_Status Template, optimized 2026-09-05"
+  },
+  "capabilities": [
+    {
+      "id": "status",
+      "name": "Create weekly status",
+      "description": "Review this week\u2019s evidence and prepare the client deck",
+      "readiness": "Piloted",
+      "owner": "Sean Bradley",
+      "live": true,
+      "stages": [
+        "planning",
+        "foundations",
+        "build",
+        "test",
+        "train",
+        "deploy"
+      ]
+    },
+    {
+      "id": "sprint",
+      "name": "Prepare sprint review",
+      "description": "What will be shown, requirements covered, evidence",
+      "readiness": "Experimental",
+      "owner": "Unassigned",
+      "live": false,
+      "stages": [
+        "build"
+      ]
+    },
+    {
+      "id": "mockup",
+      "name": "Generate a mockup",
+      "description": "Turn requirements or an idea into an editable visual",
+      "readiness": "Piloted",
+      "owner": "Sean Bradley",
+      "live": true,
+      "stages": [
+        "foundations",
+        "build"
+      ]
+    },
+    {
+      "id": "meeting",
+      "name": "Capture meeting outcomes",
+      "description": "Turn workshop notes into actions and decisions",
+      "readiness": "Experimental",
+      "owner": "Unassigned",
+      "live": false,
+      "stages": [
+        "planning",
+        "foundations",
+        "build"
+      ]
+    },
+    {
+      "id": "uat",
+      "name": "Prepare for UAT",
+      "description": "Turn approved requirements into test scripts",
+      "readiness": "Experimental",
+      "owner": "Unassigned",
+      "live": false,
+      "stages": [
+        "test"
+      ]
+    },
+    {
+      "id": "onboard",
+      "name": "Onboarding brief",
+      "description": "Bring a new team member up to speed from the approved record",
+      "readiness": "Experimental",
+      "owner": "Unassigned",
+      "live": false,
+      "stages": [
+        "planning",
+        "foundations",
+        "build",
+        "test",
+        "train",
+        "deploy",
+        "support"
+      ]
+    }
+  ],
+  "roles": {
+    "engagement_lead": "sbradley@kartacg.com",
+    "reviewers": [
+      "sbradley@kartacg.com"
+    ],
+    "members": [
+      "sbradley@kartacg.com"
+    ]
+  },
+  "support": {
+    "route": "Message Sean Bradley in Teams",
+    "owner": "sbradley@kartacg.com"
+  }
+}
