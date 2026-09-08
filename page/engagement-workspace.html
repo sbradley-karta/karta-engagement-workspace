@@ -735,7 +735,7 @@ body.drawer-open .hgrid #evCard{grid-column:2}
   }
   function setSrc(k,st,d,at){SRC[k]={st:st,d:d,at:at||null};renderChips();renderInsights();}
   var SRCNM={asana:"Asana",sharepoint:"SharePoint",assembly:"Assembly Server",granola:"Granola",harvest:"Harvest",raid:"RAID log"};
-  var SRCFIX={asana:"Connect Asana under Customize, Connectors, and confirm you are staffed on the project.",sharepoint:"Connect Microsoft 365 under Customize, Connectors.",assembly:"Add the Karta Assembly connector under Customize, Connectors, then reload.",granola:"Name the Granola folder for this engagement in Config. Meeting evidence reads arrive in a later gate.",harvest:"Name the Harvest project for this engagement in Config. Capacity and PTO signals arrive in a later gate.",raid:"Until a RAID log source is connected, risks are entered by the reviewer and the deck records the gap."};
+  var SRCFIX={asana:"Connect Asana under Customize, Connectors, and confirm you are staffed on the project.",sharepoint:"Connect Microsoft 365 under Customize, Connectors.",assembly:"Add the Karta Assembly connector under Customize, Connectors, then reload.",granola:"Connect Granola under Customize, Connectors and choose the engagement’s folder in Config. Green means connected and chosen; meeting evidence is not yet read by any capability in this pilot.",harvest:"Connect Harvest App under Customize, Connectors and choose the engagement’s project in Config. Green means connected and chosen; capacity signals are not yet read by any capability in this pilot.",raid:"Until a RAID log source is connected, risks are entered by the reviewer and the deck records the gap."};
   function renderChips(){
     var box=$("chips");if(!box)return;box.innerHTML="";
     Object.keys(SRC).forEach(function(k){var s=SRC[k];var b=document.createElement("button");b.type="button";b.className="sch "+s.st;b.dataset.src=k;b.title=SRCNM[k]+" · "+s.d+(s.at?" · "+fresh(s.at):"");
@@ -746,7 +746,7 @@ body.drawer-open .hgrid #evCard{grid-column:2}
     var s=SRC[k],p=document.createElement("div");p.className="pop";p.dataset.src=k;
     var b=document.querySelector('[data-src="'+k+'"]'),r=b.getBoundingClientRect();
     p.style.left=(r.right+10)+"px";p.style.top=Math.max(8,Math.min(window.innerHeight-160,r.top-8))+"px";
-    p.innerHTML='<div class="t">'+esc(SRCNM[k])+' · '+esc(s.st==="ok"?"reading as you":s.st==="warn"?"attention":s.st==="risk"?"missing evidence":"not connected")+'</div><div>'+esc(s.d)+(s.at?" · last read "+fresh(s.at):"")+'</div>'+(s.st!=="ok"?'<div class="fix">'+esc(SRCFIX[k])+'</div>':'<div class="fix">Every read uses your own credentials. Nothing is cached beyond this view.</div>');
+    p.innerHTML='<div class="t">'+esc(SRCNM[k])+' · '+esc(s.st==="ok"?"reading as you":s.st==="warn"?"attention":s.st==="risk"?"missing evidence":"not connected")+'</div><div>'+esc(s.d)+(s.at?" · last read "+fresh(s.at):"")+'</div>'+(s.st!=="ok"?'<div class="fix">'+esc(SRCFIX[k])+'</div>':'<div class="fix">'+((k==="granola"||k==="harvest")?"Connected and linked. No capability reads from it yet; that arrives with meeting capture and capacity signals.":"Every read uses your own credentials. Nothing is cached beyond this view.")+'</div>');
     document.body.appendChild(p);
   }
   function stageState(p){if(!p.from)return p.contracted===false?"na":"unset";var now=Date.now(),start=new Date(p.from+"T00:00:00").getTime(),end=p.to?new Date(p.to+"T23:59:59").getTime():Infinity;
@@ -1308,6 +1308,7 @@ body.drawer-open .hgrid #evCard{grid-column:2}
   function connected(server){return Array.isArray(S.servers)&&S.servers.indexOf(server)>=0;}
   function refreshConnectors(errText){
     if(!CFG.configured){CONN.forEach(function(c){if(c.k==="assembly")return;var on=connected(c.server);setSrc(c.k,on?"off":"warn",on?"connected as you · not linked to this engagement yet":"not connected · add "+c.server+" under Customize, Connectors in claude.ai");});}
+    else if(Array.isArray(S.servers))startWatches();
     var box=$("connStat");if(!box)return;
     if(Array.isArray(S.servers))loadPickers();
     if(!Array.isArray(S.servers)){box.innerHTML='<span class="calm">'+(errText?"Could not list your connectors: "+esc(errText):"Checking your connectors…")+'</span>';return;}
@@ -1342,8 +1343,9 @@ body.drawer-open .hgrid #evCard{grid-column:2}
         setSrc("sharepoint",named.length?"ok":"warn",named.length?"last deck "+md(S.deck.lastModifiedDateTime):"no status deck found",S.deckAt);
         renderAll();
       }));}
-    setSrc("granola","off",CFG.granolaFolder.name?"folder “"+CFG.granolaFolder.name+"”"+(CFG.granolaFolder.noteCount!=null?" · "+CFG.granolaFolder.noteCount+" notes":"")+" · reads arrive in a later gate":"no Granola folder named");
-    setSrc("harvest","off",CFG.harvestProject.name?"project “"+CFG.harvestProject.name+"” · reads arrive in a later gate":"no Harvest project named");
+    var gOn=connected(CFG.granola),hOn=connected(CFG.harvest);
+    setSrc("granola",!gOn?"risk":(CFG.granolaFolder.name?"ok":"warn"),!gOn?"not connected · add Granola under Customize, Connectors":(CFG.granolaFolder.name?"connected as you · folder “"+CFG.granolaFolder.name+"”"+(CFG.granolaFolder.noteCount!=null?" · "+CFG.granolaFolder.noteCount+" notes":"")+" · meeting reads are not yet used by any capability":"connected as you · no folder chosen in Config"));
+    setSrc("harvest",!hOn?"risk":(CFG.harvestProject.name?"ok":"warn"),!hOn?"not connected · add Harvest App under Customize, Connectors":(CFG.harvestProject.name?"connected as you · project “"+CFG.harvestProject.name+"” · capacity reads are not yet used by any capability":"connected as you · no project chosen in Config"));
   }
 
   /* ---------- drafting ---------- */
