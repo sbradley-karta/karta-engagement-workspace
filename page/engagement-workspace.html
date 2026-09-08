@@ -887,7 +887,9 @@ body.drawer-open .hgrid #evCard{grid-column:2}
 
   /* ---- link verification through the viewer's own connectors ---- */
   function vf(k,cls,text){var el=$("vf-"+k);if(el){el.className="vf "+cls;el.textContent=text;}}
-  async function verifyAsana(d){var a=d.sources.asana;var gid=asanaGid(a.project_url);if(!a.project_url){vf("asana","","Optional now. Milestones and tasks come from this project.");a.verified=null;return;}
+  async function verifyAsana(d){var a=d.sources.asana;var as=$("src-asana-sel");
+    if(as&&!as.hidden){if(a.project_gid){vf("asana","ok","Selected: "+(a.project_name||a.project_gid)+".");}else{vf("asana","","Optional now. Milestones and tasks come from this project.");}return;}
+    var gid=asanaGid(a.project_url);if(!a.project_url){vf("asana","","Optional now. Milestones and tasks come from this project.");a.verified=null;return;}
     if(!gid){vf("asana","err","This does not look like an Asana project link. Open the project in Asana and copy the address bar.");a.verified=false;return;}
     a.project_gid=gid;if(!mcp){vf("asana","warn","Link saved. It will be checked when Asana is connected.");a.verified=null;return;}
     vf("asana","","Checking with Asana…");
@@ -895,7 +897,9 @@ body.drawer-open .hgrid #evCard{grid-column:2}
       var o=objectsFrom(r).map(function(x){return x.data||x}).filter(function(x){return x&&x.gid})[0];
       if(o){a.project_name=o.name||"";a.verified=true;vf("asana","ok","Verified: "+(o.name||gid)+".");}else{a.verified=false;vf("asana","warn","Asana answered but did not return this project. Check that you are a member of it.");}}
     catch(e){a.verified=false;vf("asana","warn","Could not check with Asana: "+((e&&e.message)||"call failed")+". The link is saved.");}}
-  async function verifySharePoint(d){var s=d.sources.sharepoint;var u=(s.status_folder_web_url||"").trim();if(!u){vf("sharepoint","","Optional now. Decks are uploaded here and the previous deck is read from here.");s.verified=null;return;}
+  async function verifySharePoint(d){var s=d.sources.sharepoint;var ss=$("src-sharepoint-sel");
+    if(ss&&!ss.hidden){if(s.status_folder_item_id){vf("sharepoint","ok","Selected: "+s.label+".");}else{vf("sharepoint","",(PICK.sharepoint&&PICK.sharepoint.length?PICK.sharepoint.length+" status folders you can open. ":"")+"Type the client name above to narrow the list.");}return;}
+    var u=(s.status_folder_web_url||"").trim();if(!u){vf("sharepoint","","Optional now. Decks are uploaded here and the previous deck is read from here.");s.verified=null;return;}
     if(!/^https:\/\/[^\/]+\.sharepoint\.com\//i.test(u)){vf("sharepoint","err","This is not a SharePoint link.");s.verified=false;return;}
     if(isShareLink(u)){s.verified=false;s.label=s.label||"";vf("sharepoint","warn","This is a sharing link, which cannot be matched to a folder. Open the folder in the browser and copy the address bar instead. The link is saved.");return;}
     s.label=labelFromUrl(u);var segs=spSegs(u);var name=segs[segs.length-1]||"";
@@ -945,25 +949,40 @@ body.drawer-open .hgrid #evCard{grid-column:2}
   var cfgEdit=null;
   function blankDoc(){return cfgToDoc();}
   function fld(id,label,val,ph,type,hint){return '<div class="field"><label for="'+id+'">'+esc(label)+'</label><input class="in'+(type==="date"?" date":"")+'" id="'+id+'" type="'+(type||"text")+'" value="'+esc(val||"")+'"'+(ph?' placeholder="'+esc(ph)+'"':'')+'>'+(hint?'<div class="hint">'+hint+'</div>':'')+'</div>';}
-  function pickRow(k,label,val,ph,hint){return '<div class="field"><label for="src-'+k+'">'+esc(label)+'</label><select class="in" id="src-'+k+'-sel" hidden><option value="">Choose…</option></select><input class="in" id="src-'+k+'" type="text" value="'+esc(val||"")+'" placeholder="'+esc(ph)+'"><div class="vf" id="vf-'+k+'"></div>'+(hint?'<div class="hint">'+hint+'</div>':'')+'</div>';}
-  var PICK={granola:null,harvest:null};
+  function pickRow(k,label,val,ph,hint){return '<div class="field"><label for="src-'+k+'">'+esc(label)+'</label><select class="in" id="src-'+k+'-sel" hidden><option value="">Choose…</option></select><input class="in" id="src-'+k+'" type="text" value="'+esc(val||"")+'" placeholder="'+esc(ph)+'"><div class="vf" id="vf-'+k+'"></div>'+(hint?'<div class="hint">'+hint+'</div>':'')+'<button class="plain" type="button" data-toggle="'+k+'" hidden style="font-size:11.5px;padding:0;margin-top:3px;text-align:left">Type or paste instead</button></div>';}
+  var PICK={granola:null,harvest:null,asana:null,sharepoint:null};
+  var STATUS_FOLDER="Status & Steer Co";
+  function pickerOptions(k,d){
+    if(k==="granola")return PICK.granola.map(function(o){return {id:String(o.id),label:o.title+(o.note_count!=null?" · "+o.note_count+" notes":""),title:o.title,n:o.note_count,client:"",code:"",url:""}});
+    if(k==="harvest")return PICK.harvest.map(function(o){return {id:String(o.id),label:(o.client_name?o.client_name+" · ":"")+o.name+(o.code?" ("+o.code+")":""),title:o.name,n:"",client:o.client_name||"",code:o.code||"",url:""}});
+    if(k==="asana")return PICK.asana.map(function(o){return {id:String(o.gid),label:o.name+(o.team&&o.team.name?" · "+o.team.name:""),title:o.name,n:"",client:"",code:"",url:o.permalink_url||("https://app.asana.com/0/"+o.gid+"/list")}});
+    if(k==="sharepoint"){var client=(d.client||"").trim().toLowerCase().split(/\s+/)[0]||"";var all=PICK.sharepoint.map(function(o){return {id:o.driveId+"|"+o.id,label:labelFromUrl(o.webUrl),title:labelFromUrl(o.webUrl),n:"",client:"",code:"",url:o.webUrl}});
+      var f=client?all.filter(function(o){return o.label.toLowerCase().indexOf(client)>=0}):all;return (f.length?f:all).sort(function(a,b){return a.label.localeCompare(b.label)});}
+    return [];
+  }
+  function pickerCurrent(k,d){var s=d.sources;if(k==="granola")return [s.granola.folder_id||"",s.granola.folder_name||""];if(k==="harvest")return [s.harvest.project_id!=null?String(s.harvest.project_id):"",s.harvest.project_name||s.harvest.project||""];if(k==="asana")return [s.asana.project_gid||"",s.asana.project_name||""];return [s.sharepoint.drive_id&&s.sharepoint.status_folder_item_id?s.sharepoint.drive_id+"|"+s.sharepoint.status_folder_item_id:"",s.sharepoint.label||""];}
+  var PLACE={granola:"Choose the Granola folder…",harvest:"Choose the Harvest project…",asana:"Choose the Asana project…",sharepoint:"Choose the Status & Steer Co folder…"};
+  function verifyOne(k,d){return k==="granola"?verifyGranola(d):k==="harvest"?verifyHarvest(d):k==="asana"?verifyAsana(d):verifySharePoint(d);}
   function fillPicker(k,d){
-    var sel=$("src-"+k+"-sel"),inp=$("src-"+k);if(!sel||!inp||!PICK[k])return;
-    var cur=k==="granola"?(d.sources.granola.folder_id||""):(d.sources.harvest.project_id!=null?String(d.sources.harvest.project_id):"");
-    var curName=k==="granola"?(d.sources.granola.folder_name||""):(d.sources.harvest.project_name||d.sources.harvest.project||"");
-    var opts='<option value="">'+(k==="granola"?"Choose the Granola folder…":"Choose the Harvest project…")+'</option>';
-    PICK[k].forEach(function(o){var id=String(k==="granola"?o.id:o.id),label=k==="granola"?(o.title+(o.note_count!=null?" · "+o.note_count+" notes":"")):((o.client_name?o.client_name+" · ":"")+o.name+(o.code?" ("+o.code+")":""));
-      var picked=cur?id===cur:(curName&&String(k==="granola"?o.title:o.name).toLowerCase()===curName.toLowerCase());
-      opts+='<option value="'+esc(id)+'"'+(picked?" selected":"")+' data-title="'+esc(k==="granola"?o.title:o.name)+'" data-n="'+esc(o.note_count==null?"":o.note_count)+'" data-client="'+esc(o.client_name||"")+'" data-code="'+esc(o.code||"")+'">'+esc(label)+'</option>';});
-    sel.innerHTML=opts;sel.hidden=false;inp.hidden=true;
-    if(!sel.dataset.wired){sel.dataset.wired="1";sel.addEventListener("change",function(){try{readForm(cfgEdit||(cfgEdit=blankDoc()),$("v-setup").hidden?"config":"setup");}catch(e){}if(k==="granola")verifyGranola(cfgEdit);else verifyHarvest(cfgEdit);});}
-    if(k==="granola")verifyGranola(d);else verifyHarvest(d);
+    var sel=$("src-"+k+"-sel"),inp=$("src-"+k),tog=document.querySelector('[data-toggle="'+k+'"]');if(!sel||!inp||!PICK[k])return;
+    if(sel.dataset.typing==="1")return;
+    var cur=pickerCurrent(k,d),curId=cur[0],curName=cur[1];
+    var opts='<option value="">'+PLACE[k]+'</option>';
+    pickerOptions(k,d).forEach(function(o){var picked=curId?o.id===curId:(curName&&o.title.toLowerCase()===curName.toLowerCase());
+      opts+='<option value="'+esc(o.id)+'"'+(picked?" selected":"")+' data-title="'+esc(o.title)+'" data-n="'+esc(o.n==null?"":o.n)+'" data-client="'+esc(o.client)+'" data-code="'+esc(o.code)+'" data-url="'+esc(o.url)+'">'+esc(o.label)+'</option>';});
+    sel.innerHTML=opts;sel.hidden=false;inp.hidden=true;if(tog){tog.hidden=false;tog.textContent="Type or paste instead";}
+    if(!sel.dataset.wired){sel.dataset.wired="1";
+      sel.addEventListener("change",function(){try{readForm(cfgEdit||(cfgEdit=blankDoc()),$("v-setup").hidden?"config":"setup");}catch(e){}verifyOne(k,cfgEdit);});
+      if(tog)tog.addEventListener("click",function(){var typing=sel.dataset.typing==="1";sel.dataset.typing=typing?"":"1";sel.hidden=!typing;inp.hidden=typing;tog.textContent=typing?"Type or paste instead":"Choose from the list instead";if(!typing){inp.focus();}else{fillPicker(k,cfgEdit||blankDoc());}});}
+    verifyOne(k,d);
   }
   async function loadPickers(d){
     if(!mcp)return;d=d||cfgEdit||blankDoc();
     if(!PICK.granola&&connected(CFG.granola)){try{var r=await mcp.callTool(CFG.granola,"list_meeting_folders",{},{cache:true});var all=[];objectsFrom(r).forEach(function(x){if(Array.isArray(x.folders))all=all.concat(x.folders);else if(x.title&&x.id)all.push(x);});PICK.granola=all.sort(function(a,b){return String(a.title).localeCompare(String(b.title))||(b.note_count||0)-(a.note_count||0)});}catch(e){}}
     if(!PICK.harvest&&connected(CFG.harvest)){try{var r2=await mcp.callTool(CFG.harvest,"list_projects",{is_active:true},{cache:true});var all2=[];objectsFrom(r2).forEach(function(x){if(Array.isArray(x.projects))all2=all2.concat(x.projects);else if(x.name&&x.id)all2.push(x);});PICK.harvest=all2;}catch(e){}}
-    fillPicker("granola",d);fillPicker("harvest",d);
+    if(!PICK.asana&&connected(CFG.asana)){try{var r3=await mcp.callTool(CFG.asana,"asana_get_projects_for_workspace",{limit:100,archived:false,opt_fields:"name,team.name,permalink_url,modified_at"},{cache:true});var all3=[];objectsFrom(r3).forEach(function(x){if(Array.isArray(x.data))all3=all3.concat(x.data);else if(x.gid&&x.name)all3.push(x);});PICK.asana=all3.filter(function(o){return !/^\[(archive|retired)\]/i.test(o.name)}).sort(function(a,b){return String(a.name).localeCompare(String(b.name))});}catch(e){}}
+    if(!PICK.sharepoint&&connected(CFG.m365)){try{var acc=[],offset=0;for(var pg=0;pg<4;pg++){var r4=await mcp.callTool(CFG.m365,"sharepoint_folder_search",{name:STATUS_FOLDER,limit:50,offset:offset},{cache:true});var items=objectsFrom(r4);items.forEach(function(x){if(x&&x.webUrl&&x.driveId&&x.id)acc.push(x);});var more=items.filter(function(x){return x&&x.moreResults&&x.nextOffset!=null})[0];if(!more)break;offset=more.nextOffset;}PICK.sharepoint=acc;}catch(e){}}
+    fillPicker("granola",d);fillPicker("harvest",d);fillPicker("asana",d);fillPicker("sharepoint",d);
   }
   function srcRow(k,label,val,ph,hint){return '<div class="field"><label for="src-'+k+'">'+esc(label)+'</label><input class="in" id="src-'+k+'" type="text" value="'+esc(val||"")+'" placeholder="'+esc(ph)+'"><div class="vf" id="vf-'+k+'"></div>'+(hint?'<div class="hint">'+hint+'</div>':'')+'</div>';}
   function formHtml(d,mode){
@@ -975,8 +994,8 @@ body.drawer-open .hgrid #evCard{grid-column:2}
     if(!setup)h+='<div class="grid2" style="margin-top:10px">'+fld("f-reviewers","Reviewers (emails, comma separated)",(d.roles.reviewers||[]).join(", "),"who may approve client-facing values")+fld("f-members","Members (emails, comma separated)",(d.roles.members||[]).join(", "),"who is staffed and should be shared this page")+'</div>';
     h+='</div>';
     h+='<div class="hcard"><div class="ct"><h3>Sources</h3><span class="m">paste links · checked with your own connectors</span></div><div class="grid2">'+
-      srcRow("asana","Asana project link",d.sources.asana.project_url,"https://app.asana.com/…/project/…","Open the project in Asana and copy the address bar.")+
-      srcRow("sharepoint","SharePoint status folder link",d.sources.sharepoint.status_folder_web_url,"https://kartaconsultinggroup.sharepoint.com/sites/…/Status & Steer Co","Open the Status &amp; Steer Co folder in the browser and copy the address bar, not a Share link.")+
+      pickRow("asana","Asana project",d.sources.asana.project_url,"https://app.asana.com/…/project/…","Lists the Asana projects you can see; choose the engagement’s project. Or paste the project link.")+
+      pickRow("sharepoint","SharePoint status folder",d.sources.sharepoint.status_folder_web_url,"https://kartaconsultinggroup.sharepoint.com/sites/…/Status & Steer Co","Lists Status &amp; Steer Co folders you can open, filtered by the client name above. Or paste the folder’s browser address.")+
       pickRow("granola","Granola folder",d.sources.granola.folder_name,"Folder name in Granola","Loads your Granola folders when Granola is connected; choose the one for this engagement.")+
       pickRow("harvest","Harvest project",d.sources.harvest.project,"Project name in Harvest","Lists the Harvest projects you are assigned to; choose the one for this engagement.")+'</div>'+
       '<div class="row"><button class="btn out sm" type="button" id="btnVerify"'+(mcp?"":" disabled")+'>Check links</button><span class="sub" id="vfNote">'+(mcp?"Checks run as you through your connected Asana, Microsoft 365, Granola and Harvest.":((typeof claude!=="undefined"&&claude&&typeof claude.use==="function")?"Waiting for the Claude viewer to hand this page your connectors…":"Open this page in the Claude viewer to check links. Links can be saved unchecked."))+'</span></div>'+
@@ -1012,8 +1031,12 @@ body.drawer-open .hgrid #evCard{grid-column:2}
     if(mode!=="setup"){var split=function(v){return v.split(/[,;\s]+/).map(function(x){return x.trim()}).filter(Boolean)};d.roles={reviewers:split($("f-reviewers").value),members:split($("f-members").value)};}
     else{d.roles=d.roles||{reviewers:[],members:[]};if(d.owner.email&&d.roles.reviewers.indexOf(d.owner.email)<0)d.roles.reviewers.push(d.owner.email);if(d.owner.email&&d.roles.members.indexOf(d.owner.email)<0)d.roles.members.push(d.owner.email);}
     var a=d.sources.asana,sp=d.sources.sharepoint,g=d.sources.granola,hv=d.sources.harvest;
-    var au=$("src-asana").value.trim();if(au!==a.project_url){a.project_url=au;a.project_gid=asanaGid(au);a.project_name="";a.verified=null;}
-    var su=$("src-sharepoint").value.trim();if(su!==sp.status_folder_web_url){sp.status_folder_web_url=su;sp.drive_id="";sp.status_folder_item_id="";sp.label=labelFromUrl(su);sp.verified=null;}
+    var as=$("src-asana-sel");
+    if(as&&!as.hidden){var ao=as.options[as.selectedIndex];if(as.value){if(a.project_gid!==as.value){a.project_gid=as.value;a.project_name=ao.dataset.title||"";a.project_url=ao.dataset.url||"";a.verified=true;}}else{a.project_gid="";a.project_name="";a.project_url="";a.verified=null;}}
+    else{var au=$("src-asana").value.trim();if(au!==a.project_url){a.project_url=au;a.project_gid=asanaGid(au);a.project_name="";a.verified=null;}}
+    var ss=$("src-sharepoint-sel");
+    if(ss&&!ss.hidden){var so=ss.options[ss.selectedIndex];if(ss.value){var ids=ss.value.split("|");if(sp.drive_id+"|"+sp.status_folder_item_id!==ss.value){sp.drive_id=ids[0];sp.status_folder_item_id=ids[1];sp.status_folder_web_url=so.dataset.url||"";sp.label=so.dataset.title||"";sp.verified=true;}}else{sp.drive_id="";sp.status_folder_item_id="";sp.status_folder_web_url="";sp.label="";sp.verified=null;}}
+    else{var su=$("src-sharepoint").value.trim();if(su!==sp.status_folder_web_url){sp.status_folder_web_url=su;sp.drive_id="";sp.status_folder_item_id="";sp.label=labelFromUrl(su);sp.verified=null;}}
     var gs=$("src-granola-sel");
     if(gs&&!gs.hidden){var go=gs.options[gs.selectedIndex];if(gs.value){if(g.folder_id!==gs.value){g.folder_id=gs.value;g.folder_name=go.dataset.title||"";g.note_count=go.dataset.n===""?null:+go.dataset.n;g.verified=true;}}else{g.folder_id="";g.folder_name="";g.note_count=null;g.verified=null;}}
     else{var gq=$("src-granola").value.trim();if(gq!==g.folder_name){g.folder_name=gq;g.folder_id="";g.note_count=null;g.verified=null;}}
@@ -1033,6 +1056,7 @@ body.drawer-open .hgrid #evCard{grid-column:2}
     var root=$(mode==="setup"?"setupView":"cfgView");
     function working(){if(!cfgEdit)cfgEdit=blankDoc();return cfgEdit;}
     root.querySelectorAll("input,select").forEach(function(el){el.addEventListener("change",function(){try{readForm(working(),mode);}catch(e){}});});
+    $("f-client").addEventListener("input",function(){var d=working();d.client=$("f-client").value.trim();if(PICK.sharepoint)fillPicker("sharepoint",d);});
     $("btnVerify").addEventListener("click",async function(){var d=readForm(working(),mode);$("btnVerify").disabled=true;$("vfNote").textContent="Checking…";await verifyAll(d);$("vfNote").textContent="Checked. Save to keep the results.";$("btnVerify").disabled=!mcp;});
     $("btnCfgSave").addEventListener("click",async function(){var d=readForm(working(),mode);await saveConfig(d,$("cfgBy").value.trim(),mode);});
     var add=$("btnDlAdd");if(add)add.addEventListener("click",function(){var d=readForm(working(),mode);var cur=currentStage();d.deliverables[cur.id]=(d.deliverables[cur.id]||[]).concat([{name:"",state:"Not started"}]);renderCfgView();});
