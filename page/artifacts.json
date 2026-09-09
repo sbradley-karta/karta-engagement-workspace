@@ -45,6 +45,12 @@
       "title": "Karta Delivery Codebase Operating Model",
       "url": "https://claude.ai/code/artifact/31aed8f8-9e99-409d-8fbb-9242ca850387",
       "role": "reference, September 9, 2026: GitHub organization, change flow, roles, first-week checklist"
+    },
+    {
+      "file": "docs/architecture-explained.html",
+      "title": "Karta Engagement Workspace Architecture",
+      "url": "https://claude.ai/code/artifact/96b8b1f2-1a5a-43fa-9904-cc35ce0113cd",
+      "role": "stakeholder explainer, September 9, 2026: every tool and where it lives, a week of Weekly Status, where data lives, how changes ship, cost and ownership; slide version at docs/slides/engagement-workspace-architecture.pptx"
     }
   ]
 }

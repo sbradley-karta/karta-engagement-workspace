@@ -6,3 +6,4 @@ __pycache__/
 !assembler/karta_assembler/templates/*.pptx
 .DS_Store
 page/dist/
+!docs/slides/*.pptx

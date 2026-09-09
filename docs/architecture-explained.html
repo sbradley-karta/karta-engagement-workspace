@@ -1,0 +1,417 @@
+<title>Karta Engagement Workspace Architecture</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
+<style>
+:root{
+  --ground:#FAFAF9; --surface:#FFFFFF; --raise:#F5F4F2;
+  --ink:#113A2A; --text:#22302A; --muted:#6E6961; --faint:#979187;
+  --line:#E4E2DE; --line-strong:#C9C5BE;
+  --accent:#2A654E; --accent-2:#2A654E; --accent-soft:#EAF1ED; --on-accent:#FFFFFF;
+  --warn:#9A6B1F; --risk:#A63D30;
+  --sans:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#111213; --surface:#191B1C; --raise:#1F2122;
+  --ink:#F2F3F2; --text:#E4E7E5; --muted:#A2A7A3; --faint:#7E837F;
+  --line:#2C2F2E; --line-strong:#3C403E;
+  --accent:#2F6B4E; --accent-2:#6FB08D; --accent-soft:#18261F; --on-accent:#F2F3F2;
+  --warn:#D6A85B; --risk:#E0705F;
+}}
+:root[data-theme="dark"]{
+  --ground:#111213; --surface:#191B1C; --raise:#1F2122;
+  --ink:#F2F3F2; --text:#E4E7E5; --muted:#A2A7A3; --faint:#7E837F;
+  --line:#2C2F2E; --line-strong:#3C403E;
+  --accent:#2F6B4E; --accent-2:#6FB08D; --accent-soft:#18261F; --on-accent:#F2F3F2;
+  --warn:#D6A85B; --risk:#E0705F;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.6}
+.top{border-bottom:1px solid var(--line);background:var(--surface);height:56px;display:flex;align-items:center;gap:16px;padding:0 40px}
+.brand{font-weight:700;font-size:14px;letter-spacing:.055em;text-transform:uppercase;color:var(--ink)}
+.vr{width:1px;height:22px;background:var(--line-strong)}
+.dept{font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-2);font-weight:500}
+.top .r{margin-left:auto;font-size:12.5px;color:var(--muted)}
+.wrap{padding:32px 40px 72px}
+.lbl{font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+h1{font-weight:800;font-size:40px;line-height:1.05;letter-spacing:-.03em;color:var(--ink);margin:8px 0 12px;text-wrap:balance;max-width:1100px}
+.lede{font-size:17px;color:var(--muted);max-width:900px;margin:0}
+h2{font-weight:800;font-size:24px;letter-spacing:-.02em;color:var(--ink);margin:56px 0 6px;text-wrap:balance}
+h2 .n{font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:.08em;color:var(--accent-2);margin-right:14px;vertical-align:middle}
+p.intro{color:var(--muted);max-width:900px;margin:0 0 16px}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:26px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+.tile .lbl{display:block;margin-bottom:6px}
+.tile b{display:block;font-size:17px;font-weight:700;color:var(--ink);line-height:1.3;margin-bottom:6px;text-wrap:balance}
+.tile span{font-size:13.5px;color:var(--muted)}
+figure{margin:16px 0 0;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 18px 12px;overflow-x:auto}
+figure svg{display:block;width:100%;height:auto;min-width:1100px;color:var(--text);font-family:var(--sans)}
+figcaption{font-size:13.5px;color:var(--muted);margin-top:12px;max-width:1000px}
+svg text{fill:currentColor}
+svg .box{fill:var(--surface);stroke:var(--line-strong);stroke-width:1}
+svg .sub{fill:var(--raise);stroke:var(--line);stroke-width:1}
+svg .accbox{fill:var(--accent-soft);stroke:var(--accent-2);stroke-width:1.2}
+svg .accfill{fill:var(--accent-2)}
+svg .zone{fill:none;stroke:var(--line-strong);stroke-width:1;stroke-dasharray:3 4}
+svg .zone.karta{stroke:var(--accent-2);stroke-dasharray:6 5;stroke-width:1.2}
+svg .arrow{stroke:currentColor;stroke-width:1.4;fill:none}
+svg .arrow.acc{stroke:var(--accent-2);stroke-width:2}
+svg .dash{stroke-dasharray:5 4}
+svg .eyebrow{font-size:11px;font-weight:700;letter-spacing:.12em;fill:var(--faint)}
+svg .h{font-size:14px;font-weight:700;fill:var(--ink)}
+svg .t{font-size:12.5px}
+svg .s{font-size:11.5px;fill:var(--muted)}
+svg .mono{font-family:var(--mono);font-size:11px;fill:var(--muted)}
+svg .accent-t{fill:var(--accent-2);font-weight:600}
+svg .num{fill:var(--accent-2)}
+svg .numt{font-size:11px;font-weight:800;fill:var(--on-accent);text-anchor:middle}
+svg .plan{fill:var(--warn);font-weight:600}
+.legend{display:grid;grid-template-columns:repeat(3,1fr);gap:10px 28px;margin-top:18px;padding:0;list-style:none;counter-reset:step}
+.legend li{display:flex;align-items:flex-start;gap:10px;font-size:13.5px;line-height:1.5;color:var(--text)}
+.legend li span{flex:1;min-width:0}
+.legend li::before{counter-increment:step;content:counter(step);flex:none;width:22px;height:22px;border-radius:50%;background:var(--accent);color:var(--on-accent);font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:2px}
+.legend b{color:var(--ink)}
+table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:16px}
+th{text-align:left;font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);padding:0 14px 10px 0;border-bottom:1px solid var(--line-strong)}
+td{vertical-align:top;padding:12px 14px 12px 0;border-bottom:1px solid var(--line)}
+td:first-child{font-weight:600;color:var(--ink);white-space:nowrap}
+.tw{overflow-x:auto}
+.tag{display:inline-block;font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:4px;vertical-align:middle}
+.tag.live{background:var(--accent-soft);color:var(--accent-2)}
+.tag.plan{background:var(--raise);color:var(--warn);border:1px solid var(--line)}
+.tag.none{background:var(--raise);color:var(--muted);border:1px solid var(--line)}
+.gloss{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:16px}
+.gloss div{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;font-size:13.5px}
+.gloss b{display:block;color:var(--ink);margin-bottom:4px}
+code{font-family:var(--mono);font-size:12.5px;background:var(--raise);border:1px solid var(--line);border-radius:4px;padding:1px 5px}
+.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted);max-width:1000px}
+@media (max-width:1100px){.three,.legend{grid-template-columns:1fr 1fr}.gloss{grid-template-columns:1fr 1fr}}
+@media (max-width:700px){.three,.legend,.gloss{grid-template-columns:1fr}.wrap{padding:24px 18px 56px}}
+</style>
+
+<div class="top">
+  <span class="brand">Karta Consulting Group</span><span class="vr"></span><span class="dept">Engagement Delivery</span>
+  <span class="r">Architecture · September 9, 2026 · for Will, Paul and the delivery team</span>
+</div>
+
+<div class="wrap">
+  <span class="lbl">Engagement Delivery Workspace</span>
+  <h1>What we are building, how it works, and where every piece lives</h1>
+  <p class="lede">Each Karta engagement gets a workspace page that reads the tools the team already uses, drafts the weekly client status with Claude, and hands a finished PowerPoint deck to a named person who approves it. This page walks through every tool involved, what Karta hosts, and where client information does and does not go.</p>
+
+  <div class="three">
+    <div class="tile"><span class="lbl">Where client data lives</span><b>Exactly where it lives today: Asana, SharePoint, Granola and Harvest.</b><span>The workspace reads them as the consultant who is looking, with that consultant's own access. It keeps only the status values a person approved.</span></div>
+    <div class="tile"><span class="lbl">What Karta hosts</span><b>Two things: the workspace pages in Karta's Claude account, and a deck builder on Google Cloud.</b><span>Spend to date on the cloud side is $0.36. Budget under $20 a month beyond the Claude seats the team already has.</span></div>
+    <div class="tile"><span class="lbl">What leaves Karta</span><b>Only a deck a named person approved, and only when that person chooses to send it.</b><span>Nothing is sent automatically. Missing evidence shows as Unknown, never as Green.</span></div>
+  </div>
+
+  <h2><span class="n">1.0</span>The big picture: every tool and where it lives</h2>
+  <p class="intro">Five places. Read left to right: the consultant's desk, Karta's Claude account, Karta's systems of record, the small amount Karta hosts itself, and the client. Green arrows carry the approved status; dashed lines are connections planned but not yet used.</p>
+  <figure>
+    <svg viewBox="0 0 1600 740" role="img" aria-label="Five zones left to right: the consultant's desk with a browser, Claude Desktop, PowerPoint, Outlook and Teams; Karta's Claude Team account with engagement workspace pages, the Claude model, connectors, and a page database; Karta's systems of record with Microsoft 365 including SharePoint, Entra ID, Outlook and Teams, plus Asana, Granola, Harvest and a planned RAID log; Karta-owned cloud with the Karta Assembly deck builder on Google Cloud Run, Secret Manager, and the GitHub organization; and the client, who receives the deck from a person. Numbered arrows show the consultant opening the page, the page reading sources as the consultant, Claude drafting on a click, the approval being recorded, approved values going to the deck builder and a deck coming back, the deck saved to SharePoint, a person sending it to the client, Entra sign-in protecting the deck builder, and GitHub deploying the service and publishing the pages.">
+      <defs>
+        <marker id="m" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker>
+        <marker id="ma" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="accfill" d="M0 0L10 5L0 10z"/></marker>
+      </defs>
+
+      <!-- zones -->
+      <rect class="zone" x="24" y="70" width="316" height="470" rx="12"/>
+      <text class="eyebrow" x="36" y="92">THE CONSULTANT'S DESK</text>
+      <rect class="zone karta" x="372" y="70" width="380" height="540" rx="12"/>
+      <text class="eyebrow" x="384" y="92">KARTA'S CLAUDE TEAM ACCOUNT · ANTHROPIC</text>
+      <rect class="zone" x="784" y="70" width="380" height="540" rx="12"/>
+      <text class="eyebrow" x="796" y="92">KARTA'S SYSTEMS OF RECORD</text>
+      <rect class="zone karta" x="1196" y="70" width="380" height="330" rx="12"/>
+      <text class="eyebrow" x="1208" y="92">KARTA-OWNED CLOUD</text>
+      <rect class="zone" x="1196" y="430" width="380" height="180" rx="12"/>
+      <text class="eyebrow" x="1208" y="452">THE CLIENT</text>
+
+      <!-- desk -->
+      <rect class="box" x="40" y="108" width="284" height="96" rx="8"/>
+      <text class="h" x="54" y="131">Browser · claude.ai</text>
+      <text class="s" x="54" y="149">The engagement workspace page: Home,</text>
+      <text class="s" x="54" y="164">Weekly Status, Ask Claude, Config.</text>
+      <text class="s" x="54" y="179">Signed in with the consultant's Karta seat.</text>
+      <rect class="box" x="40" y="220" width="284" height="80" rx="8"/>
+      <text class="h" x="54" y="243">Claude Desktop and Claude Code</text>
+      <text class="s" x="54" y="261">Karta skills and agent files for ad hoc work,</text>
+      <text class="s" x="54" y="276">using the same connectors and identity.</text>
+      <rect class="box" x="40" y="316" width="284" height="64" rx="8"/>
+      <text class="h" x="54" y="339">PowerPoint</text>
+      <text class="s" x="54" y="357">Opens the finished deck for a final read.</text>
+      <rect class="box" x="40" y="396" width="284" height="80" rx="8"/>
+      <text class="h" x="54" y="419">Outlook and Teams</text>
+      <text class="s" x="54" y="437">Where a person sends the deck to the client.</text>
+      <text class="s" x="54" y="452">The workspace never sends anything.</text>
+      <text class="s" x="40" y="520">Nothing is installed on the laptop. Everything runs</text>
+      <text class="s" x="40" y="535">in the browser or in the Claude app.</text>
+
+      <!-- claude account -->
+      <rect class="accbox" x="388" y="108" width="348" height="104" rx="8"/>
+      <text class="h" x="402" y="131">Engagement workspace pages</text>
+      <text class="s" x="402" y="149">One published page per engagement, shared only with</text>
+      <text class="s" x="402" y="164">the staffed team. Live today: Legend · Continuous Support.</text>
+      <text class="s" x="402" y="179">Blank template stood up in about ten minutes by the</text>
+      <text class="s" x="402" y="194">engagement owner, with links to the four sources.</text>
+      <rect class="box" x="388" y="230" width="348" height="74" rx="8"/>
+      <text class="h" x="402" y="253">Claude</text>
+      <text class="s" x="402" y="271">Drafts the narrative and suggests a status, only when</text>
+      <text class="s" x="402" y="286">a consultant clicks Draft. Runs on that consultant's seat.</text>
+      <rect class="box" x="388" y="322" width="348" height="150" rx="8"/>
+      <text class="h" x="402" y="345">Connectors</text>
+      <text class="s" x="402" y="362">Karta's claude.ai connections. Every call runs as the consultant.</text>
+      <rect class="sub" x="402" y="374" width="150" height="26" rx="5"/><text class="t" x="412" y="392">Asana</text>
+      <rect class="sub" x="562" y="374" width="160" height="26" rx="5"/><text class="t" x="572" y="392">Microsoft 365</text>
+      <rect class="sub" x="402" y="406" width="150" height="26" rx="5"/><text class="t" x="412" y="424">Granola</text>
+      <rect class="sub" x="562" y="406" width="160" height="26" rx="5"/><text class="t" x="572" y="424">Harvest</text>
+      <rect class="accbox" x="402" y="438" width="320" height="26" rx="5"/><text class="t accent-t" x="412" y="456">Karta Assembly</text><text class="s" x="530" y="456">Karta's own connector, org only</text>
+      <rect class="box" x="388" y="490" width="348" height="104" rx="8"/>
+      <text class="h" x="402" y="513">Page database</text>
+      <text class="s" x="402" y="531">Approved status records with the approver's name,</text>
+      <text class="s" x="402" y="546">the engagement configuration, and deck job history.</text>
+      <text class="s" x="402" y="561">Visible to anyone the page is shared with. Holds only</text>
+      <text class="s" x="402" y="576">values a person approved. No source documents.</text>
+
+      <!-- systems of record -->
+      <rect class="box" x="800" y="108" width="348" height="210" rx="8"/>
+      <text class="h" x="814" y="131">Microsoft 365 · Karta tenant</text>
+      <rect class="sub" x="814" y="144" width="320" height="36" rx="5"/>
+      <text class="t" x="824" y="160">SharePoint client project folders</text>
+      <text class="s" x="824" y="174">Status &amp; Steer Co: last deck read, new deck saved</text>
+      <rect class="sub" x="814" y="186" width="320" height="36" rx="5"/>
+      <text class="t" x="824" y="202">Entra ID</text>
+      <text class="s" x="824" y="216">Karta sign-in for the deck builder, once IT approves</text>
+      <rect class="sub dash" x="814" y="228" width="320" height="36" rx="5"/>
+      <text class="t" x="824" y="244">Outlook mail and calendar</text>
+      <text class="s plan" x="824" y="258">Planned: meeting and decision evidence</text>
+      <rect class="sub" x="814" y="270" width="320" height="36" rx="5"/>
+      <text class="t" x="824" y="286">Teams</text>
+      <text class="s" x="824" y="300">Used by people to send the deck. Not by the workspace.</text>
+      <rect class="box" x="800" y="334" width="348" height="60" rx="8"/>
+      <text class="h" x="814" y="357">Asana</text>
+      <text class="s" x="814" y="375">Projects, tasks and milestones. Read live, every open.</text>
+      <rect class="box" x="800" y="410" width="348" height="60" rx="8"/>
+      <text class="h" x="814" y="433">Granola</text>
+      <text class="s" x="814" y="451">Meeting notes. Folder linked today; <tspan class="plan">reads planned</tspan>.</text>
+      <rect class="box" x="800" y="486" width="348" height="60" rx="8"/>
+      <text class="h" x="814" y="509">Harvest</text>
+      <text class="s" x="814" y="527">Time and budget. Project linked today; <tspan class="plan">reads planned</tspan>.</text>
+      <rect class="box dash" x="800" y="562" width="348" height="36" rx="8"/>
+      <text class="t" x="814" y="586">RAID log <tspan class="plan">planned source</tspan> · today risks are typed by the reviewer</text>
+
+      <!-- karta cloud -->
+      <rect class="accbox" x="1212" y="108" width="348" height="110" rx="8"/>
+      <text class="h" x="1226" y="131">Karta Assembly · Google Cloud Run</text>
+      <text class="s" x="1226" y="149">The deck builder. Takes the approved values, fills the</text>
+      <text class="s" x="1226" y="164">KCG template, returns a PowerPoint file. Keeps nothing.</text>
+      <text class="s" x="1226" y="179">Runs only while building; scales to zero between decks.</text>
+      <text class="mono" x="1226" y="200">us-central1 · $0.36 spent to date</text>
+      <rect class="box" x="1212" y="234" width="348" height="52" rx="8"/>
+      <text class="h" x="1226" y="257">Secret Manager</text>
+      <text class="s" x="1226" y="274">Holds the service's sign-in secret. Never in code.</text>
+      <rect class="box" x="1212" y="302" width="348" height="84" rx="8"/>
+      <text class="h" x="1226" y="325">GitHub · Karta organization</text>
+      <text class="s" x="1226" y="343">Code, page sources, documentation and the decision</text>
+      <text class="s" x="1226" y="358">record. Private. Tests run on every change.</text>
+      <text class="s" x="1226" y="373">No client data, ever.</text>
+
+      <!-- client -->
+      <rect class="box" x="1212" y="468" width="348" height="120" rx="8"/>
+      <text class="h" x="1226" y="491">Client stakeholders</text>
+      <text class="s" x="1226" y="509">Receive the weekly status deck from a Karta person,</text>
+      <text class="s" x="1226" y="524">in Teams or email, the way they do today.</text>
+      <text class="s" x="1226" y="539">Nothing connects to the client's systems. The client</text>
+      <text class="s" x="1226" y="554">never sees the workspace, and software never sends.</text>
+
+      <!-- arrows: 1 open -->
+      <line class="arrow" x1="324" y1="156" x2="386" y2="156" marker-end="url(#m)"/>
+      <circle class="num" cx="355" cy="140" r="10"/><text class="numt" x="355" y="144">1</text>
+
+      <!-- 2 reads as the consultant: connectors -> sources -->
+      <line class="arrow" x1="736" y1="387" x2="798" y2="364" marker-end="url(#m)"/>
+      <line class="arrow" x1="736" y1="378" x2="798" y2="162" marker-end="url(#m)"/>
+      <line class="arrow dash" x1="736" y1="419" x2="798" y2="440" marker-end="url(#m)"/>
+      <line class="arrow dash" x1="736" y1="425" x2="798" y2="516" marker-end="url(#m)"/>
+      <line class="arrow dash" x1="736" y1="430" x2="798" y2="580" marker-end="url(#m)"/>
+      <line class="arrow dash" x1="736" y1="384" x2="798" y2="246" marker-end="url(#m)"/>
+      <circle class="num" cx="767" cy="330" r="10"/><text class="numt" x="767" y="334">2</text>
+
+      <!-- 3 draft on a click: pages <-> claude -->
+      <line class="arrow" x1="480" y1="212" x2="480" y2="228" marker-start="url(#m)" marker-end="url(#m)"/>
+      <circle class="num" cx="500" cy="220" r="10"/><text class="numt" x="500" y="224">3</text>
+
+      <!-- 4 approval recorded: pages -> database along the right edge -->
+      <path class="arrow acc" d="M736 190 H760 V540 H738" marker-end="url(#ma)"/>
+      <circle class="num" cx="760" cy="500" r="10"/><text class="numt" x="760" y="504">4</text>
+
+      <!-- 5 approved values -> deck builder and back, below the zones -->
+      <path class="arrow acc" d="M560 594 V650 H1180 V160 H1210" marker-start="url(#ma)" marker-end="url(#ma)"/>
+      <circle class="num" cx="880" cy="650" r="10"/><text class="numt" x="880" y="654">5</text>
+      <text class="s accent-t" x="898" y="668">approved values go out, a finished deck comes back · about 750 KB</text>
+
+      <!-- 6 deck saved to SharePoint as the consultant -->
+      <line class="arrow acc" x1="1210" y1="150" x2="1150" y2="160" marker-end="url(#ma)"/>
+      <circle class="num" cx="1180" cy="138" r="10"/><text class="numt" x="1180" y="142">6</text>
+
+      <!-- 7 a person sends it -->
+      <path class="arrow" d="M324 456 V700 H1386 V590" marker-end="url(#m)"/>
+      <circle class="num" cx="880" cy="700" r="10"/><text class="numt" x="880" y="704">7</text>
+      <text class="s" x="898" y="718">a Karta person opens the deck in PowerPoint and sends it, by choice</text>
+
+      <!-- 8 sign-in protects the deck builder -->
+      <line class="arrow" x1="1150" y1="204" x2="1210" y2="198" marker-end="url(#m)"/>
+      <circle class="num" cx="1180" cy="216" r="10"/><text class="numt" x="1180" y="220">8</text>
+
+      <!-- 9 GitHub deploys and publishes -->
+      <line class="arrow" x1="1386" y1="300" x2="1386" y2="222" marker-end="url(#m)"/>
+      <path class="arrow" d="M1212 344 H1180 V44 H560 V106" marker-end="url(#m)"/>
+      <circle class="num" cx="880" cy="44" r="10"/><text class="numt" x="880" y="48">9</text>
+      <text class="s" x="898" y="36">GitHub publishes the pages and deploys the deck builder</text>
+    </svg>
+    <figcaption>Everything a consultant touches is on the left; everything the client sees is on the right; the only new things in between are the pages in Karta's Claude account and a small deck builder that Karta hosts. Every read of Asana, SharePoint, Granola or Harvest happens with the consultant's own access, so a person who is not staffed on an engagement sees nothing from it.</figcaption>
+  </figure>
+  <ol class="legend">
+    <li><span><b>Open the workspace.</b> A consultant opens their engagement's page in claude.ai. The first time, the page asks permission to use their connectors.</span></li>
+    <li><span><b>Read as the consultant.</b> The page reads the Asana project and the SharePoint status folder with that consultant's own access. Granola, Harvest, Outlook and a RAID log are linked or planned; their reads come later.</span></li>
+    <li><span><b>Draft on a click.</b> Claude writes the week's narrative from what was read and suggests Green, Yellow or Red. Dates and status colors are calculated by code, not by Claude.</span></li>
+    <li><span><b>Correct and approve under a name.</b> The consultant edits anything wrong and approves. The record, with their name and time, is saved in the page's database.</span></li>
+    <li><span><b>Build the deck.</b> The approved values go to Karta Assembly, which fills the KCG template and returns a PowerPoint file. It keeps nothing.</span></li>
+    <li><span><b>Save to SharePoint.</b> The deck lands in the engagement's Status &amp; Steer Co folder as the consultant. Until IT approves the sign-in, the page hands the file to the consultant to save instead.</span></li>
+    <li><span><b>A person sends it.</b> The consultant opens the deck in PowerPoint and sends it in Teams or email, as today. Software never sends.</span></li>
+    <li><span><b>Sign-in.</b> Microsoft Entra restricts the deck builder to Karta identities. One approval from IT is pending.</span></li>
+    <li><span><b>Ship changes.</b> Code lives in Karta's GitHub. From there the deck builder deploys to Google Cloud and the pages are published to claude.ai.</span></li>
+  </ol>
+
+  <h2><span class="n">2.0</span>A week of Weekly Status</h2>
+  <p class="intro">What actually happens on a Friday. Seven steps across four places. The consultant only reads, corrects, approves and sends. Code does the dates, the colors and the file; Claude drafts the words.</p>
+  <figure>
+    <svg viewBox="0 0 1600 440" role="img" aria-label="Swimlanes for the consultant, the workspace page, the deck builder and SharePoint. Steps: review sources, draft, correct, approve, build, save, send. Correct and approve sit inside a human approval gate.">
+      <defs>
+        <marker id="m2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker>
+        <marker id="ma2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="accfill" d="M0 0L10 5L0 10z"/></marker>
+      </defs>
+      <rect class="accbox dash" x="590" y="44" width="400" height="352" rx="10" style="fill-opacity:.55"/>
+      <text class="s accent-t" x="790" y="414" text-anchor="middle">Human approval gate · never skippable · a named person</text>
+      <g class="h">
+        <text x="290" y="30" text-anchor="middle">Review sources</text><text x="490" y="30" text-anchor="middle">Draft</text><text x="690" y="30" text-anchor="middle">Correct</text><text x="890" y="30" text-anchor="middle">Approve</text><text x="1090" y="30" text-anchor="middle">Build</text><text x="1290" y="30" text-anchor="middle">Save</text><text x="1490" y="30" text-anchor="middle">Send</text>
+      </g>
+      <line class="zone" x1="0" y1="134" x2="1600" y2="134"/><line class="zone" x1="0" y1="222" x2="1600" y2="222"/><line class="zone" x1="0" y1="310" x2="1600" y2="310"/>
+      <g class="eyebrow"><text x="16" y="94">CONSULTANT</text><text x="16" y="176">WORKSPACE</text><text x="16" y="190">PAGE</text><text x="16" y="264">DECK</text><text x="16" y="278">BUILDER</text><text x="16" y="352">SHAREPOINT</text></g>
+
+      <rect class="sub" x="200" y="146" width="180" height="64" rx="6"/>
+      <text class="t" x="210" y="164">Reads Asana and the last<tspan x="210" dy="14">deck as the consultant.</tspan><tspan x="210" dy="14">Shows what is missing.</tspan></text>
+      <rect class="sub" x="200" y="322" width="180" height="64" rx="6"/>
+      <text class="t" x="210" y="340">Milestones · last deck<tspan x="210" dy="14">Granola and Harvest</tspan><tspan x="210" dy="14">when their reads arrive</tspan></text>
+      <line class="arrow" x1="290" y1="322" x2="290" y2="212" marker-end="url(#m2)"/>
+
+      <rect class="sub" x="400" y="58" width="180" height="64" rx="6"/>
+      <text class="t" x="410" y="76">Clicks Draft.<tspan x="410" dy="14">One click, own seat.</tspan></text>
+      <rect class="sub" x="400" y="146" width="180" height="64" rx="6"/>
+      <text class="t" x="410" y="164">Claude drafts the words<tspan x="410" dy="14">and suggests a status.</tspan><tspan x="410" dy="14">Code sets dates and colors.</tspan></text>
+      <line class="arrow" x1="490" y1="122" x2="490" y2="144" marker-end="url(#m2)"/>
+
+      <rect class="accbox" x="600" y="58" width="180" height="64" rx="6"/>
+      <text class="t" x="610" y="76">Fixes what is wrong,<tspan x="610" dy="14">fills gaps, adds risks.</tspan><tspan x="610" dy="14">Sees what Claude changed.</tspan></text>
+      <rect class="sub" x="600" y="146" width="180" height="64" rx="6"/>
+      <text class="t" x="610" y="164">Editable page with the<tspan x="610" dy="14">evidence beside each value.</tspan><tspan x="610" dy="14">Unknown is never Green.</tspan></text>
+      <line class="arrow" x1="660" y1="144" x2="660" y2="124" marker-end="url(#m2)"/><line class="arrow" x1="720" y1="122" x2="720" y2="144" marker-end="url(#m2)"/>
+
+      <rect class="accbox" x="800" y="58" width="180" height="64" rx="6"/>
+      <text class="t" x="810" y="76">Approves under their<tspan x="810" dy="14">own name. Accountable</tspan><tspan x="810" dy="14">for what the client sees.</tspan></text>
+      <rect class="sub" x="800" y="146" width="180" height="64" rx="6"/>
+      <text class="t" x="810" y="164">Saves the approved values,<tspan x="810" dy="14">the approver, the time and</tspan><tspan x="810" dy="14">the sources, as a version.</tspan></text>
+      <line class="arrow acc" x1="890" y1="122" x2="890" y2="144" marker-end="url(#ma2)"/>
+
+      <rect class="sub" x="1000" y="146" width="180" height="64" rx="6"/>
+      <text class="t" x="1010" y="164">Sends the approved values<tspan x="1010" dy="14">to Karta Assembly.</tspan><tspan x="1010" dy="14">Gets a deck back.</tspan></text>
+      <rect class="sub" x="1000" y="234" width="180" height="64" rx="6"/>
+      <text class="t" x="1010" y="252">Fills the KCG template.<tspan x="1010" dy="14">Checks size. Keeps</tspan><tspan x="1010" dy="14">nothing afterwards.</tspan></text>
+      <line class="arrow acc" x1="1060" y1="210" x2="1060" y2="232" marker-end="url(#ma2)"/><line class="arrow acc" x1="1120" y1="234" x2="1120" y2="212" marker-end="url(#ma2)"/>
+
+      <rect class="sub" x="1200" y="146" width="180" height="64" rx="6"/>
+      <text class="t" x="1210" y="164">Saves the deck to the<tspan x="1210" dy="14">Status &amp; Steer Co folder</tspan><tspan x="1210" dy="14">as the consultant.</tspan></text>
+      <rect class="sub" x="1200" y="322" width="180" height="64" rx="6"/>
+      <text class="t" x="1210" y="340">KCG_Status Legend<tspan x="1210" dy="14">9-12-2026.pptx, named</tspan><tspan x="1210" dy="14">by the usual convention.</tspan></text>
+      <line class="arrow acc" x1="1290" y1="210" x2="1290" y2="320" marker-end="url(#ma2)"/>
+      <text class="s accent-t" x="1298" y="270">the one write</text>
+      <rect class="sub dash" x="1200" y="58" width="180" height="64" rx="6"/>
+      <text class="s" x="1210" y="76">Until IT approves sign-in:<tspan x="1210" dy="14">the file is handed to the</tspan><tspan x="1210" dy="14">consultant to save instead.</tspan></text>
+
+      <rect class="sub" x="1400" y="58" width="180" height="64" rx="6"/>
+      <text class="t" x="1410" y="76">Opens it in PowerPoint.<tspan x="1410" dy="14">Sends from Teams or</tspan><tspan x="1410" dy="14">Outlook, by choice.</tspan></text>
+      <rect class="sub" x="1400" y="146" width="180" height="64" rx="6"/>
+      <text class="t" x="1410" y="164">Shows the link and records<tspan x="1410" dy="14">the outcome. Never sends.</tspan></text>
+      <line class="arrow" x1="1490" y1="144" x2="1490" y2="124" marker-end="url(#m2)"/>
+    </svg>
+    <figcaption>Green arrows carry approved values or the finished file and only exist after the gate. The page also records how long approval took and how much of the draft was corrected, so we can tell whether the drafting is getting better.</figcaption>
+  </figure>
+
+  <h2><span class="n">3.0</span>Where information lives and who can see it</h2>
+  <p class="intro">The question a partner or a client will ask first. The short answer is that the workspace creates one new store, the page database, and it holds only what a person approved.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Place</th><th>What is there</th><th>Who can see it</th><th>Where it runs</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>Asana</td><td>Projects, tasks, milestones and dates</td><td>People on the project in Asana, as today</td><td>Asana, Karta workspace</td><td><span class="tag live">read live</span></td></tr>
+      <tr><td>SharePoint</td><td>Client project folders, including the Status &amp; Steer Co decks</td><td>People with access to the folder, as today</td><td>Microsoft 365, Karta tenant</td><td><span class="tag live">read live</span> <span class="tag plan">write after IT approval</span></td></tr>
+      <tr><td>Granola</td><td>Meeting notes by engagement folder</td><td>The note taker and whoever they share with</td><td>Granola</td><td><span class="tag plan">linked, reads planned</span></td></tr>
+      <tr><td>Harvest</td><td>Time, budget and assignments</td><td>People assigned to the project</td><td>Harvest</td><td><span class="tag plan">linked, reads planned</span></td></tr>
+      <tr><td>Outlook and Teams</td><td>Mail, calendar, chat</td><td>Each person's own</td><td>Microsoft 365, Karta tenant</td><td><span class="tag none">not read</span> <span class="tag plan">calendar evidence planned</span></td></tr>
+      <tr><td>Page database</td><td>Approved status values with approver and time; engagement configuration (links, dates, people); deck job history</td><td>Anyone the page is shared with, which is the staffed team</td><td>Karta's Claude Team account</td><td><span class="tag live">new, live</span></td></tr>
+      <tr><td>Claude</td><td>The text it is shown when a consultant clicks Draft or Ask</td><td>Processed under Karta's Claude Team agreement; the page stores only what a person approves</td><td>Anthropic</td><td><span class="tag live">on a click only</span></td></tr>
+      <tr><td>Karta Assembly</td><td>Approved values while a deck is being built, seconds at a time</td><td>Nobody; nothing is stored</td><td>Google Cloud Run, Karta project</td><td><span class="tag live">no data at rest</span></td></tr>
+      <tr><td>GitHub</td><td>Code, page sources, documentation, decisions</td><td>Karta members with access</td><td>GitHub, Karta organization</td><td><span class="tag none">no client data</span></td></tr>
+      <tr><td>Consultant's computer</td><td>The downloaded deck, in the interim mode only</td><td>The consultant</td><td>Their laptop</td><td><span class="tag plan">goes away after IT approval</span></td></tr>
+    </tbody>
+  </table></div>
+
+  <h2><span class="n">4.0</span>How we build and ship changes</h2>
+  <p class="intro">Everything Karta builds lives in a Karta-owned GitHub organization. A change is reviewed and tested before it reaches anyone, and it reaches people in one of three ways.</p>
+  <figure>
+    <svg viewBox="0 0 1600 210" role="img" aria-label="A change moves from a branch through a pull request with review and tests into main, and from main it is deployed to Google Cloud Run, published as an engagement page, or installed as a skill in members' Claude sessions.">
+      <defs><marker id="m3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker>
+      <marker id="ma3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="accfill" d="M0 0L10 5L0 10z"/></marker></defs>
+      <rect class="zone karta" x="20" y="20" width="900" height="170" rx="12"/>
+      <text class="eyebrow" x="34" y="42">KARTA GITHUB ORGANIZATION · PRIVATE</text>
+      <rect class="sub" x="40" y="70" width="180" height="70" rx="8"/><text class="h" x="52" y="93">A change</text><text class="s" x="52" y="111">on its own branch, by a person</text><text class="s" x="52" y="126">or a Claude Code session</text>
+      <line class="arrow" x1="220" y1="105" x2="258" y2="105" marker-end="url(#m3)"/>
+      <rect class="sub" x="260" y="70" width="200" height="70" rx="8"/><text class="h" x="272" y="93">Reviewed and tested</text><text class="s" x="272" y="111">a colleague reviews service code;</text><text class="s" x="272" y="126">automated tests must pass</text>
+      <line class="arrow" x1="460" y1="105" x2="498" y2="105" marker-end="url(#m3)"/>
+      <rect class="accbox" x="500" y="70" width="180" height="70" rx="8"/><text class="h" x="512" y="93">main</text><text class="s" x="512" y="111">always in a state we could ship</text><text class="s" x="512" y="126">tagged when members will notice</text>
+      <rect class="sub" x="700" y="70" width="200" height="70" rx="8"/><text class="h" x="712" y="93">Two repositories</text><text class="s" x="712" y="111">the workspace and service; the</text><text class="s" x="712" y="126">skills members install in Claude</text>
+      <path class="arrow acc" d="M680 90 H960 V60 H1038" marker-end="url(#ma3)"/>
+      <path class="arrow acc" d="M680 105 H1038" marker-end="url(#ma3)"/>
+      <path class="arrow acc" d="M680 120 H960 V150 H1038" marker-end="url(#ma3)"/>
+      <rect class="box" x="1040" y="36" width="520" height="44" rx="8"/><text class="h" x="1052" y="63">Deployed</text><text class="s" x="1140" y="63">the deck builder on Google Cloud Run, from main only</text>
+      <rect class="box" x="1040" y="84" width="520" height="44" rx="8"/><text class="h" x="1052" y="111">Published</text><text class="s" x="1140" y="111">an engagement page in claude.ai, by the product owner, never from a branch</text>
+      <rect class="box" x="1040" y="132" width="520" height="44" rx="8"/><text class="h" x="1052" y="159">Installed</text><text class="s" x="1140" y="159">skills and agent files in members' Claude sessions</text>
+    </svg>
+    <figcaption>The full operating model, with roles and the first-week checklist, is its own page: Karta Delivery Codebase Operating Model.</figcaption>
+  </figure>
+
+  <h2><span class="n">5.0</span>What it costs and who owns it</h2>
+  <div class="tw"><table>
+    <thead><tr><th>Component</th><th>Provider</th><th>Cost</th><th>Owner at Karta</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Claude Team seats</td><td>Anthropic</td><td>Existing</td><td>Sean</td><td>Pages, drafting and connectors all run on seats the team already has. Karta Assembly is registered as an organization connector.</td></tr>
+      <tr><td>Karta Assembly on Cloud Run</td><td>Google Cloud</td><td>Under $20 a month, expected near zero</td><td>Sean; Karta account approved September 9</td><td>$0.36 spent to date from a $300 credit. Scales to zero. Existing project transfers to the Karta account without a rebuild.</td></tr>
+      <tr><td>GitHub organization</td><td>GitHub</td><td>About $4 per user per month</td><td>Sean and one other owner; approved September 9</td><td>Private repositories, two-factor, secret scanning included.</td></tr>
+      <tr><td>Microsoft 365, Asana, Granola, Harvest</td><td>Existing subscriptions</td><td>No change</td><td>As today</td><td>Read through each consultant's own connection. One IT approval pending for the deck builder's sign-in.</td></tr>
+      <tr><td>Engagement workspace pages</td><td>Karta's Claude account</td><td>Included</td><td>Engagement owner per page; Sean as product owner</td><td>Stood up in about ten minutes from the blank template.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2><span class="n">6.0</span>Words used on this page</h2>
+  <div class="gloss">
+    <div><b>Connector</b>A permission a person grants once in claude.ai so Claude and the workspace can read a tool, such as Asana, on that person's behalf. Each person connects their own.</div>
+    <div><b>Engagement workspace page</b>A web page published from Karta's Claude account, one per engagement, that the staffed team opens in claude.ai. It is where Weekly Status happens.</div>
+    <div><b>Karta Assembly</b>Karta's own small service that turns approved values into a PowerPoint deck on the KCG template. It runs on Google Cloud and keeps nothing.</div>
+    <div><b>Entra ID</b>Microsoft's sign-in for the Karta tenant. Used so only Karta identities can call the deck builder, once IT approves the one-time request.</div>
+    <div><b>Cloud Run</b>Google's service for running a small program only when it is called. Karta pays for seconds of use, which is why the bill rounds to zero.</div>
+    <div><b>Approved values</b>The set of numbers, dates, statuses and sentences a named person approved for one week's status. The only thing that ever goes to the deck builder.</div>
+    <div><b>Page database</b>Storage attached to each workspace page, inside Karta's Claude account, holding approved records and the engagement's configuration.</div>
+    <div><b>GitHub</b>Where the code and documents that make all of this live, with a history of every change. Owned by Karta from the week of September 14.</div>
+  </div>
+
+  <div class="foot">
+    Companion pages: the September 4 build plan, the September 3 blueprint, and the Karta Delivery Codebase Operating Model. Source and history in the Karta repository under <code>docs/architecture-explained.html</code>. Facts on this page are as of September 9, 2026; the pending IT approval and the planned reads are marked as such.
+  </div>
+</div>
