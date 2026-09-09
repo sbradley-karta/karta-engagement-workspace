@@ -51,6 +51,12 @@
       "title": "Karta Engagement Workspace Architecture",
       "url": "https://claude.ai/code/artifact/96b8b1f2-1a5a-43fa-9904-cc35ce0113cd",
       "role": "stakeholder explainer, September 9, 2026: every tool and where it lives, a week of Weekly Status, where data lives, how changes ship, cost and ownership; slide version at docs/slides/engagement-workspace-architecture.pptx"
+    },
+    {
+      "file": "docs/engagement-workspace-showcase.html",
+      "title": "Engagement Workspace Showcase",
+      "url": "https://claude.ai/code/artifact/0c8f515a-de2c-40df-ba2d-f2e0523694a1",
+      "role": "status and showcase for Will and Paul, Friday September 12, 2026; plain language; links to the architecture and operating model pages as appendices"
     }
   ]
 }

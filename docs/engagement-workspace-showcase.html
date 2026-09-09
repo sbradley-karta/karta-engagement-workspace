@@ -1,0 +1,276 @@
+<title>Engagement Workspace Showcase</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
+<style>
+:root{
+  --ground:#FAFAF9; --surface:#FFFFFF; --raise:#F5F4F2;
+  --ink:#113A2A; --text:#22302A; --muted:#6E6961; --faint:#979187;
+  --line:#E4E2DE; --line-strong:#C9C5BE;
+  --accent:#2A654E; --accent-2:#2A654E; --accent-soft:#EAF1ED; --on-accent:#FFFFFF;
+  --warn:#9A6B1F; --risk:#A63D30;
+  --sans:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#111213; --surface:#191B1C; --raise:#1F2122;
+  --ink:#F2F3F2; --text:#E4E7E5; --muted:#A2A7A3; --faint:#7E837F;
+  --line:#2C2F2E; --line-strong:#3C403E;
+  --accent:#2F6B4E; --accent-2:#6FB08D; --accent-soft:#18261F; --on-accent:#F2F3F2;
+  --warn:#D6A85B; --risk:#E0705F;
+}}
+:root[data-theme="dark"]{
+  --ground:#111213; --surface:#191B1C; --raise:#1F2122;
+  --ink:#F2F3F2; --text:#E4E7E5; --muted:#A2A7A3; --faint:#7E837F;
+  --line:#2C2F2E; --line-strong:#3C403E;
+  --accent:#2F6B4E; --accent-2:#6FB08D; --accent-soft:#18261F; --on-accent:#F2F3F2;
+  --warn:#D6A85B; --risk:#E0705F;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.6}
+.top{border-bottom:1px solid var(--line);background:var(--surface);height:56px;display:flex;align-items:center;gap:16px;padding:0 40px}
+.brand{font-weight:700;font-size:14px;letter-spacing:.055em;text-transform:uppercase;color:var(--ink)}
+.vr{width:1px;height:22px;background:var(--line-strong)}
+.dept{font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-2);font-weight:500}
+.top .r{margin-left:auto;font-size:12.5px;color:var(--muted)}
+.wrap{padding:40px 40px 72px}
+.lbl{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+.hero{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:center}
+h1{font-weight:800;font-size:46px;line-height:1.02;letter-spacing:-.03em;color:var(--ink);margin:10px 0 16px;text-wrap:balance}
+.lede{font-size:18px;color:var(--muted);max-width:640px;margin:0 0 22px}
+.hero .facts{display:flex;gap:12px;flex-wrap:wrap}
+.fact{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 14px;font-size:13.5px}
+.fact b{display:block;font-size:20px;font-weight:800;color:var(--ink);letter-spacing:-.02em;line-height:1.1}
+.fact span{color:var(--muted)}
+h2{font-weight:800;font-size:28px;letter-spacing:-.025em;color:var(--ink);margin:64px 0 8px;text-wrap:balance}
+p.intro{color:var(--muted);max-width:820px;margin:0 0 20px;font-size:16.5px}
+.cols3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.cols5{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px 22px}
+.card h3{margin:0 0 8px;font-size:18px;font-weight:700;color:var(--ink);letter-spacing:-.015em}
+.card p{margin:0;font-size:14.5px;color:var(--muted)}
+.card .n{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:var(--accent);color:var(--on-accent);font-weight:800;font-size:13px;margin-bottom:12px}
+.card.rule{border-color:var(--accent-2);background:var(--accent-soft)}
+.card.rule h3{font-size:16.5px}
+figure{margin:18px 0 0;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 18px 12px;overflow-x:auto}
+figure svg{display:block;width:100%;height:auto;min-width:1000px;color:var(--text);font-family:var(--sans)}
+figcaption{font-size:13.5px;color:var(--muted);margin-top:12px;max-width:1000px}
+.hero figure svg{min-width:0}
+svg text{fill:currentColor}
+svg .shell{fill:var(--ground);stroke:var(--line-strong);stroke-width:1}
+svg .bar{fill:var(--surface);stroke:var(--line);stroke-width:1}
+svg .box{fill:var(--surface);stroke:var(--line);stroke-width:1}
+svg .sub{fill:var(--raise);stroke:var(--line);stroke-width:1}
+svg .accbox{fill:var(--accent-soft);stroke:var(--accent-2);stroke-width:1.2}
+svg .accfill{fill:var(--accent-2)}
+svg .now{fill:var(--accent);stroke:var(--accent)}
+svg .eyebrow{font-size:9.5px;font-weight:700;letter-spacing:.12em;fill:var(--faint)}
+svg .h{font-size:13px;font-weight:700;fill:var(--ink)}
+svg .h2{font-size:18px;font-weight:800;fill:var(--ink)}
+svg .t{font-size:11px}
+svg .s{font-size:10px;fill:var(--muted)}
+svg .on{fill:var(--on-accent)}
+svg .acc{fill:var(--accent-2);font-weight:600}
+svg .tag{fill:var(--accent-soft)} svg .tagt{font-size:9.5px;font-weight:700;fill:var(--accent-2)}
+svg .dot{fill:var(--risk)}
+svg .call{fill:var(--ink)} svg .callt{font-size:12px;font-weight:800;fill:var(--ground);text-anchor:middle}
+svg .callline{stroke:var(--ink);stroke-width:1.2;fill:none;stroke-dasharray:3 3}
+.gates{display:grid;grid-template-columns:repeat(8,1fr);gap:10px;margin-top:18px}
+.gate{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 14px 12px;min-height:150px;display:flex;flex-direction:column}
+.gate .g{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.06em;color:var(--accent-2)}
+.gate b{display:block;font-size:14px;color:var(--ink);margin:6px 0 6px;line-height:1.3}
+.gate p{margin:0;font-size:12.5px;color:var(--muted);flex:1}
+.gate .st{margin-top:10px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-2)}
+.gate.now{border-color:var(--accent-2);background:var(--accent-soft)}
+.gate.next{border-style:dashed}
+.gate.next .st{color:var(--faint)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.list{margin:0;padding:0;list-style:none}
+.list li{display:flex;gap:12px;padding:10px 0;border-top:1px solid var(--line);font-size:15px}
+.list li:first-child{border-top:0}
+.list li b{color:var(--ink);white-space:nowrap}
+table{width:100%;border-collapse:collapse;font-size:14.5px;margin-top:14px}
+th{text-align:left;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);padding:0 14px 10px 0;border-bottom:1px solid var(--line-strong)}
+td{vertical-align:top;padding:12px 14px 12px 0;border-bottom:1px solid var(--line)}
+td:first-child{font-weight:600;color:var(--ink);white-space:nowrap}
+.foot{margin-top:64px;padding-top:18px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);max-width:1000px}
+.foot a{color:var(--accent-2)}
+@media (max-width:1200px){.cols5{grid-template-columns:repeat(3,1fr)}.gates{grid-template-columns:repeat(4,1fr)}}
+@media (max-width:900px){.hero,.cols3,.two{grid-template-columns:1fr}.cols5{grid-template-columns:1fr 1fr}.gates{grid-template-columns:1fr 1fr}h1{font-size:36px}.wrap{padding:28px 20px 56px}}
+</style>
+
+<div class="top">
+  <span class="brand">Karta Consulting Group</span><span class="vr"></span><span class="dept">Engagement Delivery</span>
+  <span class="r">Status and showcase · Friday, September 12, 2026</span>
+</div>
+
+<div class="wrap">
+  <div class="hero">
+    <div>
+      <span class="lbl">Karta AI Engagement Workspace</span>
+      <h1>One workspace for every engagement, with AI built in and kept under control</h1>
+      <p class="lede">You have seen the pieces over the past weeks: the status console, the deck builder, the connections to Asana and SharePoint. This is those pieces working together as one place a project team opens every week. The first real one is running for Legend.</p>
+      <div class="facts">
+        <div class="fact"><b>Gates 0 to 6</b><span>closed on plan</span></div>
+        <div class="fact"><b>10 minutes</b><span>to stand up a new engagement</span></div>
+        <div class="fact"><b>1 approved status</b><span>Legend, September 9, deck built</span></div>
+        <div class="fact"><b>$0.36</b><span>cloud spend to date</span></div>
+      </div>
+    </div>
+    <figure style="margin:0">
+      <svg viewBox="0 0 900 520" role="img" aria-label="Simplified picture of the Karta AI Legend Workspace home screen: a left rail of areas and source chips, the seven-stage journey across the top, a Now panel, a Needs attention list and an Evidence and decisions list, with four callouts.">
+        <defs><marker id="c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker></defs>
+        <rect class="shell" x="10" y="10" width="880" height="500" rx="12"/>
+        <rect class="bar" x="10" y="10" width="880" height="44" rx="12"/>
+        <rect class="now" x="26" y="20" width="24" height="24" rx="5"/><text class="on" x="33" y="38" style="font-size:14px;font-weight:800">K</text>
+        <text class="h" x="62" y="37">Karta AI <tspan class="s" style="font-size:13px">Engagement Workspace</tspan></text>
+        <rect class="now" x="700" y="19" width="106" height="26" rx="13"/><text class="on" x="716" y="37" style="font-size:11px;font-weight:700">Ask Claude</text>
+        <!-- rail -->
+        <rect class="bar" x="10" y="54" width="92" height="456"/>
+        <g class="s" style="font-size:9px;font-weight:600">
+          <rect class="accbox" x="20" y="66" width="72" height="30" rx="6"/><text class="acc" x="40" y="85">Home</text>
+          <text x="24" y="122">Weekly status</text><text x="24" y="150">Milestones</text><text x="24" y="178">RAID</text><text x="24" y="206">Decisions</text><text x="24" y="234">Artifacts</text><text x="24" y="262">Catalog</text>
+          <text class="eyebrow" x="20" y="340">SOURCES</text>
+          <rect class="sub" x="20" y="348" width="72" height="16" rx="4"/><circle class="accfill" cx="28" cy="356" r="3"/><text x="35" y="360">Asana</text>
+          <rect class="sub" x="20" y="368" width="72" height="16" rx="4"/><circle class="accfill" cx="28" cy="376" r="3"/><text x="35" y="380">SharePoint</text>
+          <rect class="sub" x="20" y="388" width="72" height="16" rx="4"/><circle class="accfill" cx="28" cy="396" r="3"/><text x="35" y="400">Assembly</text>
+          <rect class="sub" x="20" y="408" width="72" height="16" rx="4"/><circle class="accfill" cx="28" cy="416" r="3"/><text x="35" y="420">Granola</text>
+          <rect class="sub" x="20" y="428" width="72" height="16" rx="4"/><circle class="accfill" cx="28" cy="436" r="3"/><text x="35" y="440">Harvest</text>
+          <rect class="sub" x="20" y="448" width="72" height="16" rx="4"/><circle class="dot" cx="28" cy="456" r="3"/><text x="35" y="460">RAID log</text>
+          <text x="30" y="500">Config</text>
+        </g>
+        <!-- headline -->
+        <text class="h2" x="118" y="86">Legend <tspan class="s" style="font-size:16px;font-weight:500">· Continuous Support</tspan></text>
+        <rect class="tag" x="640" y="70" width="236" height="20" rx="5"/><text class="tagt" x="650" y="84">Week in focus · September 7 to 11, 2026</text>
+        <!-- journey -->
+        <g class="t">
+          <rect class="box" x="118" y="102" width="102" height="34" rx="6"/><text class="h" x="126" y="117" style="font-size:10px">1 Project Planning</text><text class="s" x="126" y="130">dates not set</text>
+          <rect class="box" x="226" y="102" width="102" height="34" rx="6"/><text class="h" x="234" y="117" style="font-size:10px">2 Foundations</text><text class="s" x="234" y="130">dates not set</text>
+          <rect class="box" x="334" y="102" width="102" height="34" rx="6"/><text class="h" x="342" y="117" style="font-size:10px">3 Build</text><text class="s" x="342" y="130">dates not set</text>
+          <rect class="box" x="442" y="102" width="102" height="34" rx="6"/><text class="h" x="450" y="117" style="font-size:10px">4 Test</text><text class="s" x="450" y="130">dates not set</text>
+          <rect class="box" x="550" y="102" width="102" height="34" rx="6"/><text class="h" x="558" y="117" style="font-size:10px">5 Train</text><text class="s" x="558" y="130">dates not set</text>
+          <rect class="box" x="658" y="102" width="102" height="34" rx="6"/><text class="h" x="666" y="117" style="font-size:10px">6 Deploy</text><text class="s" x="666" y="130">dates not set</text>
+          <rect class="now" x="766" y="102" width="110" height="34" rx="6"/><text class="on" x="774" y="117" style="font-size:10px;font-weight:700">7 Continuous Support</text><text class="on" x="774" y="130" style="font-size:9.5px">current</text>
+        </g>
+        <!-- now panel -->
+        <rect class="box" x="118" y="148" width="356" height="350" rx="8"/>
+        <text class="h" x="130" y="170">Now in Continuous Support</text>
+        <text class="s" x="130" y="188">Transfer operational ownership and turn recurring</text><text class="s" x="130" y="201">evidence into improvements.</text>
+        <rect class="accbox" x="130" y="212" width="332" height="44" rx="6"/><text class="eyebrow" x="140" y="228">NEXT CONTROL POINT</text><text class="s" x="140" y="246">Monthly support review · set by the engagement owner</text>
+        <text class="eyebrow" x="130" y="282">RECOMMENDED NOW</text>
+        <rect class="sub" x="130" y="292" width="332" height="30" rx="6"/><text class="t" x="140" y="311">Create weekly status</text><rect class="now" x="404" y="298" width="50" height="18" rx="9"/><text class="on" x="416" y="311" style="font-size:9.5px;font-weight:700">Start</text>
+        <rect class="sub" x="130" y="328" width="332" height="30" rx="6"/><text class="t" x="140" y="347">Capture meeting outcomes</text><text class="s" x="384" y="347">Experimental</text>
+        <rect class="sub" x="130" y="364" width="332" height="30" rx="6"/><text class="t" x="140" y="383">Onboarding brief</text><text class="s" x="384" y="383">Experimental</text>
+        <!-- attention -->
+        <rect class="box" x="486" y="148" width="190" height="350" rx="8"/>
+        <text class="h" x="498" y="170">Needs attention</text>
+        <g class="s"><circle class="dot" cx="502" cy="196" r="3"/><text class="t" x="510" y="199">Milestones past date</text><text x="510" y="212">no new date approved</text>
+        <circle class="dot" cx="502" cy="232" r="3"/><text class="t" x="510" y="235">High priority items</text><text x="510" y="248">open in the RAID list</text>
+        <text class="t" x="498" y="274">Source gap: RAID log</text><text x="498" y="287">entered by the reviewer</text>
+        <text class="t" x="498" y="313">Stage dates not set</text><text x="498" y="326">set them in Config</text></g>
+        <!-- evidence -->
+        <rect class="box" x="688" y="148" width="188" height="350" rx="8"/>
+        <text class="h" x="700" y="170">Evidence and decisions</text>
+        <g class="s"><text class="t" x="700" y="199">Weekly status v1 approved</text><text x="700" y="212">Sep 9 · Sean</text><rect class="tag" x="808" y="190" width="60" height="16" rx="4"/><text class="tagt" x="815" y="202">Approved</text>
+        <text class="t" x="700" y="238">KCG_Status Legend 9-9-2026</text><text x="700" y="251">built Sep 9 · saved</text><rect class="tag" x="826" y="229" width="42" height="16" rx="4"/><text class="tagt" x="836" y="241">Deck</text>
+        <text class="t" x="700" y="277">Milestone completed</text><text x="700" y="290">Jul 8 · Asana</text><rect class="tag" x="808" y="268" width="60" height="16" rx="4"/><text class="tagt" x="812" y="280">Complete</text></g>
+        <!-- callouts -->
+        <circle class="call" cx="440" cy="102" r="11"/><text class="callt" x="440" y="106">A</text>
+        <circle class="call" cx="118" cy="148" r="11"/><text class="callt" x="118" y="152">B</text>
+        <circle class="call" cx="486" cy="148" r="11"/><text class="callt" x="486" y="152">C</text>
+        <circle class="call" cx="688" cy="148" r="11"/><text class="callt" x="688" y="152">D</text>
+        <circle class="call" cx="98" cy="356" r="11"/><text class="callt" x="98" y="360">E</text>
+      </svg>
+      <figcaption>Illustration of the Karta AI Legend Workspace home screen as it stood on September 9, simplified for readability. <b>A</b> the seven-stage Karta journey with the current stage marked. <b>B</b> where the project is and what to do next. <b>C</b> what needs attention, calculated from the sources. <b>D</b> what has been approved and produced. <b>E</b> the connected sources, each one reading as the person looking at the page.</figcaption>
+    </figure>
+  </div>
+
+  <h2>What is new</h2>
+  <p class="intro">Not another tool. A single place, per engagement, where the tools we already have meet a controlled use of AI. The team opens it, the week's evidence is already there, and every AI suggestion passes through a named person before it goes anywhere.</p>
+  <div class="cols3">
+    <div class="card"><h3>One place per engagement</h3><p>Every engagement gets its own workspace, stood up from a blank template in about ten minutes by the engagement owner: client and project names, and links to the Asana project, the SharePoint folder, the Granola folder and the Harvest project. Nothing is copied in. The workspace reads the originals.</p></div>
+    <div class="card"><h3>AI that works inside the rules</h3><p>Claude drafts the week's status from what the sources say, only when someone clicks Draft, and only on that person's seat. Dates, status colors and the deck itself are produced by code, not by the model. A named reviewer corrects and approves before anything is built.</p></div>
+    <div class="card"><h3>Built to repeat across projects</h3><p>The same workspace, the same rules and the same deck template for every engagement. A written stand-up process, an onboarding guide, and a second workspace already in the hands of two colleagues for a cold test.</p></div>
+  </div>
+
+  <h2>What happens on a Friday</h2>
+  <p class="intro">Five steps. The consultant reads, corrects, approves and sends. Everything else is done for them.</p>
+  <div class="cols5">
+    <div class="card"><span class="n">1</span><h3>Open</h3><p>Open the engagement's workspace. Asana and SharePoint are read as you, so you see what you are allowed to see.</p></div>
+    <div class="card"><span class="n">2</span><h3>Review</h3><p>Milestones, dates and last week's deck are already on screen, with anything missing called out.</p></div>
+    <div class="card"><span class="n">3</span><h3>Draft</h3><p>One click. Claude writes the accomplishments, plans and risks and suggests a status for each area.</p></div>
+    <div class="card"><span class="n">4</span><h3>Approve</h3><p>Fix what is wrong, then approve under your own name. The approved version is kept, with who and when.</p></div>
+    <div class="card"><span class="n">5</span><h3>Deck</h3><p>The KCG status deck is built from the approved values and lands in the Status &amp; Steer Co folder. You send it, as today.</p></div>
+  </div>
+
+  <h2>How we keep it under control</h2>
+  <p class="intro">These are the design, not the fine print. They are why this can be used on client work.</p>
+  <div class="cols5">
+    <div class="card rule"><h3>Reads as the person looking</h3><p>No shared logins. If you are not on the project in Asana or SharePoint, the workspace shows you nothing from it.</p></div>
+    <div class="card rule"><h3>A named person approves</h3><p>Every value that reaches a client was approved by someone who put their name on it. The AI never approves.</p></div>
+    <div class="card rule"><h3>Nothing is sent by software</h3><p>The workspace produces the deck. A person opens it and sends it. That does not change.</p></div>
+    <div class="card rule"><h3>Missing evidence is never Green</h3><p>If a source is missing or a date is unknown, the status says so. It cannot quietly default to good news.</p></div>
+    <div class="card rule"><h3>Client data stays put</h3><p>Nothing is copied into a new system. The only new record is the approved status, kept inside Karta's Claude account.</p></div>
+  </div>
+
+  <h2>Where we are</h2>
+  <p class="intro">Seven gates from the September 4 plan. Six are closed. Each one had to prove something before the next began.</p>
+  <div class="gates">
+    <div class="gate"><span class="g">GATE 0</span><b>Proof of concept</b><p>The first console read live Asana and SharePoint data as the viewer.</p><span class="st">Closed</span></div>
+    <div class="gate"><span class="g">GATE 1</span><b>Can a page call Karta's own service?</b><p>Yes. Measured the limits and picked the direct path.</p><span class="st">Closed</span></div>
+    <div class="gate"><span class="g">GATE 2</span><b>Fix the contracts</b><p>What an approved status contains, how a deck job is tracked, how an engagement is configured. Tested.</p><span class="st">Closed</span></div>
+    <div class="gate"><span class="g">GATE 3</span><b>Build the deck builder</b><p>Approved values in, KCG deck out, every time the same. 38 tests.</p><span class="st">Closed</span></div>
+    <div class="gate"><span class="g">GATE 4</span><b>Weekly Status end to end</b><p>Review, draft, approve, deck. First real deck built September 5.</p><span class="st">Closed</span></div>
+    <div class="gate"><span class="g">GATE 5</span><b>The home screen</b><p>Where are we, what needs attention, what next, what happened. Both themes, live data.</p><span class="st">Closed</span></div>
+    <div class="gate"><span class="g">GATE 6</span><b>Ready for a pilot</b><p>Blank template, ten-minute setup, stand-up process, onboarding guide. Legend live.</p><span class="st">Closed Sep 8</span></div>
+    <div class="gate now"><span class="g">GATE 7</span><b>Prove it, weekly</b><p>Weekly Status every week on two engagements for a month. First Legend status approved September 9.</p><span class="st">Now</span></div>
+  </div>
+
+  <h2>What is coming</h2>
+  <div class="two">
+    <div class="card">
+      <h3>The next four weeks</h3>
+      <ul class="list">
+        <li><b>Two engagements, weekly.</b> Legend plus the workspace the cold-test colleagues stand up. Every Friday, a status approved and a deck built.</li>
+        <li><b>Measured, not guessed.</b> The workspace records how long approval takes and how much of the draft was corrected. We will show you the trend, not an opinion.</li>
+        <li><b>Decks land in SharePoint on their own.</b> One IT approval away. Until then the workspace hands the file to the reviewer to save.</li>
+        <li><b>Cold-test findings folded in.</b> Whatever confused a colleague who had never seen it gets fixed before the next engagement.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>After that, on the same journey</h3>
+      <ul class="list">
+        <li><b>Sprint review preparation.</b> What will be shown, which requirements it covers, what evidence exists.</li>
+        <li><b>Meeting capture.</b> Workshop notes from Granola turned into actions and decisions the team can approve.</li>
+        <li><b>UAT preparation.</b> Approved requirements turned into test scripts.</li>
+        <li><b>Onboarding brief.</b> A new team member brought up to speed from the approved record, not from a folder hunt.</li>
+      </ul>
+      <p style="margin-top:12px;font-size:13.5px">Each arrives the same way Weekly Status did: built once, proven on a real engagement, then turned on for the others.</p>
+    </div>
+  </div>
+
+  <h2>What it costs, and what we need this month</h2>
+  <div class="two">
+    <div>
+      <table>
+        <thead><tr><th>Item</th><th>Cost</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Claude Team seats</td><td>Already in place</td><td>Pages, drafting and connections all run on existing seats</td></tr>
+          <tr><td>Deck builder on Google Cloud</td><td>$0.36 to date; under $20 a month budgeted</td><td>Karta account approved September 9; moving in the week of the 14th</td></tr>
+          <tr><td>Karta GitHub for the code</td><td>About $4 per person per month</td><td>Approved September 9; setting up with Marianna</td></tr>
+          <tr><td>Asana, Microsoft 365, Granola, Harvest</td><td>No change</td><td>Read through each person's existing access</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <h3>Three things that keep the month on track</h3>
+      <ul class="list">
+        <li><b>IT approval.</b> One consent request, submitted September 5, lets decks save to SharePoint automatically and lets new team members connect without a prompt. A follow-up note is ready to send.</li>
+        <li><b>The second engagement.</b> Name it, and the owner has a workspace the same day.</li>
+        <li><b>The name.</b> Karta AI Engagement Workspace for now. A final product name before anything reaches a client.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="foot">
+    For anyone who wants the mechanism: <a href="https://claude.ai/code/artifact/96b8b1f2-1a5a-43fa-9904-cc35ce0113cd">every tool and where it lives</a>, and <a href="https://claude.ai/code/artifact/31aed8f8-9e99-409d-8fbb-9242ca850387">how the code is organized and shipped</a>. Facts on this page are as of September 9, 2026. The home-screen picture is an illustration of the live Legend workspace, simplified; the demo shows the real thing.
+  </div>
+</div>
