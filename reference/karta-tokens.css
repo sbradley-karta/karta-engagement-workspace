@@ -1,0 +1,42 @@
+/* Karta Consulting Group — design tokens
+   Source: Karta Design System, claude.ai/design/p/e094fba9-877c-4944-8768-6c6463c0690e
+   Brand palette: San Felix #113A2A (primary/text) · Salem #2A654E (accent)
+                  Stone Wall #979187 (neutral) · White (dominant ground)
+   Brand rule: NO GRADIENTS. Type: Visby CF -> Manrope (Google Fonts substitute).
+   Extensions made here, flagged: (a) Stone Wall darkened to #6E6961 for secondary
+   TEXT only -- #979187 on white is ~3.1:1 and fails small-text contrast; Stone Wall
+   proper is retained for borders, labels and muted surfaces. (b) warn/risk semantics
+   added -- the brand defines no amber/red; these are muted to sit with the greens.
+   (c) dark-theme values derived from San Felix, since artifacts render in the
+   viewer's theme and the brand system is light-only. */
+:root{
+  --ground:#FAFAF9; --surface:#FFFFFF; --raise:#F5F4F2;
+  --ink:#113A2A; --muted:#6E6961; --faint:#979187;
+  --line:#E4E2DE; --line-strong:#C9C5BE;
+  --accent:#2A654E; --accent-soft:#EAF1ED;
+  --ok:#2A654E; --ok-soft:#EAF1ED;
+  --warn:#9A6B1F; --warn-soft:#F7F1E4;
+  --risk:#A63D30; --risk-soft:#F8ECEA;
+  --sans:"Manrope",system-ui,-apple-system,Segoe UI,sans-serif;
+  --display:"Manrope",system-ui,-apple-system,Segoe UI,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --r-control:6px; --r-card:12px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#0A1D15; --surface:#113A2A; --raise:#16452F;
+  --ink:#F1F0ED; --muted:#B3ADA2; --faint:#979187;
+  --line:#24503C; --line-strong:#356248;
+  --accent:#6FB08D; --accent-soft:#16452F;
+  --ok:#6FB08D; --ok-soft:#16452F;
+  --warn:#D6A85B; --warn-soft:#33280F;
+  --risk:#E08878; --risk-soft:#3A1D18;
+}}
+:root[data-theme="dark"]{
+  --ground:#0A1D15; --surface:#113A2A; --raise:#16452F;
+  --ink:#F1F0ED; --muted:#B3ADA2; --faint:#979187;
+  --line:#24503C; --line-strong:#356248;
+  --accent:#6FB08D; --accent-soft:#16452F;
+  --ok:#6FB08D; --ok-soft:#16452F;
+  --warn:#D6A85B; --warn-soft:#33280F;
+  --risk:#E08878; --risk-soft:#3A1D18;
+}

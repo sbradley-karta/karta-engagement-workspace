@@ -1,0 +1,516 @@
+<title>Engagement Workspace Build Plan</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
+<style>
+:root{
+  --ground:#FAFAF9; --surface:#FFFFFF; --raise:#F5F4F2;
+  --ink:#113A2A; --text:#22302A; --muted:#6E6961; --faint:#979187;
+  --line:#E4E2DE; --line-strong:#C9C5BE;
+  --accent:#2A654E; --accent-2:#2A654E; --accent-soft:#EAF1ED; --on-accent:#FFFFFF;
+  --warn:#9A6B1F; --warn-soft:#F7F1E4; --risk:#A63D30; --risk-soft:#F8ECEA;
+  --sans:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --r:8px; --r-lg:12px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#111213; --surface:#191B1C; --raise:#1F2122;
+  --ink:#F2F3F2; --text:#E4E7E5; --muted:#A2A7A3; --faint:#7E837F;
+  --line:#2C2F2E; --line-strong:#3C403E;
+  --accent:#2F6B4E; --accent-2:#6FB08D; --accent-soft:#18261F; --on-accent:#F2F3F2;
+  --warn:#D6A85B; --warn-soft:#33280F; --risk:#E0705F; --risk-soft:#3A1D18;
+}}
+:root[data-theme="dark"]{
+  --ground:#111213; --surface:#191B1C; --raise:#1F2122;
+  --ink:#F2F3F2; --text:#E4E7E5; --muted:#A2A7A3; --faint:#7E837F;
+  --line:#2C2F2E; --line-strong:#3C403E;
+  --accent:#2F6B4E; --accent-2:#6FB08D; --accent-soft:#18261F; --on-accent:#F2F3F2;
+  --warn:#D6A85B; --warn-soft:#33280F; --risk:#E0705F; --risk-soft:#3A1D18;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--text);font-family:var(--sans);font-size:14.5px;line-height:1.6;margin:0}
+a{color:var(--accent-2)}
+.top{border-bottom:1px solid var(--line);background:var(--surface);height:56px;display:flex;align-items:center;gap:16px;padding:0 28px}
+.brand{font-weight:700;font-size:14px;letter-spacing:.055em;text-transform:uppercase;color:var(--ink)}
+.vr{width:1px;height:22px;background:var(--line-strong)}
+.dept{font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-2);font-weight:500}
+.top .r{margin-left:auto;font-size:12.5px;color:var(--muted)}
+.wrap{max-width:1120px;margin:0 auto;padding:36px 28px 72px}
+.lbl{font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+h1{font-weight:800;font-size:38px;line-height:1.05;letter-spacing:-.03em;color:var(--ink);margin:8px 0 10px;text-wrap:balance}
+.lede{font-size:16.5px;color:var(--muted);max-width:720px;margin:0 0 18px}
+.meta{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-size:12.5px;color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:5px 11px}
+.chip.on{color:var(--accent-2);background:var(--accent-soft);border-color:transparent;font-weight:600}
+main{counter-reset:sec}
+section{margin-top:52px}
+section>h2{counter-increment:sec;font-weight:800;font-size:24px;letter-spacing:-.02em;color:var(--ink);margin:0 0 6px;display:flex;align-items:baseline;gap:14px;text-wrap:balance}
+section>h2::before{content:counter(sec) ".0";font-size:13px;font-weight:600;letter-spacing:.08em;color:var(--accent-2);font-family:var(--mono)}
+section>p.intro{color:var(--muted);max-width:720px;margin:0 0 20px}
+p{max-width:720px}
+figure{margin:20px 0 0;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:20px 18px 14px;overflow-x:auto}
+figure svg{display:block;width:100%;height:auto;min-width:760px;color:var(--text);font-family:var(--sans)}
+figcaption{font-size:13px;color:var(--muted);margin-top:12px;max-width:820px}
+svg text{fill:currentColor}
+svg .box{fill:var(--surface);stroke:var(--line-strong);stroke-width:1}
+svg .sub{fill:var(--raise);stroke:var(--line);stroke-width:1}
+svg .acc{stroke:var(--accent-2)}
+svg .accbox{fill:var(--accent-soft);stroke:var(--accent-2);stroke-width:1.2}
+svg .accfill{fill:var(--accent-2)}
+svg .arrow{stroke:currentColor;stroke-width:1.3;fill:none}
+svg .arrow.acc{stroke:var(--accent-2);stroke-width:1.8}
+svg .dash{stroke-dasharray:5 4}
+svg .eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;fill:var(--faint)}
+svg .h{font-size:13px;font-weight:700;fill:var(--ink)}
+svg .t{font-size:11.5px}
+svg .s{font-size:10.5px;fill:var(--muted)}
+svg .mono{font-family:var(--mono);font-size:10.5px;fill:var(--muted)}
+svg .accent-t{fill:var(--accent-2);font-weight:600}
+svg .bound{fill:none;stroke:var(--accent-2);stroke-width:1.2;stroke-dasharray:6 5}
+svg .lane{stroke:var(--line);stroke-width:1}
+table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:16px}
+th{text-align:left;font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);padding:0 12px 10px 0;border-bottom:1px solid var(--line-strong)}
+td{vertical-align:top;padding:11px 12px 11px 0;border-bottom:1px solid var(--line)}
+td:first-child{font-weight:600;color:var(--ink);white-space:nowrap}
+.tw{overflow-x:auto}
+.gates{display:flex;flex-direction:column;gap:14px;margin-top:18px}
+.gate{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:18px 20px}
+.gate.hi{border-color:var(--accent-2)}
+.gate .head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.gate .num{font-family:var(--mono);font-size:12px;color:var(--accent-2);font-weight:600;letter-spacing:.06em}
+.gate h3{margin:0;font-size:17px;font-weight:700;color:var(--ink)}
+.gate .when{margin-left:auto;font-size:12.5px;color:var(--muted)}
+.gate .cols{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:22px;margin-top:12px}
+.gate .cols h4{margin:0 0 6px;font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+.gate ul{margin:0;padding-left:16px;font-size:13.5px}
+.gate li{margin:3px 0}
+.gate li.you{color:var(--ink);font-weight:600}
+.callout{background:var(--raise);border:1px solid var(--line);border-radius:var(--r-lg);padding:16px 20px;margin-top:20px;max-width:820px}
+.callout .lbl{display:block;margin-bottom:6px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:16px}
+.two .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:16px 20px}
+.two h3{margin:0 0 8px;font-size:15px;font-weight:700;color:var(--ink)}
+.two ul{margin:0;padding-left:16px;font-size:13.5px}
+.two li{margin:4px 0}
+.tag{display:inline-block;font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:4px;margin-left:6px;vertical-align:middle}
+.tag.fact{background:var(--accent-soft);color:var(--accent-2)}
+.tag.assume{background:var(--warn-soft);color:var(--warn)}
+.tag.rec{background:var(--raise);color:var(--muted);border:1px solid var(--line)}
+.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted);max-width:820px}
+@media (max-width:820px){.gate .cols,.two{grid-template-columns:1fr}.gate .when{margin-left:0}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="top">
+  <span class="brand">Karta Consulting Group</span><span class="vr"></span><span class="dept">Engagement Delivery</span>
+  <span class="r">Build plan · September 4, 2026 · for Sean Bradley</span>
+</div>
+
+<div class="wrap">
+  <span class="lbl">Engagement Delivery Workspace</span>
+  <h1>How we build it, and what has to be true before each step</h1>
+  <p class="lede">The architecture is fixed. This page shows where each piece runs, how a weekly status deck moves from source data to SharePoint without the user touching a prompt, and the seven gates between here and a two-engagement pilot.</p>
+  <div class="meta">
+    <span class="chip on">Option A confirmed</span>
+    <span class="chip">Runtime 1 · artifact site per engagement</span>
+    <span class="chip">Runtime 2 · member Claude session</span>
+    <span class="chip">Assembly on Google Cloud Run</span>
+    <span class="chip">No local dependencies</span>
+  </div>
+
+<main>
+<section>
+  <h2>Where we start</h2>
+  <p class="intro">Everything below rests on things already verified, plus a small number of decisions you made this week.</p>
+  <div class="two">
+    <div class="card">
+      <h3>Verified <span class="tag fact">fact</span></h3>
+      <ul>
+        <li>The doTERRA console is live and reads Asana milestones and the latest status deck as the viewer.</li>
+        <li>A published page can call the Asana and Microsoft 365 connectors, draft with Claude, keep shared state, and hand a file to the viewer.</li>
+        <li>The Microsoft 365 connector can upload a file into a SharePoint folder as the viewer, capped at 1 MiB.</li>
+        <li>A page cannot run skills, plugins, or agent files, cannot fetch external URLs, and cannot be embedded in Teams.</li>
+        <li>The existing deck skill has three confirmed mechanical bugs and wrong status colors. Its content rules are sound.</li>
+        <li>Full status decks are around 8 MB before optimization.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Decided this week <span class="tag fact">decision</span></h3>
+      <ul>
+        <li>Two runtimes. The engagement site for delivery work, the member's Claude session for skills and plugins.</li>
+        <li>Deck assembly is a hosted pure function on Google Cloud Run, exposed as a Karta custom connector. You are setting up the account.</li>
+        <li>The page saves the finished deck into the engagement's SharePoint folder through the viewer's own connector. That is the only write we make.</li>
+        <li>No dependency on any laptop or on the Microsoft tenant admin.</li>
+        <li>A Claude cloud routine is the documented fallback, evaluated and declined as the interim path.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Architecture</h2>
+  <p class="intro">One member, two runtimes, one set of connectors that always act as that member, and a single assembly service that never sees a credential.</p>
+  <figure>
+    <svg viewBox="0 0 1120 640" role="img" aria-label="Architecture: a Karta team member uses an engagement artifact site and a Claude session. The site reads source systems through claude.ai connectors as the viewer, drafts with Claude on the viewer's seat, sends approved values to the Karta assembly service on Cloud Run, and uploads the returned deck to SharePoint through the viewer's Microsoft 365 connector.">
+      <defs>
+        <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker>
+        <marker id="ara" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="accfill" d="M0 0L10 5L0 10z"/></marker>
+      </defs>
+
+      <!-- member -->
+      <rect class="box" x="50" y="28" width="290" height="52" rx="8"/>
+      <text class="h" x="64" y="51">Karta project team member</text>
+      <text class="s" x="64" y="68">Claude Team seat · connectors authorized once · plugin installed</text>
+      <line class="arrow" x1="195" y1="80" x2="195" y2="104" marker-end="url(#ar)"/>
+      <path class="arrow" d="M50 54 H24 V535 H48" marker-end="url(#ar)"/>
+
+      <!-- engagement boundary -->
+      <rect class="bound" x="38" y="104" width="314" height="332" rx="12"/>
+      <text class="s accent-t" x="40" y="452">Engagement boundary · nothing crosses between engagements</text>
+
+      <!-- runtime 1 -->
+      <rect class="box" x="50" y="116" width="290" height="306" rx="10"/>
+      <text class="eyebrow" x="64" y="138">RUNTIME 1</text>
+      <text class="h" x="64" y="156">Engagement artifact site</text>
+      <rect class="sub" x="64" y="168" width="262" height="34" rx="6"/><text class="t" x="76" y="190">Methodology-led landing page</text>
+      <rect class="sub" x="64" y="210" width="262" height="34" rx="6"/><text class="t" x="76" y="232">Weekly Status</text><text class="s accent-t" x="228" y="232">approval gate</text>
+      <rect class="sub" x="64" y="252" width="262" height="34" rx="6"/><text class="t" x="76" y="274">Project Chat</text>
+      <rect class="sub" x="64" y="294" width="262" height="34" rx="6"/><text class="t" x="76" y="316">Engagement record</text><text class="mono" x="200" y="316">values · versions</text>
+      <text class="mono" x="64" y="356">capabilities: mcp · sample · db · downloads</text>
+      <text class="s" x="64" y="380">Reads as the viewer. Drafts on the viewer's seat,</text>
+      <text class="s" x="64" y="395">on an explicit click. Draft once, everyone reads.</text>
+
+      <!-- runtime 2 -->
+      <rect class="box" x="50" y="470" width="290" height="130" rx="10"/>
+      <text class="eyebrow" x="64" y="492">RUNTIME 2</text>
+      <text class="h" x="64" y="510">Member Claude session</text>
+      <rect class="sub" x="64" y="524" width="262" height="34" rx="6"/><text class="t" x="76" y="546">Karta delivery plugin</text>
+      <text class="s" x="64" y="580">skills · agent files · Office tooling · ad hoc capabilities</text>
+      <path class="arrow" d="M340 540 H455 V424" marker-end="url(#ar)"/>
+      <text class="s" x="352" y="558">same connectors, same identity</text>
+
+      <!-- connectors -->
+      <rect class="box" x="445" y="116" width="215" height="306" rx="10"/>
+      <text class="eyebrow" x="459" y="138">CLAUDE.AI CONNECTORS</text>
+      <text class="h" x="459" y="156">Called as the viewer</text>
+      <rect class="sub" x="459" y="168" width="187" height="32" rx="6"/><text class="t" x="471" y="189">Asana</text>
+      <rect class="sub" x="459" y="208" width="187" height="32" rx="6"/><text class="t" x="471" y="229">Microsoft 365</text>
+      <rect class="sub" x="459" y="248" width="187" height="32" rx="6"/><text class="t" x="471" y="269">Granola</text>
+      <rect class="sub" x="459" y="288" width="187" height="32" rx="6"/><text class="t" x="471" y="309">Harvest</text>
+      <rect class="accbox" x="459" y="340" width="187" height="40" rx="6"/>
+      <text class="t accent-t" x="471" y="357">Karta Assembly</text>
+      <text class="s" x="471" y="372">custom connector · org only</text>
+      <text class="s" x="459" y="406">Every call uses the viewer's own</text>
+      <text class="s" x="459" y="420">authorization. No service account.</text>
+
+      <!-- R1 -> connectors -->
+      <line class="arrow" x1="340" y1="230" x2="443" y2="230" marker-end="url(#ar)"/>
+      <text class="s" x="392" y="222" text-anchor="middle">reads (mcp)</text>
+      <line class="arrow acc" x1="340" y1="352" x2="443" y2="352" marker-end="url(#ara)"/>
+      <text class="s accent-t" x="392" y="344" text-anchor="middle">approved values</text>
+      <line class="arrow acc" x1="443" y1="372" x2="342" y2="372" marker-end="url(#ara)"/>
+      <text class="s accent-t" x="392" y="390" text-anchor="middle">deck bytes + manifest</text>
+
+      <!-- claude model -->
+      <rect class="box" x="470" y="470" width="190" height="56" rx="8"/>
+      <text class="h" x="484" y="493">Claude model</text>
+      <text class="s" x="484" y="511">viewer's seat · explicit click only</text>
+      <path class="arrow" d="M340 400 H400 V498 H468" marker-end="url(#ar)"/>
+      <text class="s" x="404" y="480">draft</text>
+      <text class="mono" x="404" y="494">(sample)</text>
+
+      <!-- fallback -->
+      <rect class="box dash" x="470" y="560" width="190" height="62" rx="8"/>
+      <text class="t" x="484" y="582">Fallback · cloud routine</text>
+      <text class="s" x="484" y="598">not built · runs as one person</text>
+      <text class="s" x="484" y="612">polls the record on a schedule</text>
+
+      <!-- sources -->
+      <rect class="box" x="790" y="116" width="300" height="200" rx="10"/>
+      <text class="eyebrow" x="804" y="138">SOURCE SYSTEMS</text>
+      <text class="h" x="804" y="156">Authoritative record of the project</text>
+      <text class="t" x="804" y="184">Asana project and milestones</text>
+      <text class="t" x="804" y="208">SharePoint engagement folder</text><text class="mono" x="990" y="208">Status &amp; Steer Co</text>
+      <text class="t" x="804" y="232">Outlook mail and calendar</text>
+      <text class="t" x="804" y="256">Granola meeting transcripts</text>
+      <text class="t" x="804" y="280">Harvest time and budget</text>
+      <text class="s" x="804" y="304">The workspace never becomes a competing source of truth.</text>
+
+      <!-- connectors -> sources -->
+      <line class="arrow" x1="660" y1="190" x2="788" y2="190" marker-end="url(#ar)"/>
+      <text class="s" x="724" y="182" text-anchor="middle">reads</text>
+      <line class="arrow acc" x1="660" y1="222" x2="788" y2="222" marker-end="url(#ara)"/>
+      <text class="s accent-t" x="724" y="214" text-anchor="middle">the one write</text>
+      <text class="s accent-t" x="724" y="238" text-anchor="middle">approved deck, under 1 MiB</text>
+
+      <!-- service -->
+      <rect class="box" x="790" y="350" width="300" height="190" rx="10"/>
+      <text class="eyebrow" x="804" y="372">KARTA ASSEMBLY SERVICE</text>
+      <text class="h" x="804" y="390">Google Cloud Run · pure function</text>
+      <text class="t" x="804" y="416">MCP server · sign-in restricted to kartacg.com</text>
+      <text class="t" x="804" y="440">Assembler library · approved values in, deck out</text>
+      <text class="t" x="804" y="464">KCG template bundled and validated at startup</text>
+      <text class="t" x="804" y="488">Image optimization and 1 MiB size budget</text>
+      <text class="s" x="804" y="514">No source-system credentials. No client data at rest.</text>
+      <path class="arrow acc" d="M660 360 H725 V430 H788" marker-end="url(#ara)"/>
+      <text class="s" x="733" y="402">OAuth</text>
+
+      <!-- repo -->
+      <rect class="box" x="790" y="574" width="300" height="44" rx="8"/>
+      <text class="t" x="804" y="601">Karta repository · CI builds, tests, deploys</text>
+      <line class="arrow" x1="940" y1="574" x2="940" y2="542" marker-end="url(#ar)"/>
+      <text class="s" x="950" y="562">deploys</text>
+    </svg>
+    <figcaption>Every arrow leaving the engagement site carries the viewer's identity. The assembly service is the only component Karta hosts, and it receives approved values and returns a file. The single write to a source system is the deck upload, and it goes through the viewer's own Microsoft 365 connector, not through the service.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <h2>How a weekly status deck gets made</h2>
+  <p class="intro">Seven steps, four places. The reviewer only ever clicks, reads, corrects, and approves. Code derives status and assembles the file. The model drafts prose and recommends. Nothing is sent.</p>
+  <figure>
+    <svg viewBox="0 0 1270 430" role="img" aria-label="Swimlane sequence for Weekly Status: Pull, Draft, Review, Approve, Produce, Save, Distribute, across the reviewer, the engagement site, the assembly service, and SharePoint. Review and Approve sit inside a human approval gate that cannot be skipped.">
+      <defs>
+        <marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker>
+        <marker id="ara2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="accfill" d="M0 0L10 5L0 10z"/></marker>
+      </defs>
+      <rect class="accbox dash" x="452" y="42" width="316" height="342" rx="10" style="fill-opacity:.55"/>
+      <text class="s accent-t" x="610" y="402" text-anchor="middle">Human approval gate · never skippable · named reviewer</text>
+      <g class="h">
+        <text x="215" y="30" text-anchor="middle">Pull</text><text x="375" y="30" text-anchor="middle">Draft</text><text x="535" y="30" text-anchor="middle">Review</text><text x="695" y="30" text-anchor="middle">Approve</text><text x="855" y="30" text-anchor="middle">Produce</text><text x="1015" y="30" text-anchor="middle">Save</text><text x="1175" y="30" text-anchor="middle">Distribute</text>
+      </g>
+      <line class="lane" x1="0" y1="130" x2="1270" y2="130"/>
+      <line class="lane" x1="0" y1="215" x2="1270" y2="215"/>
+      <line class="lane" x1="0" y1="300" x2="1270" y2="300"/>
+      <g class="eyebrow">
+        <text x="12" y="92">REVIEWER</text>
+        <text x="12" y="172">ENGAGEMENT</text><text x="12" y="186">SITE</text>
+        <text x="12" y="257">ASSEMBLY</text><text x="12" y="271">SERVICE</text>
+        <text x="12" y="342">SHAREPOINT</text>
+      </g>
+      <text class="s" x="12" y="356">viewer's connector</text>
+
+      <rect class="sub" x="140" y="141" width="150" height="62" rx="6"/>
+      <text class="t" x="150" y="158">Reads Asana, RAID and<tspan x="150" dy="13">SharePoint as the</tspan><tspan x="150" dy="13">viewer. Shows gaps.</tspan></text>
+      <rect class="sub" x="140" y="311" width="150" height="62" rx="6"/>
+      <text class="t" x="150" y="328">Asana · SharePoint<tspan x="150" dy="13">Granola · Harvest</tspan></text>
+      <line class="arrow" x1="215" y1="311" x2="215" y2="205" marker-end="url(#ar2)"/>
+
+      <rect class="sub" x="300" y="56" width="150" height="62" rx="6"/>
+      <text class="t" x="310" y="73">Clicks Draft.<tspan x="310" dy="13">One click, own seat.</tspan></text>
+      <rect class="sub" x="300" y="141" width="150" height="62" rx="6"/>
+      <text class="t" x="310" y="158">Claude drafts the<tspan x="310" dy="13">narrative, suggests</tspan><tspan x="310" dy="13">a status. Code does</tspan><tspan x="310" dy="13">dates and the rollup.</tspan></text>
+      <line class="arrow" x1="375" y1="118" x2="375" y2="139" marker-end="url(#ar2)"/>
+
+      <rect class="accbox" x="460" y="56" width="150" height="62" rx="6"/>
+      <text class="t" x="470" y="73">Corrects the draft,<tspan x="470" dy="13">resolves gaps and</tspan><tspan x="470" dy="13">confirms assumptions.</tspan></text>
+      <rect class="sub" x="460" y="141" width="150" height="62" rx="6"/>
+      <text class="t" x="470" y="158">Editable surface with<tspan x="470" dy="13">citations, evidence,</tspan><tspan x="470" dy="13">validation checks.</tspan></text>
+      <line class="arrow" x1="520" y1="139" x2="520" y2="120" marker-end="url(#ar2)"/>
+      <line class="arrow" x1="550" y1="118" x2="550" y2="139" marker-end="url(#ar2)"/>
+
+      <rect class="accbox" x="620" y="56" width="150" height="62" rx="6"/>
+      <text class="t" x="630" y="73">Named approval.<tspan x="630" dy="13">Takes responsibility</tspan><tspan x="630" dy="13">for client use.</tspan></text>
+      <rect class="sub" x="620" y="141" width="150" height="62" rx="6"/>
+      <text class="t" x="630" y="158">Records the approved<tspan x="630" dy="13">values, reviewer,</tspan><tspan x="630" dy="13">sources and version.</tspan></text>
+      <line class="arrow acc" x1="695" y1="118" x2="695" y2="139" marker-end="url(#ara2)"/>
+
+      <rect class="sub" x="780" y="141" width="150" height="62" rx="6"/>
+      <text class="t" x="790" y="158">Sends the approved<tspan x="790" dy="13">values. Receives deck</tspan><tspan x="790" dy="13">bytes and a manifest.</tspan></text>
+      <rect class="sub" x="780" y="226" width="150" height="62" rx="6"/>
+      <text class="t" x="790" y="243">Builds from the KCG<tspan x="790" dy="13">template. Optimizes,</tspan><tspan x="790" dy="13">checks 1 MiB. Tested.</tspan></text>
+      <line class="arrow acc" x1="840" y1="203" x2="840" y2="224" marker-end="url(#ara2)"/>
+      <line class="arrow acc" x1="870" y1="226" x2="870" y2="205" marker-end="url(#ara2)"/>
+
+      <rect class="sub" x="940" y="141" width="150" height="62" rx="6"/>
+      <text class="t" x="950" y="158">Uploads through the<tspan x="950" dy="13">viewer's Microsoft</tspan><tspan x="950" dy="13">365 connector.</tspan></text>
+      <rect class="sub" x="940" y="311" width="150" height="62" rx="6"/>
+      <text class="t" x="950" y="328">Saved in the Status &amp;<tspan x="950" dy="13">Steer Co folder,</tspan><tspan x="950" dy="13">named by convention.</tspan></text>
+      <line class="arrow acc" x1="1015" y1="203" x2="1015" y2="309" marker-end="url(#ara2)"/>
+      <text class="s accent-t" x="1023" y="262">the one write</text>
+
+      <rect class="sub" x="1100" y="56" width="150" height="62" rx="6"/>
+      <text class="t" x="1110" y="73">Opens the deck.<tspan x="1110" dy="13">Sends it from Outlook</tspan><tspan x="1110" dy="13">or Teams, by choice.</tspan></text>
+      <rect class="sub" x="1100" y="141" width="150" height="62" rx="6"/>
+      <text class="t" x="1110" y="158">Shows the link.<tspan x="1110" dy="13">Never sends. Model</tspan><tspan x="1110" dy="13">can't touch the file.</tspan></text>
+      <line class="arrow" x1="1175" y1="139" x2="1175" y2="120" marker-end="url(#ar2)"/>
+    </svg>
+    <figcaption>Green arrows carry approved values or the finished file and only exist after the gate. If a deck cannot be brought under 1 MiB, the Save step offers a signed download link instead and asks the user to save it to SharePoint. Everything else stays the same.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <h2>The gates</h2>
+  <p class="intro">Each gate has exit evidence. We do not start the next one on a hunch. Durations are estimates, marked as assumptions until the first two gates calibrate them.</p>
+  <div class="gates">
+
+    <div class="gate hi">
+      <div class="head"><span class="num">GATE 0</span><h3>Verify the proof of concept</h3><span class="when">Days 1 to 2</span></div>
+      <div class="cols">
+        <div><h4>Work</h4><ul>
+          <li>Walk the live doTERRA console in the viewer: Asana chip, last-deck chip, Draft consent, Finalize persistence, second open reads stored state.</li>
+          <li>Fix the SharePoint result parse against what actually arrives in the page.</li>
+          <li>Confirm the five phase dates against doTERRA's plan and record the source.</li>
+        </ul></div>
+        <div><h4>Exit evidence</h4><ul><li>Every chip populates from live data.</li><li>Draft returns usable JSON once, and a second viewer sees the same draft without a model call.</li></ul></div>
+        <div><h4>Depends on</h4><ul><li>Nothing. Starts now.</li></ul></div>
+      </div>
+    </div>
+
+    <div class="gate hi">
+      <div class="head"><span class="num">GATE 1</span><h3>Spike the custom connector</h3><span class="when">Days 2 to 4</span></div>
+      <div class="cols">
+        <div><h4>Work</h4><ul>
+          <li>Deploy a stub MCP server with two tools on a free host: one returns hello, one returns a base64 blob of a requested size.</li>
+          <li class="you">You register it as an org custom connector on the Karta Team account.</li>
+          <li>Publish a throwaway test page that declares it and calls both tools. Record the payload shape and the largest blob that arrives intact.</li>
+          <li>From the same page, upload a small real .pptx into a test SharePoint folder through the Microsoft 365 connector. Record the request and response.</li>
+        </ul></div>
+        <div><h4>Exit evidence</h4><ul><li>A written observation of both calls, with limits.</li><li>A go or no-go on the direct path. No-go means the cloud routine fallback becomes the Stage 1 assembler, by prior decision.</li></ul></div>
+        <div><h4>Depends on</h4><ul><li class="you">Your admin action to add the connector.</li><li>A free-tier host. No Cloud Run needed yet.</li></ul></div>
+      </div>
+    </div>
+
+    <div class="gate">
+      <div class="head"><span class="num">GATE 2</span><h3>Fix the contracts</h3><span class="when">Week 2</span></div>
+      <div class="cols">
+        <div><h4>Work</h4><ul>
+          <li>Approved-values schema, version 1. Period, milestones with original and new dates, derived status and variance, three assessments, activities, RAID, reviewer, timestamp, sources, version.</li>
+          <li>Deck job record with states Requested, Building, Built, Failed, plus link, size, hash, and a readable error.</li>
+          <li>Engagement configuration schema, replacing the hardcoded config in the console.</li>
+          <li>Deterministic status module with tests: milestone status, date variance, worst-of rollup, Unknown and Not assessed.</li>
+          <li>Karta repository laid out as assembler, server, page, and docs, with CI running the tests.</li>
+        </ul></div>
+        <div><h4>Exit evidence</h4><ul><li>Schemas reviewed by you.</li><li>Status tests pass on real doTERRA milestone data, including a missing-evidence case that yields Unknown.</li></ul></div>
+        <div><h4>Depends on</h4><ul><li>Gate 1 payload limits, which size the record.</li></ul></div>
+      </div>
+    </div>
+
+    <div class="gate">
+      <div class="head"><span class="num">GATE 3</span><h3>Build the assembly service</h3><span class="when">Weeks 2 to 4</span></div>
+      <div class="cols">
+        <div><h4>Work</h4><ul>
+          <li>Port the content rules from the existing skill. Reimplement the mechanics with tests, fixing the picture copy, the marker crash, the empty-list crash, and slide ordering.</li>
+          <li>Eyedropper the real template for status colors. Do not trust either existing constant table.</li>
+          <li>Bundle and validate the KCG template at startup. Compress images, strip unused layouts, enforce the 1 MiB budget, emit a manifest with a hash.</li>
+          <li>Golden-deck tests against a recent real deck.</li>
+          <li>Wrap as an MCP server with sign-in restricted to kartacg.com. Dockerfile, CI deploy to Cloud Run, secrets in Secret Manager.</li>
+          <li class="you">You register the production connector and name it. The display name is what the page calls.</li>
+        </ul></div>
+        <div><h4>Exit evidence</h4><ul><li>A deck built from a real approved record opens cleanly in PowerPoint and matches the golden deck.</li><li>Optimized size under 1 MiB, or the fallback link path proven.</li><li>An unauthenticated call is refused.</li></ul></div>
+        <div><h4>Depends on</h4><ul><li class="you">Cloud Run account.</li><li class="you">Identity provider choice.</li><li class="you">The KCG template file and one recent deck.</li><li>Ethan Sweeney on upstream fixes to the skill.</li></ul></div>
+      </div>
+    </div>
+
+    <div class="gate">
+      <div class="head"><span class="num">GATE 4</span><h3>Harden Weekly Status</h3><span class="when">Weeks 3 to 5</span></div>
+      <div class="cols">
+        <div><h4>Work</h4><ul>
+          <li>Four-step workflow: Review sources, Draft narrative, Approve, Generate deck.</li>
+          <li>Source freshness, milestone evidence, original and revised dates, variance, three assessments, activities, RAID, unresolved gaps, named approval.</li>
+          <li>Generate deck wired end to end: call the connector, upload as the viewer, show the link, write the job record. Plain-language errors with an owner.</li>
+          <li>Restate the page's full capability manifest with the Karta connector and the upload tool.</li>
+          <li>Light and charcoal modes, same hierarchy, same status language.</li>
+        </ul></div>
+        <div><h4>Exit evidence</h4><ul><li>A non-builder completes the workflow with no guidance and a deck lands in SharePoint.</li><li>Missing evidence shows Unknown, never Green.</li><li>Correction capture works: we can measure how much of the draft was changed.</li></ul></div>
+        <div><h4>Depends on</h4><ul><li>Gates 2 and 3. Screen work overlaps Gate 3 build time.</li></ul></div>
+      </div>
+    </div>
+
+    <div class="gate">
+      <div class="head"><span class="num">GATE 5</span><h3>Methodology-led landing page</h3><span class="when">Weeks 5 to 6</span></div>
+      <div class="cols">
+        <div><h4>Work</h4><ul>
+          <li>Design references first, in both modes, since the referenced mockups are not on disk. You approve before build.</li>
+          <li>Five-phase journey with dates from engagement configuration and visible freshness. Current-phase panel with recommended actions and deliverables.</li>
+          <li>Ask this project entry, prioritized insights, recent activity and approved artifacts, route to the full catalog.</li>
+          <li>Mockup Generator surfaced in Foundations with readiness shown.</li>
+        </ul></div>
+        <div><h4>Exit evidence</h4><ul><li>Landing page answers where we are, what needs attention, what to do next, what happened, from live data.</li><li>You sign off both modes.</li></ul></div>
+        <div><h4>Depends on</h4><ul><li class="you">Mockups, if they carry decisions not in the handover.</li><li>Gate 2 configuration schema.</li></ul></div>
+      </div>
+    </div>
+
+    <div class="gate">
+      <div class="head"><span class="num">GATE 6</span><h3>Pilot readiness</h3><span class="when">Week 7</span></div>
+      <div class="cols">
+        <div><h4>Work</h4><ul>
+          <li>Onboarding runbook per member: seat, four connector authorizations, plugin install, first open.</li>
+          <li>Engagement configuration and a published site for doTERRA and the second engagement.</li>
+          <li>Cross-engagement access tests for retrieval, storage, logs, and generated files.</li>
+          <li>Measurement capture: adoption, correction rate, time from retrieval to approved artifact, post-approval errors.</li>
+          <li>Support route, named capability owner, readiness tier set to Piloted.</li>
+        </ul></div>
+        <div><h4>Exit evidence</h4><ul><li>A member on one engagement cannot see the other, proven by test.</li><li>Both teams onboarded in under an hour each.</li></ul></div>
+        <div><h4>Depends on</h4><ul><li class="you">Second pilot engagement chosen.</li><li class="you">Plugin ownership named.</li></ul></div>
+      </div>
+    </div>
+
+    <div class="gate">
+      <div class="head"><span class="num">GATE 7</span><h3>Stage 1 Prove</h3><span class="when">Weeks 8 to 11</span></div>
+      <div class="cols">
+        <div><h4>Work</h4><ul>
+          <li>Weekly Status run every week on two engagements for three to four weeks.</li>
+          <li>Tune the drafting prompt against measured corrections, not taste.</li>
+          <li>Capture Foundations requirements from what actually repeats, ahead of Stage 2 Standardize.</li>
+        </ul></div>
+        <div><h4>Exit evidence</h4><ul><li>No critical factual, confidentiality, or approval error in a finalized deck.</li><li>Correction rate and time to approval improve across the pilot.</li><li>Repeat use without prompting from us.</li></ul></div>
+        <div><h4>Depends on</h4><ul><li>Gates 4 through 6.</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="lbl">Critical path</span>
+    Gate 1 decides the shape of everything after it, and it needs only your admin click and a free host. Gate 3 is the longest piece of engineering and is the only one waiting on the Cloud Run account. Gates 2, 4, and 5 can run alongside it. Nothing here waits on the Microsoft tenant admin.
+  </div>
+</section>
+
+<section>
+  <h2>What I need from you</h2>
+  <p class="intro">Each of these is on the path, and none can be done from this side.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Item</th><th>Why it matters</th><th>Needed by</th></tr></thead>
+    <tbody>
+      <tr><td>Register the stub connector</td><td>Gate 1 cannot run without an org custom connector. Team admin only.</td><td>Day 2</td></tr>
+      <tr><td>Google Cloud Run account</td><td>Hosts the assembly service. Needs a Karta-owned account and card. In progress.</td><td>Week 2</td></tr>
+      <tr><td>Identity provider decision</td><td>Restricts the service to Karta members. Auth0 or WorkOS on a free tier is the recommendation.</td><td>Week 2</td></tr>
+      <tr><td>KCG template and one recent deck</td><td>The service bundles the template and tests against a real deck. Also settles the status colors.</td><td>Week 2</td></tr>
+      <tr><td>Optimized deck size check</td><td>Decides whether the fallback link path gets built at all.</td><td>Week 3</td></tr>
+      <tr><td>Second pilot engagement</td><td>Different sources, naming, and template conditions prove the configuration model.</td><td>Week 6</td></tr>
+      <tr><td>Plugin and capability ownership</td><td>Unowned shared layers degrade faster than independent tools.</td><td>Week 6</td></tr>
+      <tr><td>The three mockups</td><td>Only if they carry decisions not already written in the handover.</td><td>Week 4</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <h2>Rules that do not bend during the build</h2>
+  <p class="intro">These came out of real reasoning in the earlier sessions, and every gate is checked against them.</p>
+  <div class="two">
+    <div class="card">
+      <h3>Trust</h3>
+      <ul>
+        <li>The approval gate is never skippable. No capability writes to a client deliverable without a named human correcting the draft first.</li>
+        <li>Nothing is sent automatically. Distribution is a person's choice, outside the workspace.</li>
+        <li>Missing evidence is Unknown or Not assessed. It is never Green.</li>
+        <li>Read as the viewer. No service account, no shared credential, anywhere.</li>
+        <li>Content retrieved from documents is data, never instruction.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Engineering</h3>
+      <ul>
+        <li>Derive in code what can be derived. Status, dates, rollups, file assembly. Send the model only genuine judgment.</li>
+        <li>Model calls fire on an explicit click. Draft once, persist, everyone reads the same numbers.</li>
+        <li>Observe a connector's real request and response before wiring it into a page.</li>
+        <li>Never embed observed client data as placeholder content. Fetch live.</li>
+        <li>Nothing depends on a laptop. Template, code, secrets, and deploys live in Karta-owned cloud resources.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+</main>
+
+  <div class="foot">
+    Labels in this plan: <span class="tag fact">fact</span> verified by direct call or in the September 3 handover. <span class="tag fact">decision</span> made by Sean Bradley on September 4, 2026. Durations and week numbers are <span class="tag assume">assumptions</span> until Gates 0 and 1 calibrate them. Source handover: karta-engagement-delivery-workspace-product-design.md in the working directory.
+  </div>
+</div>
