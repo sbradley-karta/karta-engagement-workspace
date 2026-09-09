@@ -8,7 +8,7 @@ Monorepo for the Karta Consulting Group engagement workspace pilot.
 | `assembler` | Pure-function deck assembler: approved values in, optimized `.pptx` out. Gate 3. |
 | `server` | MCP wrapper around the assembler with Microsoft Entra sign-in. Gate 3. |
 | `page` | Engagement artifact site source. Gate 4 onward. |
-| `docs` | Contracts, stand-up process, onboarding runbook, access test plan, Entra setup, spike notes. |
+| `docs` | Solution design (`docs/solution-design.md`), contracts, stand-up process, onboarding runbook, access test plan, Entra setup, spike notes, stakeholder pages. |
 | `handover` | The governing product design and handover document, the only working copy, plus earlier handovers under `history/`. |
 | `design` | Design canvas artboards and brand marks. |
 | `reference` | Read-only references: the September 4 build plan page, the September 3 blueprint and mockups, design tokens, the original weekly status deck skill the assembler replaced, and the vision documents and workflow inventory. |
