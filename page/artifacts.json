@@ -39,6 +39,12 @@
       "title": "Engagement Home",
       "url": "https://claude.ai/code/artifact/b6a922a7-3318-49fb-97c8-1367b1c2ace7",
       "role": "Gate 5 design directions"
+    },
+    {
+      "file": "docs/github-operating-model.html",
+      "title": "Karta Delivery Codebase Operating Model",
+      "url": "https://claude.ai/code/artifact/31aed8f8-9e99-409d-8fbb-9242ca850387",
+      "role": "reference, September 9, 2026: GitHub organization, change flow, roles, first-week checklist"
     }
   ]
 }
