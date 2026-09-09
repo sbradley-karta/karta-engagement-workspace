@@ -9,11 +9,11 @@ Monorepo for the Karta Consulting Group engagement workspace pilot.
 | `server` | MCP wrapper around the assembler with Microsoft Entra sign-in. Gate 3. |
 | `page` | Engagement artifact site source. Gate 4 onward. |
 | `docs` | Contracts, stand-up process, onboarding runbook, access test plan, Entra setup, spike notes. |
-| `handover` | The governing product design and handover document, plus earlier handovers under `history/`. Mirrored to OneDrive under Codex/Strategic Thought/deliverables/ai-strategy. |
+| `handover` | The governing product design and handover document, the only working copy, plus earlier handovers under `history/`. |
 | `design` | Design canvas artboards and brand marks. |
-| `reference` | Read-only references: the September 4 build plan page, the September 3 blueprint, design tokens, and the original weekly status deck skill the assembler replaced. |
+| `reference` | Read-only references: the September 4 build plan page, the September 3 blueprint and mockups, design tokens, the original weekly status deck skill the assembler replaced, and the vision documents and workflow inventory. |
 
-Governing document: `handover/karta-engagement-delivery-workspace-product-design.md` (Sean Bradley, September 2026). Update it and its OneDrive mirror together.
+Governing document: `handover/karta-engagement-delivery-workspace-product-design.md` (Sean Bradley, September 2026). This repository is self-contained: nothing in it depends on a file outside it, and nothing outside it is updated from it.
 
 Rules that do not bend: the approval gate is never skippable, nothing is sent automatically, read as the viewer, derive in code what can be derived, no local dependencies.
 
@@ -34,6 +34,6 @@ git push -u origin main
 
 Then move the CI secrets, if any, and retire the `legacy` remote with `git remote remove legacy`. The GitHub Actions workflow needs no change; it runs on push to any remote that hosts it.
 
-## Local layout
+## Publishing the pages
 
-The live artifact pages are published from `page/`. The Claude working directory keeps an `artifact-site/` folder only as the publish path; its two page files are symlinks into `page/`, so there is one source.
+See `page/README.md`. Pages are published from `page/` with the target artifact's URL passed explicitly, and `page/artifacts.json` records which artifact each file feeds.

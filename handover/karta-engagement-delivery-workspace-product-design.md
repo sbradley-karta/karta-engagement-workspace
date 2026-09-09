@@ -25,7 +25,7 @@ Product direction for most lifecycle stages is at the design and visual-referenc
 
 Project team members using the workspace may not be AI savvy. Every client-facing workflow, and Weekly Status in particular, must complete without prompts, skills, terminals, or file handling by the user.
 
-Document precedence: this file governs. `HANDOVER-artifact-site.md` (September 3, 2026) is the operational record of the live doTERRA proof of concept and its verified platform facts. `project-artifact-sites.md` (September 3, 2026) is the original blueprint. The vision and roadmap (`karta-engagement-workspace-vision-roadmap.md`, September 6, 2026) and the workflow inventory are the north-star references. Where any of them conflicts with this file, this file wins.
+Document precedence: this file governs. `handover/history/2026-09-04-handover-artifact-site.md` (September 3 to 4, 2026) is the operational record of the live doTERRA proof of concept and its verified platform facts. `project-artifact-sites.md` (September 3, 2026) is the original blueprint. The vision and roadmap (`karta-engagement-workspace-vision-roadmap.md`, September 6, 2026) and the workflow inventory are the north-star references. Where any of them conflicts with this file, this file wins.
 
 ## Executive Product Brief
 
@@ -171,13 +171,13 @@ The experience should lead with project state and useful action. It should not r
 
 #### Dark mode
 
-![Dark-mode methodology-led landing page](../../mockups/project-artifact-site/landing-phase-dark-v2.png)
+![Dark-mode methodology-led landing page](../reference/mockups/landing-phase-dark-v2.png)
 
 Use neutral charcoal surfaces, not navy or blue. Karta green is the primary accent. Status colors should be used sparingly and must include text or icon cues.
 
 #### Light mode
 
-![Light-mode methodology-led landing page](../../mockups/project-artifact-site/landing-phase-light-v2.png)
+![Light-mode methodology-led landing page](../reference/mockups/landing-phase-light-v2.png)
 
 Use white and Stone Wall neutrals with San Felix green. Light and dark modes must preserve the same hierarchy, content density, status language, and interaction model.
 
@@ -202,7 +202,7 @@ The page should show:
 - Review state and named approval
 - Final deck-generation action
 
-![Weekly Status workflow](../../mockups/project-artifact-site/weekly-status-charcoal.png)
+![Weekly Status workflow](../reference/mockups/weekly-status-charcoal.png)
 
 ### Weekly Status Logic
 
@@ -507,17 +507,17 @@ Expansion decisions should be based on these measures, not only on whether a cap
 
 ### Product concept
 
-- `/Users/seanbradley/Documents/Claude/Claude Various/project-artifact-sites.md`
+- `handover/history/2026-09-03-project-artifact-sites.md`
 
 ### Methodology and capability mapping
 
-- [methodology-capability-mapping.md](../../mockups/project-artifact-site/methodology-capability-mapping.md)
+- [methodology-capability-mapping.md](../reference/mockups/methodology-capability-mapping.md)
 
 ### Current mockups
 
-- [Dark-mode landing page](../../mockups/project-artifact-site/landing-phase-dark-v2.png)
-- [Light-mode landing page](../../mockups/project-artifact-site/landing-phase-light-v2.png)
-- [Weekly Status page](../../mockups/project-artifact-site/weekly-status-charcoal.png)
+- [Dark-mode landing page](../reference/mockups/landing-phase-dark-v2.png)
+- [Light-mode landing page](../reference/mockups/landing-phase-light-v2.png)
+- [Weekly Status page](../reference/mockups/weekly-status-charcoal.png)
 
 ### Prior formatted design document
 
@@ -533,8 +533,8 @@ Expansion decisions should be based on these measures, not only on whether a cap
 
 ### Operational references
 
-- `/Users/seanbradley/Documents/Claude/Claude Various/HANDOVER-artifact-site.md`, verified platform facts, connector shapes, skill bugs, and design system rules
-- `/Users/seanbradley/Documents/Claude/Claude Various/artifact-site/engagement-console.html`, live doTERRA console source
+- `handover/history/2026-09-04-handover-artifact-site.md`, verified platform facts, connector shapes, skill bugs, and design system rules
+- `page/engagement-console.html`, live doTERRA console source
 
 ### Gate 5 design references
 
@@ -558,7 +558,7 @@ Hosting ownership, September 9, 2026 (Sean): moving the Google Cloud project to 
 
 Approved September 9, 2026 by Will and Paul (Teams, to Sean): a Karta-owned GitHub organization for the codebase (about $4 per user per month) and a Karta-owned Google Cloud account for the assembly service (budgeted under $20 a month, expected near zero). Plan: set both up the week of September 14; move the repository `karta-engagement-workspace` and the design assets from Sean's and Connor's personal accounts into the Karta organization with history intact; transfer the existing Google Cloud project into the Karta organization and billing rather than recreating it; update the CI remote and the handover's repository links afterward. The Friday, September 12 show-and-tell of the engagement workspace to Will and Paul is on the calendar as a milestone.
 
-Repository consolidated September 9, 2026: the local repository is now `karta-engagement-delivery-workspace/` in the Claude working directory (renamed from `karta-engagement-workspace/`, history intact, 47 commits). It holds the code, the two live page sources under `page/`, this handover under `handover/` with the earlier handovers under `handover/history/`, the design canvas, and read-only references (build plan page, blueprint, design tokens, the original weekly status deck skill). The personal GitHub remote is kept as `legacy` for backup; `origin` is reserved for the Karta organization, with the two commands in the README. The `artifact-site/` publish paths for the two live pages are symlinks into `page/`, so there is one source. The OneDrive copy of this handover remains the mirror and must be updated together with the repository copy.
+Repository consolidated September 9, 2026, and made self-contained the same day at Sean's direction: the local repository `karta-engagement-delivery-workspace/` (renamed from `karta-engagement-workspace/`, history intact) is the single home for the code, the two live page sources under `page/`, this handover under `handover/` with earlier handovers under `handover/history/`, the design canvas, and read-only references under `reference/` (build plan page, blueprint, design tokens, the original weekly status deck skill, the three vision documents and the workflow inventory workbook, and the September 3 mockups). This file is the only working copy of the handover; the OneDrive copy under Codex/Strategic Thought/deliverables/ai-strategy is frozen at September 9, 2026 and is no longer updated. Nothing in the repository refers to a file outside it. Publishing: the Artifact tool publishes a page from its path in `page/` with the artifact's URL passed explicitly; the registry of live artifacts is `page/artifacts.json` and the procedure is `page/README.md`. The personal GitHub remote is kept as `legacy` for backup; `origin` is reserved for the Karta organization, with the two commands in the top-level README.
 
 Resume at Gate 7, Stage 1 Prove (build plan: weeks 8 to 11): (1) run the access test on Legend and record it in the handover; (2) collect the cold-test findings, fix what blocks a non-technical owner, republish both copies; (3) Legend: re-check the SharePoint folder, set stage dates, run the first Weekly Status end to end (draft, named approval, deck) so measures start; (4) weekly Weekly Status on two engagements for three to four weeks, tuning the drafting prompt against measured corrections, not taste; (5) capture the Foundations requirements that repeat, ahead of Stage 2. Still pending elsewhere: tenant admin consent for the Karta Assembly Service, then `server/deploy.sh` and the connector back to `/mcp` with sign-in so decks save to the status folder as the viewer; final product name; Ethan's review of contracts and vocabulary; deck fidelity refactor with the new template.
 
@@ -573,7 +573,7 @@ Closed September 7, 2026: the Karta K icon marks (green for light, white for dar
 ### Strategic workflow inventory
 
 - [Workflow Inventory and Automation Classification](./karta-engagement-workspace-workflow-inventory.md)
-- Workbook: `/Users/seanbradley/Library/CloudStorage/OneDrive-KartaConsultingGroup/Documents/Codex/Strategic Thought/outputs/engagement-workspace-workflow-inventory/karta-engagement-workspace-workflow-inventory.xlsx` (106 concepts, 36 families, operating model, human control, product treatment, horizon)
+- Workbook: `reference/vision/karta-engagement-workspace-workflow-inventory.xlsx` (106 concepts, 36 families, operating model, human control, product treatment, horizon)
 - [Workflow Descriptions](./karta-engagement-workspace-workflow-descriptions.md)
 - [Product Vision and Strategic Roadmap](./karta-engagement-workspace-vision-roadmap.md)
 

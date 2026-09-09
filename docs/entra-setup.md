@@ -54,7 +54,7 @@ for s in entra-client-secret jwt-signing-key; do /opt/homebrew/bin/gcloud secret
 From the repository root:
 
 ```bash
-cd "/Users/seanbradley/Documents/Claude/Claude Various/karta-engagement-workspace" && ./server/deploy.sh
+./server/deploy.sh   # from the repository root
 ```
 
 Then confirm the printed URL matches the redirect URI in step 3, and confirm `https://<url>/status` returns ok (from the second deploy onward; the first deploy used `/healthz`, which the Google front end answered with a 404).

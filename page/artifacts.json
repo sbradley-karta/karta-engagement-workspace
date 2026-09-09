@@ -1,0 +1,44 @@
+{
+  "_note": "Live claude.ai artifacts fed from this directory. Publish with the Artifact tool from the file path here, passing url explicitly. Titles for engagement copies are produced by make-engagement-copy.py into page/dist/ (not committed).",
+  "artifacts": [
+    {
+      "file": "page/engagement-workspace.html",
+      "title": "Karta Engagement Workspace",
+      "url": "https://claude.ai/code/artifact/980d2f11-f7df-4406-9698-01c33a05d907",
+      "role": "blank template; cold-test copy shared with two colleagues",
+      "capabilities": "mcp: Asana[asana_search_tasks, asana_get_project], Microsoft 365[sharepoint_search, sharepoint_folder_search, read_resource], Granola[list_meeting_folders], Harvest App[list_projects], Karta Assembly[assemble_status_deck, whoami]; sample; db; downloads; artifact"
+    },
+    {
+      "file": "page/dist/legend-continuous-support.html (generated from page/engagement-workspace.html with title 'Legend · Continuous Support')",
+      "title": "Legend · Continuous Support",
+      "url": "https://claude.ai/code/artifact/5ef54936-e293-4d5b-a4ad-46a793f32c6a",
+      "role": "Sean's engagement workspace, set up September 8, 2026",
+      "capabilities": "same as the blank template"
+    },
+    {
+      "file": "page/engagement-console.html",
+      "title": "doTERRA Engagement Site",
+      "url": "https://claude.ai/code/artifact/cd830c0e-10da-466c-86b5-e4f249c16520",
+      "role": "superseded sample console; delete or keep as sample",
+      "capabilities": "mcp: Asana[asana_search_tasks], Microsoft 365[sharepoint_search], Karta Assembly[assemble_status_deck, whoami]; sample; db; downloads"
+    },
+    {
+      "file": "reference/build-plan-2026-09-04.html",
+      "title": "Engagement Workspace Build Plan",
+      "url": "https://claude.ai/code/artifact/16b9e837-b6a8-4644-b58c-004f746656be",
+      "role": "reference, September 4, 2026"
+    },
+    {
+      "file": "reference/blueprint-2026-09-03.html",
+      "title": "Project Artifact Sites",
+      "url": "https://claude.ai/code/artifact/70179aca-a7bb-43f3-a6be-e3838b8883f1",
+      "role": "reference, September 3, 2026"
+    },
+    {
+      "file": "design/engagement-home (design canvas)",
+      "title": "Engagement Home",
+      "url": "https://claude.ai/code/artifact/b6a922a7-3318-49fb-97c8-1367b1c2ace7",
+      "role": "Gate 5 design directions"
+    }
+  ]
+}
