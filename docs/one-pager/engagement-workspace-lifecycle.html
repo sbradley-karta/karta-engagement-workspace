@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Karta AI Engagement Workspace across the lifecycle</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
+<style>
+@page{size:13.333in 7.5in;margin:0}
+:root{--ground:#FFFFFF;--raise:#F5F4F2;--ink:#113A2A;--text:#22302A;--muted:#6E6961;--faint:#979187;--line:#E4E2DE;--line2:#C9C5BE;--accent:#2A654E;--soft:#EAF1ED;--amber:#9A6B1F;--sans:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--ground);height:7.5in;overflow:hidden}
+body{width:13.333in;height:7.5in;color:var(--text);font-family:var(--sans);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.page{position:relative;width:13.333in;height:7.5in;padding:0.34in 0.5in 0.48in;display:flex;flex-direction:column}
+.head{display:grid;grid-template-columns:1fr 4.6in;gap:0.4in;align-items:end;margin-bottom:0.14in}
+.brand{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.brand img{width:24px;height:24px}
+.brand b{font-size:10px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--ink)}
+.brand span{font-size:10px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;border-left:1px solid var(--line2);padding-left:10px}
+.eyebrow{font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+h1{font-size:24px;line-height:1.05;letter-spacing:-.03em;font-weight:800;color:var(--ink);margin:0;text-wrap:balance}
+.promise{font-size:10.5px;line-height:1.45;color:var(--muted);margin:0}
+.promise b{color:var(--ink)}
+.stages{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;flex:1;min-height:0}
+.stage{display:flex;flex-direction:column;min-height:0}
+.stage .hd{background:var(--ink);color:#fff;border-radius:6px;padding:6px 8px 5px;font-size:10.5px;font-weight:800;letter-spacing:-.01em;line-height:1.15}
+.stage .hd small{display:block;font-size:8.5px;font-weight:500;color:#B7C9BF;margin-top:2px;letter-spacing:.02em}
+.stage.side .hd{background:var(--accent)}
+.stage .acts{font-size:7.6px;color:var(--muted);line-height:1.3;padding:5px 2px 6px;border-bottom:1px solid var(--line);margin-bottom:6px;min-height:0.5in}
+.card{background:var(--raise);border:1px solid var(--line);border-radius:7px;padding:6px 8px 6px;margin-bottom:6px;flex:1;display:flex;flex-direction:column;min-height:0}
+.card .top{display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:3px}
+.card .rank{font-size:8px;font-weight:800;letter-spacing:.1em;color:var(--faint)}
+.tag{font-size:7.2px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:2px 5px;border-radius:3px;white-space:nowrap}
+.tag.live{background:var(--accent);color:#fff}
+.tag.next{background:#fff;color:var(--amber);border:1px solid var(--amber)}
+.tag.later{background:#fff;color:var(--muted);border:1px solid var(--line2)}
+.card b{display:block;font-size:9.8px;font-weight:800;color:var(--ink);line-height:1.18;margin-bottom:3px;letter-spacing:-.01em}
+.card p{margin:0;font-size:8px;line-height:1.35;color:var(--text)}
+.card p.why{color:var(--muted);margin-top:3px;flex:1}
+.band{display:grid;grid-template-columns:1.25fr 2.1fr 1.15fr;gap:12px;margin-top:0.1in;padding-top:0.1in;border-top:1px solid var(--line2);flex:none}
+.band .eyebrow{margin-bottom:4px}
+.band p{margin:0;font-size:9px;line-height:1.4;color:var(--text)}
+.band p b{color:var(--ink)}
+.rules{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.rules div{background:var(--soft);border:1px solid #CFE0D6;border-radius:6px;padding:5px 7px;font-size:8.2px;line-height:1.3;color:var(--ink)}
+.rules div b{display:block;font-size:8.8px;margin-bottom:1px}
+.legend{display:flex;gap:8px;align-items:center;font-size:8.2px;color:var(--muted);margin-top:5px;white-space:nowrap}
+.foot{position:absolute;left:0.5in;right:0.5in;bottom:0.22in;display:flex;justify-content:space-between;font-size:8.5px;color:var(--faint)}
+</style></head>
+<body>
+<div class="page">
+  <div class="head">
+    <div>
+      <div class="brand"><img alt="" src="data:image/png;base64,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"><b>Karta Consulting Group</b><span>Engagement Delivery</span></div>
+      <div class="eyebrow">Karta AI Engagement Workspace</div>
+      <h1>Karta's methodology, with a digital partner at every stage.</h1>
+    </div>
+    <p class="promise">The Engagement Workspace puts Claude inside each stage of how Karta delivers. It <b>reads the engagement's own evidence</b>, <b>drafts Karta's artifacts</b> in Karta's method, and <b>remembers every decision</b> for the next activity. Code calculates, people approve, and nothing is sent by software. Below: the two highest-value workflows at each stage, and where each stands.</p>
+  </div>
+
+  <div class="stages">
+    <div class="stage side">
+      <div class="hd">Sales to Delivery<small>handover</small></div>
+      <div class="acts">Proposal, SOW and sales conversations become the engagement's starting record.</div>
+      <div class="card"><div class="top"><span class="rank">01</span><span class="tag later">Later</span></div><b>Sales Handover package</b><p>Scope, assumptions, commitments, stakeholders and open questions assembled from the proposal, RFP answers and the sales team's meeting notes.</p><p class="why">Every engagement starts here. Today it starts from memory.</p></div>
+      <div class="card"><div class="top"><span class="rank">02</span><span class="tag later">Later</span></div><b>Kick-off deck and first two weeks</b><p>Drafted from the handover package: the deck, the meeting schedule, the first questions.</p><p class="why">Visible time saved in week one; the plan becomes the milestones tracked from then on.</p></div>
+    </div>
+    <div class="stage">
+      <div class="hd">Project Planning<small>align · schedule · kick off · first drafts</small></div>
+      <div class="acts">Align on logistics, schedule meetings, kick off model builder training, prepare documentation and data first drafts.</div>
+      <div class="card"><div class="top"><span class="rank">01</span><span class="tag live">Live</span></div><b>Engagement setup and access check</b><p>A workspace stood up in about ten minutes from links to Asana, SharePoint, Granola and Harvest, with every source verified as the owner.</p><p class="why">Everything after it depends on this being right.</p></div>
+      <div class="card"><div class="top"><span class="rank">02</span><span class="tag later">Later</span></div><b>Data intake coordination</b><p>The data request list drafted from the solution scope; what arrives is classified and tracked against it.</p><p class="why">Data readiness is the risk that slips UAT most often.</p></div>
+    </div>
+    <div class="stage">
+      <div class="hd">Foundations<small>requirements · design · architecture</small></div>
+      <div class="acts">Kick-off, requirements sessions, design workshops, accelerators, data hub kickstart, solution architecture. BRD, design document, process flows, data matrix.</div>
+      <div class="card"><div class="top"><span class="rank">01</span><span class="tag next">Next</span></div><b>Meeting closeout into requirements and decisions</b><p>Workshop recordings become candidate requirements, decisions and assumptions the same day, each with its source.</p><p class="why">The source of truth for the whole stage, the BRD included.</p></div>
+      <div class="card"><div class="top"><span class="rank">02</span><span class="tag later">Later</span></div><b>Design-to-scope reconciliation</b><p>The emerging design compared with the SOW; divergence flagged before build begins.</p><p class="why">Turns scope creep from a surprise into a change decision.</p></div>
+    </div>
+    <div class="stage">
+      <div class="hd">Build<small>data hub · model · app · reports</small></div>
+      <div class="acts">Finalize the data hub, stage and validate data, build the model and app, build reports, configure security. Build plan, data hub, dashboards.</div>
+      <div class="card"><div class="top"><span class="rank">01</span><span class="tag live">Live</span></div><b>Weekly Status</b><p>Evidence read as the reviewer, status calculated by code, narrative drafted by Claude, approved under a name, built into the KCG deck.</p><p class="why">Weekly, measurable, and the pilot's proving ground.</p></div>
+      <div class="card"><div class="top"><span class="rank">02</span><span class="tag next">Next</span></div><b>Sprint review preparation and record</b><p>What will be shown, which requirements it covers, what evidence exists; the business's disposition recorded.</p><p class="why">Requirements-to-build traceability as a by-product, not a spreadsheet.</p></div>
+    </div>
+    <div class="stage">
+      <div class="hd">Test<small>UAT · defects · sign-off</small></div>
+      <div class="acts">UAT kick-off, user acceptance testing, data validation, user sign-off, defects, enhancements. Test plan, UAT scripts, test and enhancement log.</div>
+      <div class="card"><div class="top"><span class="rank">01</span><span class="tag live">Live · skill</span></div><b>UAT test scripts from approved requirements</b><p>The Karta test package generated with traceability from each requirement to its script and result.</p><p class="why">Large effort saved; coverage comes free.</p></div>
+      <div class="card"><div class="top"><span class="rank">02</span><span class="tag later">Later</span></div><b>Defect intake, classification and triage</b><p>Defects, clarifications and changes classified as they arrive; duplicates found; the log kept current with a triage summary.</p><p class="why">Frequent during UAT, and where scope disputes are settled.</p></div>
+    </div>
+    <div class="stage">
+      <div class="hd">Train &amp; Deploy<small>training · cutover · close-down</small></div>
+      <div class="acts">Cutover, rollout, administrative and end-user training, close-down meeting, roadmap. Training documentation, admin workflow, deployed solution.</div>
+      <div class="card"><div class="top"><span class="rank">01</span><span class="tag live">Live · skill</span></div><b>Role-based training material</b><p>Admin, model builder and end-user decks drafted from the configured solution, screenshots included.</p><p class="why">The most time-consuming deliverable in the stage.</p></div>
+      <div class="card"><div class="top"><span class="rank">02</span><span class="tag later">Later</span></div><b>Go-live package and closeout</b><p>Cutover readiness evidence assembled for the decision; closeout and lessons learned drafted from the approved record.</p><p class="why">Low frequency, high stakes, and a clean memory handed to support.</p></div>
+    </div>
+    <div class="stage side">
+      <div class="hd">Continuous Support<small>handover · triage · roadmap</small></div>
+      <div class="acts">The support team inherits the engagement's approved record, decisions and open items instead of a folder.</div>
+      <div class="card"><div class="top"><span class="rank">01</span><span class="tag later">Later</span></div><b>Support handover with open items</b><p>Decisions, RAID items and outstanding work transferred with ownership confirmed on each.</p><p class="why">The moment the whole workspace pays off.</p></div>
+      <div class="card"><div class="top"><span class="rank">02</span><span class="tag later">Later</span></div><b>Issue triage and recurring-issue analysis</b><p>Requests classified, resolutions recommended from the engagement's own history, recurring issues surfaced into the roadmap.</p><p class="why">Support that learns from the engagement it inherited.</p></div>
+    </div>
+  </div>
+
+  <div class="band">
+    <div>
+      <div class="eyebrow">Across every stage</div>
+      <p><b>Ask Claude</b> with the engagement's memory, live today: answers from the evidence, cited, honest about gaps. <b>The decision and assumption log</b>, next: every decision with its source, owner and date, which is what makes reconciliation, triage, handover and onboarding possible.</p>
+      <div class="legend"><span class="tag live">Live</span>today, workspace or Karta skill <span class="tag next">Next</span>the 90-day push <span class="tag later">Later</span>roadmap</div>
+    </div>
+    <div>
+      <div class="eyebrow">How it stays under control</div>
+      <div class="rules">
+        <div><b>Reads as the person looking</b>No shared logins. If you are not on the project, you see nothing from it.</div>
+        <div><b>A named person approves</b>Every client-facing output carries a reviewer's name and time. The AI never approves.</div>
+        <div><b>Nothing sent by software</b>The workspace produces. A person decides and sends.</div>
+        <div><b>Unknown is never Green</b>Missing evidence is shown as missing and recorded with the output.</div>
+      </div>
+    </div>
+    <div>
+      <div class="eyebrow">First through the door</div>
+      <p><b>Project Status Reporting</b>, live for Legend and released monthly across the 90-day push, then the <b>Foundations Package</b> from requirements to mockups. Each capability arrives with an owner, a readiness label and a place on this lifecycle, and its use and corrections are measured automatically.</p>
+    </div>
+  </div>
+
+  <div class="foot"><span>Workflows drawn from Karta's implementation methodology, the September 2026 workflow inventory (106 concepts, 36 families) and the SWE use-case backlog. Ranked by frequency, effort or risk removed, and what already exists to build on.</span><span>September 2026 · Karta AI strategy</span></div>
+</div>
+</body></html>

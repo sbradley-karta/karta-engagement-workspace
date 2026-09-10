@@ -63,6 +63,12 @@
       "title": "Karta AI Engagement Workspace (one-page vision)",
       "url": "(PDF, not an artifact)",
       "role": "standalone art-of-the-possible one-pager; rendered to docs/one-pager/engagement-workspace-vision.pdf with headless Chrome; capabilities tagged Live, Next, Later"
+    },
+    {
+      "file": "docs/one-pager/engagement-workspace-lifecycle.html",
+      "title": "Karta AI Engagement Workspace across the lifecycle",
+      "url": "(PDF, not an artifact)",
+      "role": "standalone one-pager: the two highest-value Claude workflows at each methodology stage with Live, Next, Later tags; rendered to docs/one-pager/engagement-workspace-lifecycle.pdf"
     }
   ]
 }
