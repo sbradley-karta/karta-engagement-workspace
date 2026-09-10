@@ -43,28 +43,25 @@ function arrow(s, x1, y1, x2, y2, acc){
   T(s, "Status and showcase for Will Evans and Paul Gregov · Sean Bradley · Friday, September 12, 2026", { x: 0.5, y: 6.3, w: 11, h: 0.4, fontSize: 11, color: "B7C9BF" });
   s.addNotes("The Karta AI Engagement Workspace brings our AI strategy into the daily work of each project team. It gives consultants a common place to use AI with the project context, Karta methodology, and governance needed to improve delivery."); }
 
-// 2 Strategy
+// 2 Situation, complication, resolution on one page
 { const s = pres.addSlide(); chrome(s, false);
-  title(s, "Our AI strategy, and the opportunity in front of us");
-  lede(s, "Three aims, one shift: from meaningful experimentation to reusable ways of working that Karta can support, measure and scale.");
-  const aims = [["Strengthen our consultants", "Put Karta's collective expertise and AI in the hands of every team member, with judgment developed through real work."],["Improve client delivery", "Faster, more consistent, better-evidenced outputs, reviewed by people who are accountable for them."],["Reduce repetitive effort", "Stop rebuilding the same context and the same documents every week on every engagement."]];
-  aims.forEach((a, i) => card(s, 0.5 + i * 4.15, 2.85, 3.95, 1.9, a[0], a[1], { num: i + 1, headSize: 15 }));
-  s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: 0.5, y: 5.05, w: 12.33, h: 1.35, rectRadius: 0.1, fill: { color: SOFT }, line: { color: SALEM, width: 1 } });
-  T(s, "THE OPPORTUNITY NOW", { x: 0.75, y: 5.22, w: 5, h: 0.25, fontSize: 8.5, bold: true, color: SALEM, charSpacing: 1.5 });
-  T(s, "Turn the activity already underway into reusable ways of working that Karta can support, measure and scale.", { x: 0.75, y: 5.5, w: 11.8, h: 0.75, fontSize: 16, bold: true, color: INK });
-  s.addNotes("Our AI strategy focuses on strengthening our consultants, improving client delivery, and reducing repetitive effort. We already have meaningful experimentation and promising capabilities underway. The opportunity now is to turn that activity into reusable ways of working that Karta can support, measure, and scale."); }
-
-// 3 Today
-{ const s = pres.addSlide(); chrome(s, false);
-  title(s, "Today, understanding an engagement takes effort");
-  lede(s, "The plan is in one place, the documents in another, and the context that matters most lives in meetings and in people's heads.");
-  const spots = [["Asana", "the plan, tasks and milestones"],["SharePoint", "documents, decks and deliverables"],["Meetings", "decisions, context and change"],["Individual knowledge", "what the team member who was there remembers"]];
-  spots.forEach((p, i) => card(s, 0.5 + i * 3.1, 2.85, 2.9, 1.35, p[0], p[1], { headSize: 14, fill: RAISE }));
-  arrow(s, 6.66, 4.2, 6.66, 4.6, false);
-  s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: 0.5, y: 4.65, w: 12.33, h: 0.9, rectRadius: 0.1, fill: { color: WHITE }, line: { color: LINE, width: 1 } });
-  T(s, "Consultants repeatedly gather and interpret that information to prepare a status report, develop a design, or bring another team member up to speed.", { x: 0.75, y: 4.8, w: 11.8, h: 0.6, fontSize: 14, color: INK, valign: "middle" });
-  T(s, "And as we introduce more AI capabilities, each one needs the same project context, and our teams need to know which capabilities are ready, when to use them, and how to review the results.", { x: 0.5, y: 5.8, w: 12.33, h: 0.7, fontSize: 13, color: MUTED });
-  s.addNotes("Today, understanding an engagement takes effort. The plan is in Asana, documents are in SharePoint, and important context lives in meetings and individual knowledge. Consultants repeatedly gather and interpret that information to prepare a status report, develop a design, or bring another team member up to speed. As we introduce more AI capabilities, each needs relevant project context. Our teams also need to understand which capabilities are ready, when to use them, and how to review the results."); }
+  title(s, "Our AI strategy needs a home inside every engagement");
+  const cols = [
+    ["SITUATION", "The strategy is set and the work is real",
+     ["Strengthen our consultants, improve client delivery, reduce repetitive effort.", "Meaningful experimentation and promising capabilities are already underway."], false],
+    ["COMPLICATION", "Context is scattered, and every new capability makes that worse",
+     ["The plan is in Asana, documents in SharePoint, the rest in meetings and people's heads. Consultants rebuild it for every status, design and handover.", "Each AI capability needs that same context, and teams need to know what is ready, when to use it, and how to review it."], false],
+    ["RESOLUTION", "One workspace per engagement, on a shared Karta foundation",
+     ["Where the engagement stands in Karta's lifecycle, what needs attention, and which capabilities help next.", "Project evidence, delivery guidance and reviewed outputs in one consistent experience. Improve it once, and every project benefits."], true]];
+  cols.forEach((c, i) => { const x = 0.5 + i * 4.15, w = 3.95, y = 2.15, h = 3.55, acc = c[3];
+    s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x, y, w, h, rectRadius: 0.1, fill: { color: acc ? SOFT : WHITE }, line: { color: acc ? SALEM : LINE2, width: acc ? 1.25 : 1 } });
+    T(s, c[0], { x: x + 0.25, y: y + 0.22, w: w - 0.5, h: 0.24, fontSize: 9, bold: true, color: SALEM, charSpacing: 1.5 });
+    T(s, c[1], { x: x + 0.25, y: y + 0.5, w: w - 0.5, h: 0.95, fontSize: acc ? 17 : 16, bold: true, color: INK, valign: "top" });
+    s.addText(c[2].map((t, k) => ({ text: t, options: { bullet: true, breakLine: k < c[2].length - 1, paraSpaceAfter: 8 } })), { x: x + 0.25, y: y + 1.5, w: w - 0.5, h: h - 1.7, fontFace: F, isTextBox: true, fontSize: 12, color: acc ? INK : MUTED, valign: "top" });
+    if (i < 2) arrow(s, x + w, y + 1.0, x + w + 0.2, y + 1.0, true); });
+  s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: 0.5, y: 5.95, w: 12.33, h: 0.8, rectRadius: 0.1, fill: { color: RAISE }, line: { color: LINE2, width: 1 } });
+  T(s, "The opportunity now is to turn the activity already underway into reusable ways of working that Karta can support, measure and scale.", { x: 0.75, y: 6.05, w: 11.8, h: 0.6, fontSize: 14, bold: true, color: INK, valign: "middle" });
+  s.addNotes("Our AI strategy focuses on strengthening our consultants, improving client delivery, and reducing repetitive effort. We already have meaningful experimentation and promising capabilities underway. The opportunity now is to turn that activity into reusable ways of working that Karta can support, measure, and scale.\n\nToday, understanding an engagement takes effort. The plan is in Asana, documents are in SharePoint, and important context lives in meetings and individual knowledge. Consultants repeatedly gather and interpret that information to prepare a status report, develop a design, or bring another team member up to speed. As we introduce more AI capabilities, each needs relevant project context. Our teams also need to understand which capabilities are ready, when to use them, and how to review the results.\n\nThe Engagement Workspace gives each project its own home for that work."); }
 
 // 4 The workspace
 { const s = pres.addSlide(); chrome(s, false);
