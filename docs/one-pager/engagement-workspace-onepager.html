@@ -8,49 +8,50 @@
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;background:var(--ink);height:7.5in;overflow:hidden}
 body{width:13.333in;height:7.5in;color:var(--text);font-family:var(--sans);-webkit-print-color-adjust:exact;print-color-adjust:exact}
-.page{position:relative;width:13.333in;height:7.5in;padding:0.32in 0.5in 0.44in;display:flex;flex-direction:column}
-.hero{display:grid;grid-template-columns:1fr 5.15in;gap:0.4in;align-items:center;margin-bottom:0.14in}
-.brand{display:flex;align-items:center;gap:9px;margin-bottom:12px}
+.page{position:relative;width:13.333in;height:7.5in;padding:0.3in 0.5in 0.42in;display:flex;flex-direction:column}
+.hero{display:grid;grid-template-columns:1fr 5.35in;gap:0.45in;align-items:center;margin-bottom:0.14in}
+.brand{display:flex;align-items:center;gap:9px;margin-bottom:10px}
 .brand img{width:22px;height:22px}
 .brand b{font-size:9.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase}
 .brand span{font-size:9.5px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;border-left:1px solid var(--line);padding-left:9px}
-.eyebrow{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
-h1{font-size:27px;line-height:1.04;letter-spacing:-.03em;font-weight:800;margin:0 0 9px;text-wrap:balance}
-.promise{font-size:11px;line-height:1.45;color:var(--muted);margin:0 0 12px}
+.eyebrow{font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+h1{font-size:29px;line-height:1.03;letter-spacing:-.03em;font-weight:800;margin:0 0 10px;text-wrap:balance}
+.promise{font-size:11px;line-height:1.42;color:var(--muted);margin:0 0 10px}
 .promise b{color:var(--text)}
 .benefits{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px}
-.benefits li{display:grid;grid-template-columns:18px 1fr;gap:8px;align-items:start}
-.benefits li i{width:18px;height:18px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;margin-top:1px}
-.benefits li i svg{width:10px;height:10px;stroke:var(--ink);stroke-width:2.6;fill:none;stroke-linecap:round;stroke-linejoin:round}
-.benefits b{display:block;font-size:11.5px;font-weight:700;line-height:1.2}
-.benefits span{display:block;font-size:9.5px;color:var(--muted);line-height:1.35;margin-top:1px}
-.proof{margin-top:10px;font-size:9.4px;color:var(--muted);line-height:1.4}
+.benefits li{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start}
+.benefits li i{width:22px;height:22px;border-radius:50%;background:var(--accent);color:var(--ink);font-style:normal;font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center}
+.benefits b{display:block;font-size:13px;font-weight:700;line-height:1.2}
+.benefits span{display:block;font-size:10px;color:var(--muted);line-height:1.35;margin-top:1px}
+.proof{margin-top:10px;font-size:9.6px;color:var(--muted);line-height:1.38}
 .proof b{color:var(--text)}
 .screen svg{display:block;width:100%;height:auto}
 svg text{font-family:var(--sans)}
 .f{fill:var(--surface);stroke:var(--line2);stroke-width:1} .r{fill:var(--raise);stroke:var(--line2);stroke-width:1} .a{fill:var(--soft);stroke:var(--accent);stroke-width:1.1} .n{fill:var(--accent)}
 .t{fill:var(--text)} .m{fill:var(--muted)} .fa{fill:var(--faint)} .ac{fill:var(--accent)} .am{fill:var(--amber)} .rd{fill:var(--red)} .ink{fill:var(--ink)}
 .h{font-size:11px;font-weight:700} .h2{font-size:15px;font-weight:800} .s{font-size:8px} .s2{font-size:8.6px} .eb{font-size:7px;font-weight:800;letter-spacing:.12em} .tg{font-size:6.6px;font-weight:800;letter-spacing:.08em} .pill{fill:none;stroke-width:0.9}
-.lc{display:flex;align-items:baseline;justify-content:space-between;margin:0 0 6px}
-.lc .eyebrow{margin:0}
-.lc .legend{display:flex;gap:8px;align-items:center;font-size:8.4px;color:var(--muted)}
-.stages{display:grid;grid-template-columns:repeat(7,1fr);gap:7px}
-.stage .hd{background:var(--soft);border:1px solid var(--line);color:var(--text);border-radius:6px;padding:5px 8px 4px;font-size:10px;font-weight:800;letter-spacing:-.01em;line-height:1.15;margin-bottom:6px}
-.stage .hd small{display:block;font-size:7.6px;font-weight:500;color:var(--muted);margin-top:1px}
+.callouts circle{fill:var(--accent);stroke:var(--ink);stroke-width:2.5} .callouts text{fill:var(--ink);font-size:13px;font-weight:800;text-anchor:middle}
+.sec{display:flex;align-items:baseline;justify-content:space-between;margin:0 0 4px}
+.sec .eyebrow{margin:0}
+.legend{display:flex;gap:10px;align-items:center;font-size:8.4px;color:var(--muted);margin:0 0 7px;white-space:nowrap}
+.stages{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+.stage .hd{background:var(--surface);border:1px solid var(--line2);border-radius:6px;padding:5px 8px 4px;font-size:10.5px;font-weight:800;letter-spacing:-.01em;line-height:1.15;margin-bottom:6px}
+.stage .hd small{display:block;font-size:8px;font-weight:500;color:var(--muted);margin-top:1px}
 .stage.side .hd{background:var(--accent);color:var(--ink);border-color:var(--accent)} .stage.side .hd small{color:var(--ink);opacity:.8}
-.wf{background:var(--surface);border:1px solid var(--line2);border-radius:6px;padding:6px 7px 6px;margin-bottom:6px}
-.wf .top{display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:3px}
-.wf .rank{font-size:7.4px;font-weight:800;letter-spacing:.1em;color:var(--faint)}
-.tag{font-size:6.8px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:1px 5px;border-radius:3px;white-space:nowrap}
-.tag.live{background:var(--accent);color:var(--ink)} .tag.next{background:transparent;color:var(--amber);border:1px solid var(--amber)} .tag.later{background:transparent;color:var(--muted);border:1px solid var(--line)}
-.wf b{display:block;font-size:9.2px;font-weight:800;line-height:1.18;margin-bottom:2px;letter-spacing:-.01em}
-.wf p{margin:0;font-size:7.7px;line-height:1.32;color:var(--muted)}
-.band{display:grid;grid-template-columns:1.05fr 2.2fr 1.15fr;gap:12px;margin-top:0.06in;padding-top:0.1in;border-top:1px solid var(--line2)}
-.band .eyebrow{margin-bottom:4px}
-.band p{margin:0;font-size:8.8px;line-height:1.4;color:var(--muted)} .band p b{color:var(--text)}
-.rules{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
-.rules div{background:var(--soft);border:1px solid var(--line);border-radius:6px;padding:5px 7px;font-size:7.9px;line-height:1.3;color:var(--muted)}
-.rules div b{display:block;font-size:8.6px;color:var(--text);margin-bottom:1px}
+.wf{display:flex;justify-content:space-between;align-items:center;gap:6px;padding:4px 2px;border-bottom:1px solid var(--line2);font-size:9.2px;font-weight:600;line-height:1.22}
+.wf > span:first-child{flex:1} .wf .tag{flex:none}
+.tag{font-size:6.8px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:2px 5px;border-radius:3px;white-space:nowrap;flex:none}
+.tag.live{background:var(--accent);color:var(--ink)} .tag.skill{background:transparent;color:var(--accent);border:1px solid var(--accent)} .tag.next{background:transparent;color:var(--amber);border:1px solid var(--amber)} .tag.later{background:transparent;color:var(--faint);border:1px solid transparent;padding-left:0;padding-right:0}
+.why{margin:5px 2px 0;font-size:8.2px;line-height:1.3;color:var(--muted)}
+.bottom{display:grid;grid-template-columns:1fr 1.9fr;gap:0.3in;margin-top:0.1in;padding-top:0.08in;border-top:1px solid var(--line2)}
+.rules{display:flex;flex-direction:column;gap:4px}
+.rules div{font-size:8.7px;line-height:1.3;color:var(--muted);padding:2px 0;border-bottom:1px solid var(--line2)}
+.rules div b{color:var(--text)}
+.rels{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.rel{background:var(--surface);border:1px solid var(--line2);border-radius:6px;padding:6px 8px}
+.rel .m{font-size:8.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.rel b{display:block;font-size:10.5px;font-weight:800;margin:1px 0 2px}
+.rel p{margin:0;font-size:8.3px;line-height:1.3;color:var(--muted)}
 .foot{position:absolute;left:0.5in;right:0.5in;bottom:0.2in;display:flex;justify-content:space-between;font-size:8px;color:var(--faint)}
 </style></head>
 <body>
@@ -60,13 +61,9 @@ svg text{font-family:var(--sans)}
       <div class="brand"><img alt="" src="data:image/png;base64,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"><b>Karta Consulting Group</b><span>Engagement Delivery</span></div>
       <div class="eyebrow">Karta AI Engagement Workspace</div>
       <h1>Open Monday already knowing where your engagement stands.</h1>
-      <p class="promise">Every Karta engagement gets its own AI-enabled workspace: the plan, the evidence, the decisions and the next step in one place, shaped by Karta's methodology, with a named person accountable for every output. Claude <b>reads the engagement's evidence</b>, <b>drafts Karta's artifacts</b> and <b>remembers every decision</b>. Code calculates, people approve, nothing is sent by software.</p>
-      <ul class="benefits">
-        <li><i><svg viewBox="0 0 20 20"><path d="M4 10.5l4 4 8-9"/></svg></i><div><b>See where you stand</b><span>The Karta lifecycle with real dates, the next control point, and whether its evidence is ready.</span></div></li>
-        <li><i><svg viewBox="0 0 20 20"><path d="M4 10.5l4 4 8-9"/></svg></i><div><b>Know what needs attention</b><span>Slipped milestones, open decisions, capacity gaps. Calculated from the sources, not typed in.</span></div></li>
-        <li><i><svg viewBox="0 0 20 20"><path d="M4 10.5l4 4 8-9"/></svg></i><div><b>Do the week's work without rebuilding the context</b><span>Status, sprint reviews, UAT scripts and briefs prepared from the same approved record.</span></div></li>
-      </ul>
-      <p class="proof"><b>Real, and running.</b> First workspace live for Legend on September 8, 2026; first Weekly Status approved and the deck built the next day. Set-up takes about ten minutes.</p>
+      <p class="promise">Every Karta engagement gets its own AI-enabled workspace. Claude <b>reads the engagement's evidence</b>, <b>drafts Karta's artifacts</b> and <b>remembers every decision</b>, inside Karta's method and with a named person accountable for every output.</p>
+      <ul class="benefits"><li><i>A</i><div><b>See where you stand</b><span>The lifecycle, the next control point, and whether its evidence is ready.</span></div></li><li><i>B</i><div><b>Know what needs attention</b><span>Slipped dates, open decisions, capacity gaps. Calculated, not typed.</span></div></li><li><i>C</i><div><b>Do the week's work without rebuilding context</b><span>Status, sprint reviews and UAT scripts drafted from one approved record.</span></div></li><li><i>D</i><div><b>One door for every AI capability</b><span>Each arrives with an owner, a readiness label and a place on the lifecycle. Use and corrections are measured, so Karta knows what to scale.</span></div></li></ul>
+      <p class="proof"><b>Real, and running.</b> Live for Legend since September 8, 2026. First Weekly Status approved and the deck built the next day. A new engagement is set up in about ten minutes.</p>
     </div>
     <div class="screen"><svg viewBox="0 0 760 500" role="img" aria-label="Illustrative future view of the engagement workspace home screen in the Build stage, with lifecycle, control point, deliverables, recommended capabilities, attention items, evidence and decisions, connected sources and an Ask Claude answer. Capabilities are tagged Live, Next or Later.">
       <defs><clipPath id="cp"><rect x="0" y="0" width="760" height="500" rx="14"/></clipPath></defs>
@@ -166,21 +163,22 @@ svg text{font-family:var(--sans)}
       </g>
       </g>
       <rect x="0.5" y="0.5" width="759" height="499" rx="14" fill="none" stroke="var(--line)" stroke-width="1"/>
-    </svg></div>
+    <g class="callouts">
+  <circle cx="330" cy="80" r="13"/><text x="330" y="84.5">A</text>
+  <circle cx="426" cy="122" r="13"/><text x="426" y="126.5">B</text>
+  <circle cx="408" cy="308" r="13"/><text x="408" y="312.5">C</text>
+  <circle cx="408" cy="386" r="13"/><text x="408" y="390.5">D</text>
+</g></svg></div>
   </div>
 
-  <div class="lc"><div class="eyebrow">A digital partner at every stage of Karta's methodology · the two highest-value workflows per stage</div><div class="legend"><span class="tag live">Live</span>today, workspace or Karta skill <span class="tag next">Next</span>the 90-day push <span class="tag later">Later</span>roadmap</div></div>
-  <div class="stages"><div class="stage side"><div class="hd">Sales to Delivery<small>handover</small></div><div class="wf"><div class="top"><span class="rank">01</span><span class="tag later">Later</span></div><b>Sales Handover package</b><p>Scope, assumptions, commitments and open questions assembled from the proposal, RFP answers and sales notes.</p></div><div class="wf"><div class="top"><span class="rank">02</span><span class="tag later">Later</span></div><b>Kick-off deck and first two weeks</b><p>Drafted from the handover; the plan becomes the milestones tracked from then on.</p></div></div><div class="stage"><div class="hd">Project Planning<small>align · kick off · first drafts</small></div><div class="wf"><div class="top"><span class="rank">01</span><span class="tag live">Live</span></div><b>Engagement setup and access check</b><p>A workspace in ten minutes from links to Asana, SharePoint, Granola and Harvest, verified as the owner.</p></div><div class="wf"><div class="top"><span class="rank">02</span><span class="tag later">Later</span></div><b>Data intake coordination</b><p>The data request list drafted from scope; what arrives classified and tracked.</p></div></div><div class="stage"><div class="hd">Foundations<small>requirements · design</small></div><div class="wf"><div class="top"><span class="rank">01</span><span class="tag next">Next</span></div><b>Meeting closeout into requirements</b><p>Workshop recordings become requirements, decisions and assumptions the same day, with sources.</p></div><div class="wf"><div class="top"><span class="rank">02</span><span class="tag later">Later</span></div><b>Design-to-scope reconciliation</b><p>The emerging design compared with the SOW; divergence flagged before build.</p></div></div><div class="stage"><div class="hd">Build<small>data hub · model · reports</small></div><div class="wf"><div class="top"><span class="rank">01</span><span class="tag live">Live</span></div><b>Weekly Status</b><p>Evidence read as you, status by code, narrative by Claude, approved under a name, built into the deck.</p></div><div class="wf"><div class="top"><span class="rank">02</span><span class="tag next">Next</span></div><b>Sprint review preparation</b><p>What will be shown, requirements covered, evidence; the business's disposition recorded.</p></div></div><div class="stage"><div class="hd">Test<small>UAT · defects · sign-off</small></div><div class="wf"><div class="top"><span class="rank">01</span><span class="tag live">Live · skill</span></div><b>UAT scripts from requirements</b><p>The Karta test package generated with traceability from requirement to result.</p></div><div class="wf"><div class="top"><span class="rank">02</span><span class="tag later">Later</span></div><b>Defect intake and triage</b><p>Defects, clarifications and changes classified as they arrive; the log kept current.</p></div></div><div class="stage"><div class="hd">Train & Deploy<small>training · cutover</small></div><div class="wf"><div class="top"><span class="rank">01</span><span class="tag live">Live · skill</span></div><b>Role-based training material</b><p>Admin, builder and end-user decks drafted from the configured solution.</p></div><div class="wf"><div class="top"><span class="rank">02</span><span class="tag later">Later</span></div><b>Go-live package and closeout</b><p>Readiness evidence assembled; closeout and lessons learned from the record.</p></div></div><div class="stage side"><div class="hd">Continuous Support<small>handover · triage</small></div><div class="wf"><div class="top"><span class="rank">01</span><span class="tag later">Later</span></div><b>Support handover with open items</b><p>The support team inherits the record, decisions and open items, not a folder.</p></div><div class="wf"><div class="top"><span class="rank">02</span><span class="tag later">Later</span></div><b>Issue triage and recurring analysis</b><p>Requests classified, resolutions from the engagement's history, patterns into the roadmap.</p></div></div></div>
+  <div class="sec"><div class="eyebrow">A digital partner at every stage of Karta's methodology · the two highest-value workflows per stage</div></div>
+  <div class="legend"><span class="tag live">Live</span>in the workspace today <span class="tag skill">Skill</span>today in a consultant's Claude session, joins the workspace later <span class="tag next">Next</span>the 90-day push <span class="tag later">Later</span>roadmap</div>
+  <div class="stages"><div class="stage side"><div class="hd">Sales to Delivery<small>handover</small></div><div class="wf"><span>Sales Handover package</span><span class="tag later">Later</span></div><div class="wf"><span>Kick-off deck and first two weeks</span><span class="tag later">Later</span></div><p class="why">Starts the record the whole engagement will use.</p></div><div class="stage"><div class="hd">Project Planning<small>align · kick off</small></div><div class="wf"><span>Engagement setup and access check</span><span class="tag live">Live</span></div><div class="wf"><span>Data intake coordination</span><span class="tag later">Later</span></div><p class="why">Everything after it depends on setup being right.</p></div><div class="stage"><div class="hd">Foundations<small>requirements · design</small></div><div class="wf"><span>Meeting closeout into requirements</span><span class="tag next">Next</span></div><div class="wf"><span>Design-to-scope reconciliation</span><span class="tag later">Later</span></div><p class="why">Catches ambiguity and scope drift before build.</p></div><div class="stage"><div class="hd">Build<small>model · reports</small></div><div class="wf"><span>Weekly Status</span><span class="tag live">Live</span></div><div class="wf"><span>Sprint review preparation</span><span class="tag next">Next</span></div><p class="why">Weekly, measurable, and traceable as a by-product.</p></div><div class="stage"><div class="hd">Test<small>UAT · sign-off</small></div><div class="wf"><span>UAT scripts from requirements</span><span class="tag skill">Skill</span></div><div class="wf"><span>Defect intake and triage</span><span class="tag later">Later</span></div><p class="why">Coverage comes free; scope disputes get settled.</p></div><div class="stage"><div class="hd">Train & Deploy<small>training · cutover</small></div><div class="wf"><span>Role-based training material</span><span class="tag skill">Skill</span></div><div class="wf"><span>Go-live package and closeout</span><span class="tag later">Later</span></div><p class="why">The longest deliverables, drafted from the solution.</p></div><div class="stage side"><div class="hd">Continuous Support<small>handover · triage</small></div><div class="wf"><span>Support handover with open items</span><span class="tag later">Later</span></div><div class="wf"><span>Issue triage and recurring analysis</span><span class="tag later">Later</span></div><p class="why">Support inherits the memory, not a folder.</p></div></div>
 
-  <div class="band">
-    <div><div class="eyebrow">Across every stage</div><p><b>Ask Claude</b> with the engagement's memory, live: answers from the evidence, cited, honest about gaps. <b>The decision and assumption log</b>, next: every decision with its source, owner and date.</p></div>
-    <div><div class="eyebrow">How it stays under control</div><div class="rules">
-      <div><b>Reads as the person looking</b>No shared logins. Not on the project, you see nothing from it.</div>
-      <div><b>A named person approves</b>Every client-facing output carries a reviewer's name and time.</div>
-      <div><b>Nothing sent by software</b>The workspace produces. A person decides and sends.</div>
-      <div><b>Unknown is never Green</b>Missing evidence is shown as missing and recorded.</div></div></div>
-    <div><div class="eyebrow">First through the door</div><p><b>Project Status Reporting</b>, live for Legend and released monthly across the 90-day push, then the <b>Foundations Package</b> from requirements to mockups. Each capability arrives with an owner, a readiness label and a place on the lifecycle, measured automatically.</p></div>
+  <div class="bottom">
+    <div><div class="eyebrow" style="margin-bottom:6px">How it stays under control</div><div class="rules"><div><b>Reads as the person looking.</b> No shared logins. Not on the project, you see nothing from it.</div><div><b>A named person approves.</b> Every client-facing output carries a reviewer's name and time.</div><div><b>Nothing sent by software.</b> The workspace produces. A person decides and sends.</div><div><b>Unknown is never Green.</b> Missing evidence is shown as missing and recorded.</div></div></div>
+    <div><div class="eyebrow" style="margin-bottom:6px">The next 90 days · Project Status Reporting first, one release a month</div><div class="rels"><div class="rel"><div class="m">October</div><b>Foundation</b><p>Weekly Status every Friday on two engagements. Ask Claude live. Capability catalog with owners and readiness. Teams onboarded in under an hour.</p></div><div class="rel"><div class="m">November</div><b>Context</b><p>Meeting notes from Granola and capacity from Harvest read into attention items and answers. Drafting tuned from a month of measured corrections.</p></div><div class="rel"><div class="m">December</div><b>Beyond status</b><p>Sprint review preparation live in Build. First Foundations Package piece: requirements, decisions and scope visible. The evidence for the scale decision.</p></div></div></div>
   </div>
-  <div class="foot"><span>Art of the possible. The screen is illustrative and shows planned capabilities beside live ones; the engagement, people and decisions on it are examples. Workflows ranked by frequency, effort or risk removed, and what already exists to build on.</span><span>September 2026 · Karta AI strategy</span></div>
+  <div class="foot"><span>The screen is illustrative and shows planned capabilities beside live ones; the engagement, people and decisions on it are examples. Release contents are the working plan and will be confirmed at each monthly review.</span><span>September 2026 · Karta AI strategy</span></div>
 </div>
 </body></html>
