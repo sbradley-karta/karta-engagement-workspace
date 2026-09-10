@@ -69,6 +69,12 @@
       "title": "Karta AI Engagement Workspace across the lifecycle",
       "url": "(PDF, not an artifact)",
       "role": "standalone one-pager: the two highest-value Claude workflows at each methodology stage with Live, Next, Later tags; rendered to docs/one-pager/engagement-workspace-lifecycle.pdf"
+    },
+    {
+      "file": "docs/one-pager/engagement-workspace-onepager.html",
+      "title": "Karta AI Engagement Workspace (combined one-pager)",
+      "url": "(PDF, not an artifact)",
+      "role": "standalone: vision headline, promise, benefits and illustrative screen on top; the two highest-value Claude workflows per methodology stage beneath; control rules and first through the door. Rendered to docs/one-pager/engagement-workspace-onepager.pdf"
     }
   ]
 }
