@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Karta AI Engagement Workspace</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
+<style>
+@page{size:13.333in 7.5in;margin:0}
+:root{--ink:#113A2A;--deep:#0C2A1E;--surface:#16452F;--raise:#1A4A37;--line:#2F6B4E;--line2:#24503C;--text:#F1F0ED;--muted:#B7C9BF;--faint:#7FA08F;--accent:#6FB08D;--soft:#1E5A42;--amber:#D6A85B;--red:#E08878;--sans:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;--mono:ui-monospace,SFMono-Regular,Menlo,monospace}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--ink);height:7.5in;overflow:hidden}
+body{width:13.333in;height:7.5in;overflow:hidden;color:var(--text);font-family:var(--sans);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.page{position:relative;width:13.333in;height:7.5in;padding:0.42in 0.55in 0.55in;display:grid;grid-template-columns:4.55in 1fr;gap:0.45in;overflow:hidden}
+.left{display:flex;flex-direction:column;height:6.5in}
+.left .spacer{flex:1}
+.brand{display:flex;align-items:center;gap:10px;margin-bottom:0.26in}
+.brand img{width:26px;height:26px}
+.brand b{font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase}
+.brand span{font-size:10.5px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;border-left:1px solid var(--line);padding-left:10px;margin-left:2px}
+.eyebrow{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+h1{font-size:30px;line-height:1.04;letter-spacing:-.03em;font-weight:800;margin:0 0 12px;text-wrap:balance}
+.promise{font-size:12.5px;line-height:1.45;color:var(--muted);margin:0 0 16px}
+.benefits{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
+.benefits li{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start}
+.benefits li i{width:22px;height:22px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center}
+.benefits li i svg{width:12px;height:12px;stroke:var(--ink);stroke-width:2.6;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.benefits b{display:block;font-size:13px;font-weight:700;line-height:1.25}
+.benefits span{display:block;font-size:11px;color:var(--muted);line-height:1.38;margin-top:2px}
+.legend{margin-top:14px;padding-top:12px;border-top:1px solid var(--line2)}
+.legend .eyebrow{color:var(--muted);margin-bottom:8px}
+.legend .row{display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--muted)}
+.tag{display:inline-block;font-size:8.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:2px 6px;border-radius:4px;vertical-align:middle;margin-right:4px}
+.tag.live{background:var(--accent);color:var(--ink)}
+.tag.next{background:transparent;color:var(--amber);border:1px solid var(--amber)}
+.tag.later{background:transparent;color:var(--muted);border:1px solid var(--line)}
+.proof{margin-top:12px;font-size:10.5px;color:var(--muted);line-height:1.45}
+.proof b{color:var(--text)}
+.foot{position:absolute;left:0.55in;right:0.55in;bottom:0.24in;display:flex;justify-content:space-between;font-size:9px;color:var(--faint)}
+.screen{position:relative;align-self:center}
+.screen svg{display:block;width:100%;height:auto}
+svg text{font-family:var(--sans)}
+.f{fill:var(--surface);stroke:var(--line2);stroke-width:1}
+.r{fill:var(--raise);stroke:var(--line2);stroke-width:1}
+.a{fill:var(--soft);stroke:var(--accent);stroke-width:1.1}
+.n{fill:var(--accent)}
+.t{fill:var(--text)} .m{fill:var(--muted)} .fa{fill:var(--faint)} .ac{fill:var(--accent)} .am{fill:var(--amber)} .rd{fill:var(--red)} .ink{fill:var(--ink)}
+.h{font-size:11px;font-weight:700} .h2{font-size:15px;font-weight:800} .s{font-size:8px} .s2{font-size:8.6px} .eb{font-size:7px;font-weight:800;letter-spacing:.12em}
+.tg{font-size:6.6px;font-weight:800;letter-spacing:.08em}
+.pill{fill:none;stroke-width:0.9}
+</style></head>
+<body>
+<div class="page">
+  <div class="left">
+    <div class="brand"><img alt="" src="data:image/png;base64,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"><b>Karta Consulting Group</b><span>Engagement Delivery</span></div>
+    <div class="eyebrow">Karta AI Engagement Workspace</div>
+    <h1>Open Monday already knowing where your engagement stands.</h1>
+    <p class="promise">Every Karta engagement gets its own AI-enabled workspace: the plan, the evidence, the decisions and the next step in one place, shaped by Karta's methodology, with a named person accountable for every output.</p>
+    <ul class="benefits">
+      <li><i><svg viewBox="0 0 20 20"><path d="M4 10.5l4 4 8-9"/></svg></i><div><b>See where you stand</b><span>The seven-stage Karta lifecycle with real dates, the next control point, and whether its evidence is ready.</span></div></li>
+      <li><i><svg viewBox="0 0 20 20"><path d="M4 10.5l4 4 8-9"/></svg></i><div><b>Know what needs attention</b><span>Slipped milestones, open decisions from last week's workshop, capacity gaps next week. Calculated from the sources, not typed in.</span></div></li>
+      <li><i><svg viewBox="0 0 20 20"><path d="M4 10.5l4 4 8-9"/></svg></i><div><b>Do the week's work without rebuilding the context</b><span>Status drafted, reviewed and built into the KCG deck. Sprint reviews, UAT scripts and onboarding briefs prepared from the same approved record.</span></div></li>
+    </ul>
+    <div class="legend">
+      <div class="eyebrow">On the screen</div>
+      <div class="row"><span><span class="tag live">Live</span>today, for Legend</span><span><span class="tag next">Next</span>the coming 90 days</span><span><span class="tag later">Later</span>on the roadmap</span></div>
+    </div>
+    <div class="spacer"></div>
+    <p class="proof"><b>Real, and running.</b> First workspace live for Legend on September 8, 2026. First Weekly Status approved and the deck built the next day. Set-up takes about ten minutes. <b>Under control by design:</b> every read runs as the person looking, a named reviewer approves, nothing is sent by software, and missing evidence is never shown as Green.</p>
+  </div>
+
+  <div class="screen">
+    <svg viewBox="0 0 760 500" role="img" aria-label="Illustrative future view of the engagement workspace home screen in the Build stage, with lifecycle, control point, deliverables, recommended capabilities, attention items, evidence and decisions, connected sources and an Ask Claude answer. Capabilities are tagged Live, Next or Later.">
+      <defs><clipPath id="cp"><rect x="0" y="0" width="760" height="500" rx="14"/></clipPath></defs>
+      <g clip-path="url(#cp)">
+      <rect class="f" x="0" y="0" width="760" height="500" rx="14"/>
+      <!-- top bar -->
+      <rect x="0" y="0" width="760" height="38" fill="var(--deep)"/>
+      <rect class="n" x="14" y="9" width="20" height="20" rx="4"/><text class="ink" x="20" y="24" style="font-size:12px;font-weight:800">K</text>
+      <text class="t h" x="42" y="24">Karta AI <tspan class="m" style="font-weight:500">Engagement Workspace</tspan></text>
+      <rect class="n" x="598" y="8" width="92" height="22" rx="11"/><text class="ink" x="612" y="23" style="font-size:9px;font-weight:700">Ask Claude</text>
+      <circle cx="712" cy="19" r="10" fill="var(--raise)" stroke="var(--line2)"/><circle cx="740" cy="19" r="10" fill="var(--raise)" stroke="var(--line2)"/>
+      <!-- rail -->
+      <rect x="0" y="38" width="86" height="462" fill="var(--deep)"/>
+      <g class="s2 m">
+        <rect class="a" x="8" y="48" width="70" height="24" rx="5"/><text class="ac" x="30" y="64" style="font-weight:700">Home</text>
+        <text x="14" y="94">Weekly status</text><text x="14" y="114">Sprint review</text><text x="14" y="134">Requirements</text><text x="14" y="154">Mockups</text><text x="14" y="174">UAT</text><text x="14" y="194">RAID</text><text x="14" y="214">Decisions</text><text x="14" y="234">Artifacts</text><text x="14" y="254">Catalog</text>
+        <text class="eb fa" x="10" y="300">SOURCES</text>
+        <g class="s" style="font-size:7.4px">
+          <rect class="r" x="8" y="308" width="70" height="15" rx="4"/><circle class="n" cx="16" cy="315.5" r="2.6"/><text class="t" x="22" y="318.5">Asana</text>
+          <rect class="r" x="8" y="327" width="70" height="15" rx="4"/><circle class="n" cx="16" cy="334.5" r="2.6"/><text class="t" x="22" y="337.5">SharePoint</text>
+          <rect class="r" x="8" y="346" width="70" height="15" rx="4"/><circle class="n" cx="16" cy="353.5" r="2.6"/><text class="t" x="22" y="356.5">Assembly</text>
+          <rect class="r" x="8" y="365" width="70" height="15" rx="4"/><circle class="n" cx="16" cy="372.5" r="2.6"/><text class="t" x="22" y="375.5">Granola</text>
+          <rect class="r" x="8" y="384" width="70" height="15" rx="4"/><circle class="n" cx="16" cy="391.5" r="2.6"/><text class="t" x="22" y="394.5">Harvest</text>
+          <rect class="r" x="8" y="403" width="70" height="15" rx="4"/><circle class="n" cx="16" cy="410.5" r="2.6"/><text class="t" x="22" y="413.5">Outlook</text>
+          <rect class="r" x="8" y="422" width="70" height="15" rx="4"/><circle class="n" cx="16" cy="429.5" r="2.6"/><text class="t" x="22" y="432.5">RAID log</text>
+        </g>
+        <text x="30" y="486">Config</text>
+      </g>
+      <!-- header -->
+      <text class="t h2" x="100" y="66">Your engagement <tspan class="m" style="font-size:13px;font-weight:500">· Anaplan FP&amp;A</tspan></text>
+      <rect class="a" x="560" y="52" width="186" height="18" rx="4"/><text class="ac tg" x="569" y="64.5">BUILD · WEEK 6 OF 11 · GREEN · APPROVED FRI</text>
+      <!-- journey -->
+      <g class="s">
+        <rect class="a" x="100" y="80" width="88" height="30" rx="5"/><text class="ac" x="106" y="92" style="font-weight:700">1 Planning</text><text class="ac" x="106" y="103">Jun 1 – 12 · done</text>
+        <rect class="a" x="192" y="80" width="88" height="30" rx="5"/><text class="ac" x="198" y="92" style="font-weight:700">2 Foundations</text><text class="ac" x="198" y="103">Jun 15 – Jul 3 · done</text>
+        <rect class="n" x="284" y="80" width="88" height="30" rx="5"/><text class="ink" x="290" y="92" style="font-weight:800">3 Build</text><text class="ink" x="290" y="103">Jul 6 – Sep 18 · now</text>
+        <rect class="r" x="376" y="80" width="88" height="30" rx="5"/><text class="t" x="382" y="92" style="font-weight:700">4 Test</text><text class="m" x="382" y="103">Sep 21 – Oct 2</text>
+        <rect class="r" x="470" y="80" width="88" height="30" rx="5" stroke-dasharray="3 3"/><text class="t" x="476" y="92" style="font-weight:700">5 Train</text><text class="m" x="476" y="103">Sep 14 – Oct 9 · parallel</text>
+        <rect class="r" x="564" y="80" width="88" height="30" rx="5"/><text class="t" x="570" y="92" style="font-weight:700">6 Deploy</text><text class="m" x="570" y="103">Oct 5 – 16</text>
+        <rect class="r" x="658" y="80" width="88" height="30" rx="5"/><text class="t" x="664" y="92" style="font-weight:700">7 Support</text><text class="m" x="664" y="103">from Oct 19</text>
+      </g>
+      <!-- now panel -->
+      <rect class="r" x="100" y="122" width="316" height="366" rx="8"/>
+      <text class="t h" x="112" y="142">Now in Build</text><text class="m s" x="332" y="142">Jul 6 to Sep 18 · week 6 of 11</text>
+      <text class="m s" x="112" y="157">Configure the solution through a disciplined, traceable build and obtain</text><text class="m s" x="112" y="168">documented business acceptance at each sprint review.</text>
+      <rect class="a" x="112" y="178" width="292" height="66" rx="6"/>
+      <text class="ac eb" x="122" y="192">NEXT CONTROL POINT</text><text class="ac s" x="322" y="192" style="font-weight:700">Evidence 4 of 4 ready</text>
+      <text class="t" x="122" y="208" style="font-size:10.5px;font-weight:700">Sprint 3 review · initial business acceptance</text>
+      <text class="m s" x="122" y="221">Due Sep 26 · Owner: J. Rivera (client) · Decision: accept, follow up, or change</text>
+      <g class="s" style="font-size:7.4px">
+        <rect class="f" x="122" y="227" width="66" height="12" rx="3"/><circle class="n" cx="130" cy="233" r="2.6"/><text class="t" x="136" y="236">Demo listed</text>
+        <rect class="f" x="192" y="227" width="70" height="12" rx="3"/><circle class="n" cx="200" cy="233" r="2.6"/><text class="t" x="206" y="236">Reqs mapped</text>
+        <rect class="f" x="266" y="227" width="66" height="12" rx="3"/><circle class="n" cx="274" cy="233" r="2.6"/><text class="t" x="280" y="236">Follow-ups</text>
+        <rect class="f" x="336" y="227" width="62" height="12" rx="3"/><circle class="n" cx="344" cy="233" r="2.6"/><text class="t" x="350" y="236">Attendance</text>
+      </g>
+      <text class="fa eb" x="112" y="264">STAGE DELIVERABLES</text><text class="fa eb" x="266" y="264">RECOMMENDED NOW</text>
+      <g class="s">
+        <text class="t" x="112" y="282">Build plan</text><rect class="a" x="200" y="273" width="52" height="12" rx="3"/><text class="ac tg" x="208" y="282">APPROVED</text>
+        <text class="t" x="112" y="300">Data hub</text><rect class="pill" x="200" y="291" width="52" height="12" rx="3" stroke="var(--amber)"/><text class="am tg" x="205" y="300">IN PROGRESS</text>
+        <text class="t" x="112" y="318">Dashboards</text><rect class="pill" x="200" y="309" width="52" height="12" rx="3" stroke="var(--line)"/><text class="m tg" x="216" y="318">DRAFT</text>
+        <text class="t" x="112" y="336">Model docs</text><rect class="pill" x="200" y="327" width="52" height="12" rx="3" stroke="var(--line)"/><text class="m tg" x="211" y="336">DRAFTING</text>
+      </g>
+      <g class="s">
+        <rect class="f" x="266" y="270" width="138" height="22" rx="4"/><text class="t" x="272" y="280" style="font-weight:700">Prepare sprint review</text><text class="m" x="272" y="289" style="font-size:7px">show, coverage, evidence</text><rect class="pill" x="372" y="275" width="28" height="11" rx="3" stroke="var(--amber)"/><text class="am tg" x="377" y="283.5">NEXT</text>
+        <rect class="f" x="266" y="296" width="138" height="22" rx="4"/><text class="t" x="272" y="306" style="font-weight:700">Create weekly status</text><text class="m" x="272" y="315" style="font-size:7px">draft · approve · deck</text><rect class="n" x="374" y="301" width="26" height="11" rx="3"/><text class="ink tg" x="379" y="309.5">LIVE</text>
+        <rect class="f" x="266" y="322" width="138" height="22" rx="4"/><text class="t" x="272" y="332" style="font-weight:700">Capture workshop notes</text><text class="m" x="272" y="341" style="font-size:7px">Granola notes → decisions</text><rect class="pill" x="372" y="327" width="28" height="11" rx="3" stroke="var(--amber)"/><text class="am tg" x="377" y="335.5">NEXT</text>
+        <rect class="f" x="266" y="348" width="138" height="22" rx="4"/><text class="t" x="272" y="358" style="font-weight:700">Draft UAT scripts</text><text class="m" x="272" y="367" style="font-size:7px">from approved requirements</text><rect class="pill" x="368" y="353" width="32" height="11" rx="3" stroke="var(--line)"/><text class="m tg" x="372" y="361.5">LATER</text>
+        <rect class="f" x="266" y="374" width="138" height="22" rx="4"/><text class="t" x="272" y="384" style="font-weight:700">Generate a mockup</text><text class="m" x="272" y="393" style="font-size:7px">requirement → editable visual</text><rect class="n" x="374" y="379" width="26" height="11" rx="3"/><text class="ink tg" x="379" y="387.5">LIVE</text>
+      </g>
+      <!-- ask claude drawer preview -->
+      <rect class="f" x="112" y="404" width="292" height="74" rx="6"/>
+      <text class="ac eb" x="122" y="418">ASK CLAUDE</text><rect class="n" x="182" y="409" width="26" height="11" rx="3"/><text class="ink tg" x="187" y="417.5">LIVE</text>
+      <text class="t s2" x="122" y="433" style="font-weight:600">What did we decide about allocations in Tuesday's workshop?</text>
+      <text class="m s" x="122" y="447">Allocations move to Phase 2 by client decision on Sep 16; the Phase 1 model keeps</text>
+      <text class="m s" x="122" y="458">a manual adjustment. Awaiting written sign-off.</text>
+      <g class="tg" style="font-size:6.4px"><rect class="a" x="122" y="463" width="74" height="10" rx="2"/><text class="ac" x="126" y="470.5">Workshop · Granola · Sep 16</text><rect class="a" x="200" y="463" width="60" height="10" rx="2"/><text class="ac" x="204" y="470.5">Decision log · v6</text><rect class="a" x="264" y="463" width="66" height="10" rx="2"/><text class="ac" x="268" y="470.5">Asana · task 412</text></g>
+      <!-- attention -->
+      <rect class="r" x="426" y="122" width="156" height="366" rx="8"/>
+      <text class="t h" x="436" y="142">Needs attention</text>
+      <g class="s">
+        <circle class="rd" cx="440" cy="162" r="2.6"/><text class="t" x="447" y="165" style="font-weight:700">2 milestones need a new date</text><text class="m" x="447" y="176">Load automation · Cost center map</text>
+        <circle class="am" cx="440" cy="196" r="2.6"/><text class="t" x="447" y="199" style="font-weight:700">Decision awaiting sign-off</text><text class="m" x="447" y="210">Allocations phasing · from Sep 16</text><text class="m" x="447" y="220">workshop</text><rect class="pill" x="447" y="226" width="28" height="11" rx="3" stroke="var(--amber)"/><text class="am tg" x="452" y="234.5">NEXT</text>
+        <circle class="am" cx="440" cy="256" r="2.6"/><text class="t" x="447" y="259" style="font-weight:700">Capacity next week</text><text class="m" x="447" y="270">3 PTO days across the team</text><text class="m" x="447" y="280">Harvest</text><rect class="pill" x="447" y="286" width="28" height="11" rx="3" stroke="var(--amber)"/><text class="am tg" x="452" y="294.5">NEXT</text>
+        <circle class="n" cx="440" cy="316" r="2.6"/><text class="t" x="447" y="319" style="font-weight:700">Sprint 3 evidence complete</text><text class="m" x="447" y="330">Ready for the review</text>
+        <circle class="am" cx="440" cy="350" r="2.6"/><text class="t" x="447" y="353" style="font-weight:700">Open risk, 12 days</text><text class="m" x="447" y="364">Source data quality · RAID log</text><rect class="pill" x="447" y="370" width="32" height="11" rx="3" stroke="var(--line)"/><text class="m tg" x="451" y="378.5">LATER</text>
+      </g>
+      <!-- evidence -->
+      <rect class="r" x="592" y="122" width="154" height="366" rx="8"/>
+      <text class="t h" x="602" y="142">Evidence and decisions</text>
+      <g class="s">
+        <text class="t" x="602" y="164" style="font-weight:700">Weekly status v6 approved</text><text class="m" x="602" y="175">Fri · M. Chen · deck saved to</text><text class="m" x="602" y="185">SharePoint</text><rect class="n" x="602" y="191" width="26" height="11" rx="3"/><text class="ink tg" x="607" y="199.5">LIVE</text>
+        <text class="t" x="602" y="222" style="font-weight:700">Decision: allocations phasing</text><text class="m" x="602" y="233">Workshop Sep 16 · Granola</text><rect class="pill" x="602" y="239" width="28" height="11" rx="3" stroke="var(--amber)"/><text class="am tg" x="607" y="247.5">NEXT</text>
+        <text class="t" x="602" y="270" style="font-weight:700">Mockup approved</text><text class="m" x="602" y="281">Opex planning page v3</text><rect class="n" x="602" y="287" width="26" height="11" rx="3"/><text class="ink tg" x="607" y="295.5">LIVE</text>
+        <text class="t" x="602" y="318" style="font-weight:700">UAT scripts drafted</text><text class="m" x="602" y="329">From 42 approved requirements</text><rect class="pill" x="602" y="335" width="32" height="11" rx="3" stroke="var(--line)"/><text class="m tg" x="606" y="343.5">LATER</text>
+        <text class="t" x="602" y="366" style="font-weight:700">Onboarding brief</text><text class="m" x="602" y="377">New analyst, from the approved</text><text class="m" x="602" y="387">record</text><rect class="pill" x="602" y="393" width="32" height="11" rx="3" stroke="var(--line)"/><text class="m tg" x="606" y="401.5">LATER</text>
+        <text class="t" x="602" y="424" style="font-weight:700">Milestone complete</text><text class="m" x="602" y="435">Data hub load · Asana</text><rect class="n" x="602" y="441" width="26" height="11" rx="3"/><text class="ink tg" x="607" y="449.5">LIVE</text>
+      </g>
+      </g>
+      <rect x="0.5" y="0.5" width="759" height="499" rx="14" fill="none" stroke="var(--line)" stroke-width="1"/>
+    </svg>
+  </div>
+
+  <div class="foot"><span>Art of the possible. The screen is illustrative and shows planned capabilities beside live ones; the engagement, people and decisions on it are examples.</span><span>September 2026 · Karta AI strategy</span></div>
+</div>
+</body></html>

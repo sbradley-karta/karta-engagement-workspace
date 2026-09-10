@@ -57,6 +57,12 @@
       "title": "Engagement Workspace Showcase",
       "url": "https://claude.ai/code/artifact/0c8f515a-de2c-40df-ba2d-f2e0523694a1",
       "role": "status and showcase for Will and Paul, Friday September 12, 2026; plain language; links to the architecture and operating model pages as appendices"
+    },
+    {
+      "file": "docs/one-pager/engagement-workspace-vision.html",
+      "title": "Karta AI Engagement Workspace (one-page vision)",
+      "url": "(PDF, not an artifact)",
+      "role": "standalone art-of-the-possible one-pager; rendered to docs/one-pager/engagement-workspace-vision.pdf with headless Chrome; capabilities tagged Live, Next, Later"
     }
   ]
 }
