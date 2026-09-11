@@ -6,6 +6,7 @@
 | `engagement-console.html` | The earlier doTERRA sample console. Superseded by the blank workspace; kept for reference. |
 | `artifacts.json` | Registry of the live claude.ai artifacts fed from this directory, with their URLs and capability manifests. |
 | `make-engagement-copy.py` | Produces a titled copy of the blank page for one engagement into `dist/` (not committed). |
+| `make-sample-page.py` | Produces `dist/engagement-workspace-sample.html`: the workspace running on a mock runtime with fictional data (Northwind Foods · Anaplan FP&A), for screenshots and demos. Opens in any browser; reads nothing real. |
 
 ## Publishing
 
