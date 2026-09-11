@@ -78,6 +78,70 @@ function arrow(s, x1, y1, x2, y2, acc){
   T(s, "Each engagement has its own workspace. The shared foundation lets us improve the experience across projects as we learn.", { x: 0.5, y: 6.3, w: 12.33, h: 0.4, fontSize: 12.5, color: MUTED, italic: true });
   s.addNotes("The Engagement Workspace gives each project its own home for that work. A team member can see where the engagement stands in Karta's delivery lifecycle, what needs attention, and which capabilities can help with the next activity. The workspace brings together project evidence, delivery guidance, and reviewed outputs in a consistent experience. Each engagement has its own workspace. The shared foundation lets us improve that experience across projects as we learn."); }
 
+// 4b One-page showcase (mirrors docs/one-pager/engagement-workspace-onepager.pdf; stands alone)
+{ const s = pres.addSlide(); chrome(s, false);
+  const shot = fs.readFileSync("/Users/seanbradley/Documents/Claude/Claude Various/karta-engagement-delivery-workspace/docs/one-pager/engagement-workspace-home-sample.png").toString("base64");
+  const L = 0.5, LW = 5.95;
+  T(s, "KARTA AI ENGAGEMENT WORKSPACE", { x: L, y: 0.92, w: LW, h: 0.22, fontSize: 8.5, bold: true, color: SALEM, charSpacing: 1.5 });
+  T(s, "Open Monday already knowing where your engagement stands.", { x: L, y: 1.14, w: LW, h: 0.95, fontSize: 24, bold: true, color: INK, valign: "top" });
+  s.addText([{ text: "Every Karta engagement gets its own AI-enabled workspace. Claude " }, { text: "reads the engagement's evidence", options: { bold: true, color: INK } }, { text: ", " }, { text: "drafts Karta's artifacts", options: { bold: true, color: INK } }, { text: " and " }, { text: "remembers every decision", options: { bold: true, color: INK } }, { text: ", inside Karta's method and with a named person accountable for every output." }],
+    { x: L, y: 2.1, w: LW, h: 0.58, fontFace: F, isTextBox: true, margin: 0, fontSize: 10.5, color: MUTED, valign: "top" });
+  const ben = [["A", "See where you stand", "The lifecycle, the next control point, and whether its evidence is ready."],
+               ["B", "Know what needs attention", "Slipped dates, open decisions, capacity gaps. Calculated, not typed."],
+               ["C", "Do the week's work without rebuilding context", "Status, sprint reviews and UAT scripts drafted from one approved record."],
+               ["D", "One door for every AI capability", "Each has an owner, a readiness label and a stage. Use and corrections are measured."]];
+  ben.forEach((b, i) => { const y = 2.72 + i * 0.4;
+    s.addShape(pres.shapes.OVAL, { x: L, y: y + 0.02, w: 0.26, h: 0.26, fill: { color: SALEM }, line: { color: SALEM } });
+    T(s, b[0], { x: L, y: y + 0.02, w: 0.26, h: 0.26, fontSize: 9.5, bold: true, color: WHITE, align: "center", valign: "middle" });
+    T(s, b[1], { x: L + 0.36, y, w: LW - 0.36, h: 0.2, fontSize: 11.5, bold: true, color: INK });
+    T(s, b[2], { x: L + 0.36, y: y + 0.19, w: LW - 0.36, h: 0.2, fontSize: 8.5, color: MUTED }); });
+  s.addText([{ text: "Real, and running. ", options: { bold: true, color: INK } }, { text: "Live for Legend since September 8, 2026. First Weekly Status approved and the deck built the next day. A new engagement is set up in about ten minutes." }],
+    { x: L, y: 4.34, w: LW, h: 0.34, fontFace: F, isTextBox: true, margin: 0, fontSize: 9, color: MUTED, valign: "top" });
+  // screenshot with callouts
+  const IX = 6.75, IY = 0.95, IW = 6.08, IH = IW * 780 / 1440;
+  s.addImage({ data: "image/png;base64," + shot, x: IX, y: IY, w: IW, h: IH, rounding: false });
+  [["A", 35.4, 16.0], ["B", 49.3, 25.2], ["C", 48.4, 63.0], ["D", 8.1, 50.5]].forEach(c => { const cx = IX + IW * c[1] / 100, cy = IY + IH * c[2] / 100;
+    s.addShape(pres.shapes.OVAL, { x: cx - 0.15, y: cy - 0.15, w: 0.3, h: 0.3, fill: { color: SALEM }, line: { color: WHITE, width: 1.75 } });
+    T(s, c[0], { x: cx - 0.15, y: cy - 0.15, w: 0.3, h: 0.3, fontSize: 10, bold: true, color: WHITE, align: "center", valign: "middle" }); });
+  // lifecycle
+  function tag(x, y, kind){ const k = { live: ["Live", SALEM, WHITE, SALEM], skill: ["Skill", WHITE, SALEM, SALEM], next: ["Next", WHITE, AMBER, AMBER], later: ["Later", WHITE, STONE, WHITE] }[kind];
+    s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x, y, w: 0.42, h: 0.17, rectRadius: 0.03, fill: { color: k[1] }, line: { color: k[3], width: 0.75 } });
+    T(s, k[0].toUpperCase(), { x, y, w: 0.42, h: 0.17, fontSize: 6, bold: true, color: k[2], align: "center", valign: "middle", charSpacing: 1 }); }
+  T(s, "A DIGITAL PARTNER AT EVERY STAGE · THE TWO HIGHEST-VALUE WORKFLOWS PER STAGE", { x: 0.5, y: 4.8, w: 6.2, h: 0.2, fontSize: 8.5, bold: true, color: SALEM, charSpacing: 1.5 });
+  const leg = [["live", "in the workspace today"], ["skill", "in a Claude session today"], ["next", "the 90-day push"], ["later", "roadmap"]];
+  let lx = 6.7; leg.forEach(l => { const lw = l[1].length * 0.05 + 0.05; tag(lx, 4.81, l[0]); T(s, l[1], { x: lx + 0.46, y: 4.79, w: lw, h: 0.2, fontSize: 7.5, color: MUTED, valign: "middle" }); lx += 0.46 + lw + 0.1; });
+  const stages = [["Sales to Delivery", "handover", true, [["Sales Handover package", "later"], ["Kick-off deck, first two weeks", "later"]]],
+                  ["Project Planning", "align · kick off", false, [["Engagement setup, access check", "live"], ["Data intake coordination", "later"]]],
+                  ["Foundations", "requirements · design", false, [["Meeting closeout to requirements", "next"], ["Design-to-scope reconciliation", "later"]]],
+                  ["Build", "model · reports", false, [["Weekly Status", "live"], ["Sprint review preparation", "next"]]],
+                  ["Test", "UAT · sign-off", false, [["UAT scripts from requirements", "skill"], ["Defect intake and triage", "later"]]],
+                  ["Train & Deploy", "training · cutover", false, [["Role-based training material", "skill"], ["Go-live package and closeout", "later"]]],
+                  ["Continuous Support", "handover · triage", true, [["Support handover, open items", "later"], ["Issue triage, recurring analysis", "later"]]]];
+  const SW = 1.66, SG = 0.118;
+  stages.forEach((st, i) => { const x = 0.5 + i * (SW + SG), y = 5.06;
+    s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x, y, w: SW, h: 0.46, rectRadius: 0.06, fill: { color: st[2] ? SALEM : INK }, line: { color: st[2] ? SALEM : INK } });
+    T(s, st[0], { x: x + 0.1, y: y + 0.05, w: SW - 0.2, h: 0.22, fontSize: 10, bold: true, color: WHITE });
+    T(s, st[1], { x: x + 0.1, y: y + 0.26, w: SW - 0.2, h: 0.16, fontSize: 7.5, color: "B7C9BF" });
+    st[3].forEach((wf, k) => { const wy = y + 0.54 + k * 0.34;
+      T(s, wf[0], { x: x + 0.02, y: wy, w: SW - 0.5, h: 0.3, fontSize: 8.5, bold: true, color: INK, valign: "middle" });
+      tag(x + SW - 0.42, wy + 0.065, wf[1]);
+      s.addShape(pres.shapes.LINE, { x, y: wy + 0.32, w: SW, h: 0, line: { color: LINE2, width: 0.75 } }); }); });
+  // control rules + releases
+  T(s, "HOW IT STAYS UNDER CONTROL", { x: 0.5, y: 6.35, w: 4.6, h: 0.2, fontSize: 8.5, bold: true, color: SALEM, charSpacing: 1.5 });
+  const rules = [["Reads as the person looking.", " No shared logins."], ["A named person approves.", " Every client output carries a name and time."], ["Nothing sent by software.", " People decide and send."], ["Unknown is never Green.", " Missing evidence is shown as missing."]];
+  s.addText(rules.flatMap((r, i) => [{ text: r[0], options: { bold: true, color: INK } }, { text: r[1], options: { color: MUTED, breakLine: i < rules.length - 1 } }]),
+    { x: 0.5, y: 6.55, w: 4.6, h: 0.56, fontFace: F, isTextBox: true, margin: 0, fontSize: 8, color: MUTED, valign: "top", paraSpaceAfter: 1 });
+  T(s, "THE NEXT 90 DAYS · PROJECT STATUS REPORTING FIRST, ONE RELEASE A MONTH", { x: 5.3, y: 6.35, w: 7.2, h: 0.2, fontSize: 8.5, bold: true, color: SALEM, charSpacing: 1.5 });
+  const rel = [["OCTOBER · Foundation", "Weekly Status every Friday on two engagements. Ask Claude live. Capability catalog with owners and readiness."],
+               ["NOVEMBER · Context", "Granola notes and Harvest capacity read into attention items and answers. Drafting tuned from measured corrections."],
+               ["DECEMBER · Beyond status", "Sprint review preparation live in Build. First Foundations Package piece. The evidence for the scale decision."]];
+  rel.forEach((r, i) => { const x = 5.3 + i * 2.42;
+    s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x, y: 6.56, w: 2.3, h: 0.52, rectRadius: 0.05, fill: { color: RAISE }, line: { color: LINE2, width: 0.75 } });
+    T(s, r[0], { x: x + 0.1, y: 6.59, w: 2.1, h: 0.15, fontSize: 7.5, bold: true, color: SALEM, charSpacing: 1 });
+    T(s, r[1], { x: x + 0.1, y: 6.73, w: 2.1, h: 0.34, fontSize: 7, color: MUTED, valign: "top" }); });
+  T(s, "The screen is the workspace running on sample data; the engagement, people and decisions on it are fictional.", { x: 0.5, y: 7.16, w: 11.5, h: 0.18, fontSize: 7, color: STONE, italic: true });
+  s.addNotes("This page stands alone as the showcase. Every Karta engagement gets its own AI-enabled workspace. Claude reads the engagement's evidence, drafts Karta's artifacts and remembers every decision, inside Karta's method and with a named person accountable for every output.\n\nThe screen is the real workspace Home page running on sample data (Northwind Foods, a fictional Anaplan FP&A engagement in Build week 10): the seven-stage journey, the next control point with its evidence, stage deliverables, the capabilities recommended for this stage, what needs attention, and the evidence and decisions on record.\n\nWhy each stage matters: Sales to Delivery starts the record the whole engagement will use. Project Planning: everything after it depends on setup being right. Foundations catches ambiguity and scope drift before build. Build is weekly, measurable and traceable as a by-product. Test: coverage comes free and scope disputes get settled. Train and Deploy: the longest deliverables, drafted from the solution. Continuous Support inherits the memory, not a folder.\n\nTags: Live is in the workspace today. Skill runs today in a consultant's Claude session and joins the workspace later. Next is the 90-day push. Later is roadmap. Release contents are the working plan and will be confirmed at each monthly review."); }
+
 // 5 Imagine
 { const s = pres.addSlide(); chrome(s, false);
   title(s, "Imagine opening your engagement workspace at the start of the week");
